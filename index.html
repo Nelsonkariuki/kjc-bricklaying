@@ -1,0 +1,920 @@
+{% extends "base.html" %} {% block content %}
+<!-- Hero Section with 3D Parallax Effect -->
+<section class="hero-section position-relative text-light">
+  <div class="hero-particles"></div>
+  <div class="hero-gradient-overlay"></div>
+  <div class="hero-background"></div>
+  <div class="container h-100 position-relative" style="z-index: 3">
+    <div class="row min-vh-100 align-items-center">
+      <div class="col-lg-7" data-aos="fade-up" data-aos-duration="1200">
+        <div class="hero-content">
+          <div class="hero-badge mb-4">
+            <span class="badge bg-primary px-4 py-2 rounded-pill animate-pulse">
+              <i class="fas fa-trophy me-2"></i>Trusted Since 2014
+            </span>
+          </div>
+          <h1 class="hero-title display-3 fw-bold mb-4">
+            Master Craftsmen in<br />
+            <span class="text-gradient typewriter"
+              >Bricklaying & Construction</span
+            >
+          </h1>
+          <p class="hero-subtitle lead mb-4">
+            With over a decade of excellence, we transform your vision into
+            lasting structures with precision, quality, and dedication.
+          </p>
+          <div class="hero-buttons d-flex flex-wrap gap-3 mb-5">
+            <a
+              href="{{ url_for('contact') }}"
+              class="btn btn-primary btn-lg px-5 btn-ripple"
+            >
+              <i class="fas fa-calculator me-2"></i>Free Quote
+              <span class="btn-badge">No Obligation</span>
+            </a>
+            <a
+              href="{{ url_for('portfolio') }}"
+              class="btn btn-outline-light btn-lg px-5 btn-ripple"
+            >
+              <i class="fas fa-play-circle me-2"></i>View Our Work
+            </a>
+          </div>
+          <div class="hero-stats d-flex flex-wrap gap-5">
+            <div class="stat-block" data-count="10">
+              <div class="stat-number display-4 fw-bold mb-0 counter">0</div>
+              <div class="stat-label text-light-75">Years Experience</div>
+            </div>
+            <div class="stat-block" data-count="500">
+              <div class="stat-number display-4 fw-bold mb-0 counter">0</div>
+              <div class="stat-label text-light-75">Happy Clients</div>
+            </div>
+            <div class="stat-block" data-count="100">
+              <div class="stat-number display-4 fw-bold mb-0 counter">0</div>
+              <div class="stat-label text-light-75">Satisfaction</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-lg-5 d-none d-lg-block"
+        data-aos="fade-left"
+        data-aos-duration="1200"
+      >
+        <div class="hero-card glass-effect p-4 rounded-4 floating-card">
+          <div class="text-center">
+            <div class="profile-icon mb-3">
+              <div class="profile-image-wrapper">
+                <i class="fas fa-hard-hat fa-4x text-primary"></i>
+                <div class="profile-ring"></div>
+              </div>
+            </div>
+            <h3 class="text-light mb-3">Meet Karol</h3>
+            <p class="text-light-75 mb-4">
+              "I take pride in delivering exceptional craftsmanship with a
+              personal touch. Every project is built to last with attention to
+              detail and customer satisfaction."
+            </p>
+            <div class="d-flex justify-content-center gap-2 flex-wrap">
+              <span class="badge bg-primary px-3 py-2"
+                ><i class="fas fa-gem me-1"></i>Quality</span
+              >
+              <span class="badge bg-primary px-3 py-2"
+                ><i class="fas fa-clock me-1"></i>Punctual</span
+              >
+              <span class="badge bg-primary px-3 py-2"
+                ><i class="fas fa-heart me-1"></i>Dedicated</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <a href="#services" class="scroll-link">
+      <span class="mouse"></span>
+      <span class="arrow-down"></span>
+    </a>
+  </div>
+</section>
+
+<!-- Services Grid with Hover Reveal -->
+<section id="services" class="services-section py-5">
+  <div class="container">
+    <div class="section-header text-center mb-5" data-aos="fade-up">
+      <span
+        class="section-badge bg-primary text-white px-4 py-2 rounded-pill d-inline-block mb-3"
+      >
+        <i class="fas fa-tools me-2"></i>Our Expertise
+      </span>
+      <h2 class="display-5 fw-bold mb-3">
+        Comprehensive <span class="text-gradient">Bricklaying Services</span>
+      </h2>
+      <p class="lead text-muted">
+        Professional solutions for residential and commercial projects
+      </p>
+    </div>
+
+    <div class="row g-4">
+      {% for service in services[:6] %}
+      <div
+        class="col-md-6 col-lg-4"
+        data-aos="fade-up"
+        data-aos-delay="{{ loop.index * 100 }}"
+      >
+        <div class="service-card-premium h-100">
+          <div class="service-card-inner">
+            <div class="service-icon-wrapper">
+              <div class="service-icon-circle">
+                <i class="fas {{ service.icon }}"></i>
+              </div>
+            </div>
+            <h3 class="service-title">{{ service.title }}</h3>
+            <p class="service-description">
+              {{ service.description[:100] }}{% if service.description|length >
+              100 %}...{% endif %}
+            </p>
+            <div class="service-features">
+              {% set features = service.get_features() %} {% for feature in
+              features[:3] %}
+              <div class="feature-item">
+                <i class="fas fa-check-circle"></i>
+                <span>{{ feature }}</span>
+              </div>
+              {% endfor %}
+            </div>
+            <a
+              href="{{ url_for('contact') }}"
+              class="btn btn-outline-primary btn-service"
+            >
+              Get a Quote <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-5" data-aos="fade-up">
+      <a
+        href="{{ url_for('services_page') }}"
+        class="btn btn-primary btn-lg px-5 btn-ripple"
+      >
+        View All Services <i class="fas fa-arrow-right ms-2"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Projects Gallery -->
+<section class="projects-section py-5 bg-light">
+  <div class="container">
+    <div class="section-header text-center mb-5" data-aos="fade-up">
+      <span
+        class="section-badge bg-primary text-white px-4 py-2 rounded-pill d-inline-block mb-3"
+      >
+        <i class="fas fa-images me-2"></i>Recent Work
+      </span>
+      <h2 class="display-5 fw-bold mb-3">
+        Our <span class="text-gradient">Latest Projects</span>
+      </h2>
+      <p class="lead text-muted">
+        Showcasing quality craftsmanship in every detail
+      </p>
+    </div>
+
+    {% if featured_projects and featured_projects|length > 0 %}
+    <div class="projects-gallery" data-aos="fade-up">
+      <div class="row g-4">
+        {% for project in featured_projects %}
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-image">
+              <img
+                src="{{ project.image_url or 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&w=600&h=400&fit=crop' }}"
+                alt="{{ project.title }}"
+                loading="lazy"
+              />
+              <div class="project-overlay-premium">
+                <div class="project-info-premium">
+                  <h4>{{ project.title }}</h4>
+                  <p>
+                    {{ project.description[:80] if project.description else ''
+                    }}
+                  </p>
+                  <div class="project-meta">
+                    <span class="badge bg-primary"
+                      >{{ project.category if project.category else
+                      'Bricklaying' }}</span
+                    >
+                    <a
+                      href="{{ url_for('portfolio') }}"
+                      class="btn btn-sm btn-light mt-3"
+                    >
+                      View Details <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <div class="text-center py-5" data-aos="fade-up">
+      <div class="empty-state-premium">
+        <i class="fas fa-hard-hat fa-4x text-muted mb-3"></i>
+        <h3>Projects Coming Soon</h3>
+        <p>Check back soon to see our latest work</p>
+        <a
+          href="{{ url_for('portfolio') }}"
+          class="btn btn-outline-primary mt-3"
+          >Browse Portfolio</a
+        >
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-5" data-aos="fade-up">
+      <a
+        href="{{ url_for('portfolio') }}"
+        class="btn btn-outline-primary btn-lg px-5 btn-ripple"
+      >
+        View Full Portfolio <i class="fas fa-arrow-right ms-2"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us with Animated Counters -->
+<section class="why-choose-us py-5">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6" data-aos="fade-right">
+        <div class="section-header mb-4">
+          <span
+            class="section-badge bg-primary text-white px-4 py-2 rounded-pill d-inline-block mb-3"
+          >
+            <i class="fas fa-star me-2"></i>Why Choose Us
+          </span>
+          <h2 class="display-5 fw-bold mb-3">
+            The <span class="text-gradient">KJC Bricklaying</span> Advantage
+          </h2>
+          <p class="lead text-muted">
+            Experience the difference of working with true professionals
+          </p>
+        </div>
+        <div class="features-grid-premium">
+          <div class="feature-item-premium">
+            <div class="feature-icon-premium">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <div class="feature-content-premium">
+              <h5>10+ Years Experience</h5>
+              <p>Proven track record of excellence across Coventry</p>
+            </div>
+          </div>
+          <div class="feature-item-premium">
+            <div class="feature-icon-premium">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="feature-content-premium">
+              <h5>Fully Insured</h5>
+              <p>Complete peace of mind with comprehensive coverage</p>
+            </div>
+          </div>
+          <div class="feature-item-premium">
+            <div class="feature-icon-premium">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="feature-content-premium">
+              <h5>Free Estimates</h5>
+              <p>No-obligation quotes with transparent pricing</p>
+            </div>
+          </div>
+          <div class="feature-item-premium">
+            <div class="feature-icon-premium">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="feature-content-premium">
+              <h5>On-Time Delivery</h5>
+              <p>Projects completed within agreed deadlines</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <div class="image-showcase">
+          <div class="main-image">
+            <img
+              src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&w=600&h=500&fit=crop"
+              alt="Bricklaying work"
+              class="img-fluid rounded-4 shadow-lg"
+            />
+          </div>
+          <div class="floating-badge">
+            <div class="badge-content">
+              <div class="badge-number" data-count="98">0</div>
+              <div class="badge-text">Customer<br />Satisfaction</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Slider -->
+<section class="testimonials-section py-5 bg-light">
+  <div class="container">
+    <div class="section-header text-center mb-5" data-aos="fade-up">
+      <span
+        class="section-badge bg-primary text-white px-4 py-2 rounded-pill d-inline-block mb-3"
+      >
+        <i class="fas fa-comments me-2"></i>Client Love
+      </span>
+      <h2 class="display-5 fw-bold mb-3">
+        What Our <span class="text-gradient">Clients Say</span>
+      </h2>
+      <p class="lead text-muted">Real feedback from satisfied customers</p>
+    </div>
+
+    {% if testimonials and testimonials|length > 0 %}
+    <div class="testimonials-slider" data-aos="fade-up">
+      <div class="row g-4">
+        {% for testimonial in testimonials[:3] %}
+        <div class="col-md-4">
+          <div class="testimonial-card-premium">
+            <div class="testimonial-quote">
+              <i class="fas fa-quote-left"></i>
+            </div>
+            <div class="testimonial-rating mb-3">
+              {% for i in range(testimonial.rating) %}
+              <i class="fas fa-star text-warning"></i>
+              {% endfor %} {% for i in range(5 - testimonial.rating) %}
+              <i class="far fa-star text-warning"></i>
+              {% endfor %}
+            </div>
+            <p class="testimonial-text-premium">
+              "{{ testimonial.content[:120] }}{% if testimonial.content|length >
+              120 %}...{% endif %}"
+            </p>
+            <div class="testimonial-author-premium">
+              <div class="author-avatar-premium">
+                {% if testimonial.client_image %}
+                <img
+                  src="{{ testimonial.client_image }}"
+                  alt="{{ testimonial.client_name }}"
+                />
+                {% else %}
+                <i class="fas fa-user-circle"></i>
+                {% endif %}
+              </div>
+              <div class="author-info-premium">
+                <strong>{{ testimonial.client_name }}</strong>
+                {% if testimonial.client_location %}
+                <span>{{ testimonial.client_location }}</span>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <div class="text-center py-5" data-aos="fade-up">
+      <i class="fas fa-comments fa-4x text-muted mb-3"></i>
+      <h3>Testimonials Coming Soon</h3>
+      <p>We'll share client feedback here shortly!</p>
+    </div>
+    {% endif %}
+
+    <div class="text-center mt-5" data-aos="fade-up">
+      <a
+        href="{{ url_for('testimonials_page') }}"
+        class="btn btn-outline-primary btn-lg px-5 btn-ripple"
+      >
+        Read All Reviews <i class="fas fa-arrow-right ms-2"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Premium CTA Section -->
+<section class="cta-premium position-relative py-5">
+  <div class="cta-background-animated"></div>
+  <div class="container position-relative py-5" style="z-index: 2">
+    <div class="row justify-content-center text-center" data-aos="zoom-in">
+      <div class="col-lg-8">
+        <h2 class="display-4 fw-bold text-white mb-4">
+          Ready to Build Your
+          <span class="text-gradient-light">Dream Project</span>?
+        </h2>
+        <p class="lead text-white-75 mb-4">
+          Let's bring your vision to life with quality craftsmanship
+        </p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a
+            href="{{ url_for('contact') }}"
+            class="btn btn-light btn-lg px-5 btn-ripple"
+          >
+            <i class="fas fa-calendar-check me-2"></i>Get Free Quote
+          </a>
+          <a
+            href="tel:+447700000000"
+            class="btn btn-outline-light btn-lg px-5 btn-ripple"
+          >
+            <i class="fas fa-phone-alt me-2"></i>Call Now
+          </a>
+        </div>
+        <div class="mt-4">
+          <small class="text-white-50">
+            <i class="fas fa-clock me-1"></i>24/7 Emergency Service Available
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Hero Particles */
+  .hero-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  /* Floating Animation */
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  .floating-card {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Pulse Animation */
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+  }
+
+  .animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  /* Typewriter Effect */
+  @keyframes typewriter {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  @keyframes blinkTextCursor {
+    from {
+      border-right-color: rgba(255, 255, 255, 0.75);
+    }
+    to {
+      border-right-color: transparent;
+    }
+  }
+
+  .typewriter {
+    display: inline-block;
+    overflow: hidden;
+    border-right: 2px solid rgba(255, 255, 255, 0.75);
+    white-space: nowrap;
+    animation:
+      typewriter 2s steps(30) 1s 1 normal both,
+      blinkTextCursor 500ms steps(30) infinite normal;
+  }
+
+  /* Ripple Effect */
+  .btn-ripple {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-ripple:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition:
+      width 0.6s,
+      height 0.6s;
+  }
+
+  .btn-ripple:active:after {
+    width: 300px;
+    height: 300px;
+  }
+
+  /* Counter Animation */
+  .counter {
+    transition: all 0.5s ease;
+  }
+
+  /* Premium Service Cards */
+  .service-card-premium {
+    background: white;
+    border-radius: 24px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+
+  .service-card-premium:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  }
+
+  .service-card-inner {
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .service-card-premium::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(
+      90deg,
+      var(--primary-color),
+      var(--accent-color)
+    );
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+  }
+
+  .service-card-premium:hover::before {
+    transform: scaleX(1);
+  }
+
+  /* Project Cards */
+  .project-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .project-image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+  }
+
+  .project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .project-card:hover .project-image img {
+    transform: scale(1.1);
+  }
+
+  .project-overlay-premium {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(192, 57, 43, 0.9),
+      rgba(167, 35, 19, 0.9)
+    );
+    display: flex;
+    align-items: flex-end;
+    opacity: 0;
+    transition: all 0.3s ease;
+    padding: 1.5rem;
+  }
+
+  .project-card:hover .project-overlay-premium {
+    opacity: 1;
+  }
+
+  .project-info-premium {
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+  }
+
+  .project-card:hover .project-info-premium {
+    transform: translateY(0);
+  }
+
+  .project-info-premium h4 {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-info-premium p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Premium Features Grid */
+  .features-grid-premium {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .feature-item-premium {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .feature-item-premium:hover {
+    transform: translateX(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .feature-icon-premium {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(
+      135deg,
+      rgba(192, 57, 43, 0.1),
+      rgba(192, 57, 43, 0.05)
+    );
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .feature-icon-premium i {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+  }
+
+  /* Image Showcase */
+  .image-showcase {
+    position: relative;
+  }
+
+  .floating-badge {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    padding: 1rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .badge-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    line-height: 1;
+  }
+
+  .badge-text {
+    font-size: 0.75rem;
+    color: #6c757d;
+  }
+
+  /* Premium Testimonial Cards */
+  .testimonial-card-premium {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .testimonial-card-premium:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .testimonial-quote {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2.5rem;
+    color: rgba(192, 57, 43, 0.1);
+  }
+
+  .testimonial-text-premium {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    font-style: italic;
+    margin: 1rem 0;
+  }
+
+  .testimonial-author-premium {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+  }
+
+  .author-avatar-premium {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .author-avatar-premium img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .author-avatar-premium i {
+    font-size: 2rem;
+    color: var(--primary-color);
+  }
+
+  /* Premium CTA */
+  .cta-premium {
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--primary-dark)
+    );
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-background-animated {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path fill="white" d="M10,10 L30,10 L20,30 Z M40,20 L60,20 L50,40 Z M70,30 L90,30 L80,50 Z"/></svg>');
+    background-size: 50px 50px;
+    animation: slidePattern 20s linear infinite;
+  }
+
+  .text-gradient-light {
+    background: linear-gradient(135deg, #fff, #ffd89b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Responsive */
+  @media (max-width: 992px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .features-grid-premium {
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .typewriter {
+      white-space: normal;
+      border-right: none;
+    }
+
+    .service-card-inner {
+      padding: 1.5rem;
+    }
+
+    .feature-item-premium {
+      padding: 0.75rem;
+    }
+
+    .testimonial-card-premium {
+      padding: 1.5rem;
+    }
+
+    .floating-badge {
+      bottom: -10px;
+      right: -10px;
+      padding: 0.75rem;
+    }
+
+    .badge-number {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Counter Animation
+  function animateCounters() {
+    const counters = document.querySelectorAll(".counter");
+    counters.forEach((counter) => {
+      const target =
+        parseInt(counter.parentElement.getAttribute("data-count")) || 0;
+      let current = 0;
+      const increment = target / 50;
+      const updateCounter = () => {
+        if (current < target) {
+          current += increment;
+          counter.textContent = Math.ceil(current);
+          setTimeout(updateCounter, 20);
+        } else {
+          counter.textContent = target;
+        }
+      };
+      updateCounter();
+    });
+  }
+
+  // Trigger counter animation when element is visible
+  const observerOptions = {
+    threshold: 0.5,
+    rootMargin: "0px",
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateCounters();
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  const heroStats = document.querySelector(".hero-stats");
+  if (heroStats) {
+    observer.observe(heroStats);
+  }
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll(".scroll-link").forEach((link) => {
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      const target = document.querySelector("#services");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+  });
+
+  // Parallax effect for hero section
+  window.addEventListener("scroll", () => {
+    const scrolled = window.pageYOffset;
+    const heroBg = document.querySelector(".hero-background");
+    if (heroBg) {
+      heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+    }
+  });
+</script>
+{% endblock %}

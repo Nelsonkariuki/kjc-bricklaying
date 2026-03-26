@@ -1,0 +1,761 @@
+{% extends "base.html" %} {% block content %}
+<!-- Page Header -->
+<section class="page-header bg-primary text-light py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center" data-aos="fade-up">
+        <h1 class="display-4 fw-bold mb-3">Contact Us</h1>
+        <p class="lead mb-0">Get in touch for a free consultation and quote</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="row g-5">
+      <!-- Contact Information -->
+      <div class="col-lg-5" data-aos="fade-right">
+        <div class="contact-info-card h-100">
+          <div class="section-header mb-4">
+            <span class="badge bg-primary mb-3">Get In Touch</span>
+            <h2 class="display-6 fw-bold">Let's Discuss Your Project</h2>
+            <p class="text-muted">
+              We're here to help with all your landscaping and construction
+              needs
+            </p>
+          </div>
+
+          <!-- Contact Methods -->
+          <div class="contact-methods mb-5">
+            <div class="contact-method">
+              <div class="method-icon">
+                <i class="fas fa-phone-alt"></i>
+              </div>
+              <div class="method-content">
+                <h5>Phone</h5>
+                <a href="tel:+447700000000">07700 000000</a>
+                <p class="small text-muted">Mon-Fri: 7am - 5pm</p>
+              </div>
+            </div>
+
+            <div class="contact-method">
+              <div class="method-icon">
+                <i class="fab fa-whatsapp"></i>
+              </div>
+              <div class="method-content">
+                <h5>WhatsApp</h5>
+                <a href="#" id="whatsappLink">07700 000000</a>
+                <p class="small text-muted">Quick response via WhatsApp</p>
+              </div>
+            </div>
+
+            <div class="contact-method">
+              <div class="method-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="method-content">
+                <h5>Email</h5>
+                <a href="mailto:info@kjcbricklaying.com"
+                  >kjcbricklaying@gmail.com</a
+                >
+                <p class="small text-muted">We respond within 24 hours</p>
+              </div>
+            </div>
+
+            <div class="contact-method">
+              <div class="method-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="method-content">
+                <h5>Location</h5>
+                <p>Coventry, West Midlands<br />CV1 1AA</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Business Hours -->
+          <div class="business-hours">
+            <h5 class="mb-3">
+              <i class="fas fa-clock me-2 text-primary"></i>Business Hours
+            </h5>
+            <div class="hours-list">
+              <div class="hour-item">
+                <span>Monday - Friday</span>
+                <span class="hours">7:00 AM - 5:00 PM</span>
+              </div>
+              <div class="hour-item">
+                <span>Saturday</span>
+                <span class="hours">8:00 AM - 1:00 PM</span>
+              </div>
+              <div class="hour-item">
+                <span>Sunday</span>
+                <span class="hours text-muted">Closed</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Emergency Contact -->
+          <div class="emergency-contact mt-4 p-3 bg-light rounded-3">
+            <div class="d-flex align-items-center">
+              <i
+                class="fas fa-exclamation-triangle fa-2x text-warning me-3"
+              ></i>
+              <div>
+                <small class="text-muted">Emergency Service</small>
+                <p class="mb-0 fw-bold">24/7 Available for Urgent Repairs</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="col-lg-7" data-aos="fade-left">
+        <div class="contact-form-card">
+          <div class="form-header text-center mb-4">
+            <h3 class="h2 mb-2">Send a Message</h3>
+            <p class="text-muted">
+              Fill out the form and we'll get back to you shortly
+            </p>
+          </div>
+
+          <form method="POST" class="contact-form" id="contactForm" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="name" class="form-label">Full Name *</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0">
+                    <i class="fas fa-user text-muted"></i>
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control border-start-0"
+                    id="name"
+                    name="name"
+                    placeholder="John Smith"
+                    required
+                  />
+                </div>
+                <div class="invalid-feedback">Please enter your full name</div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="email" class="form-label">Email Address *</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0">
+                    <i class="fas fa-envelope text-muted"></i>
+                  </span>
+                  <input
+                    type="email"
+                    class="form-control border-start-0"
+                    id="email"
+                    name="email"
+                    placeholder="john@example.com"
+                    required
+                  />
+                </div>
+                <div class="invalid-feedback">
+                  Please enter a valid email address
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="phone" class="form-label">Phone Number</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0">
+                    <i class="fas fa-phone text-muted"></i>
+                  </span>
+                  <input
+                    type="tel"
+                    class="form-control border-start-0"
+                    id="phone"
+                    name="phone"
+                    placeholder="07700 000000"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="service_type" class="form-label"
+                  >Service Interested In</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-light border-end-0">
+                    <i class="fas fa-tools text-muted"></i>
+                  </span>
+                  <select
+                    class="form-select border-start-0"
+                    id="service_type"
+                    name="service_type"
+                  >
+                    <option value="">Select a service</option>
+                    {% for service in services %}
+                    <option value="{{ service.title }}">
+                      {{ service.title }}
+                    </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label for="message" class="form-label">Your Message *</label>
+                <textarea
+                  class="form-control"
+                  id="message"
+                  name="message"
+                  rows="5"
+                  placeholder="Tell us about your project..."
+                  required
+                ></textarea>
+                <div class="invalid-feedback">Please enter your message</div>
+              </div>
+
+              <div class="col-12">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="consent"
+                    required
+                  />
+                  <label class="form-check-label" for="consent">
+                    I agree to the
+                    <a
+                      href="#"
+                      data-bs-toggle="modal"
+                      data-bs-target="#privacyModal"
+                      >privacy policy</a
+                    >
+                    and consent to being contacted.
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-lg w-100"
+                  id="submitBtn"
+                >
+                  <i class="fas fa-paper-plane me-2"></i>Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div class="text-center mt-4">
+            <p class="text-muted mb-0">Or reach us directly on WhatsApp</p>
+            <button class="btn btn-success mt-2" id="whatsappChatBtn">
+              <i class="fab fa-whatsapp me-2"></i>Chat on WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-12" data-aos="fade-up">
+        <div class="section-header text-center mb-4">
+          <span class="badge bg-primary mb-3">Location</span>
+          <h2 class="display-6 fw-bold">Find Us</h2>
+          <p class="text-muted">Serving Coventry and surrounding areas</p>
+        </div>
+        <div class="map-container rounded-4 overflow-hidden shadow-lg">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d154426.71216165127!2d-1.6143847738286328!3d52.412811244235064!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48774e4c2a9f2b7f%3A0x6b2d5a9b2e8b5a5!2sCoventry!5e0!3m2!1sen!2suk!4v1700000000000!5m2!1sen!2suk"
+            width="100%"
+            height="400"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          >
+          </iframe>
+        </div>
+        <div class="text-center mt-4">
+          <p class="mb-0">
+            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+            We cover Coventry, Nuneaton, Rugby, Leamington Spa, and surrounding
+            areas
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="section-header text-center mb-5" data-aos="fade-up">
+      <span class="badge bg-primary mb-3">FAQ</span>
+      <h2 class="display-6 fw-bold">Frequently Asked Questions</h2>
+      <p class="text-muted">Common questions about our services</p>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="accordion" id="faqAccordion" data-aos="fade-up">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#faq1"
+              >
+                How quickly can you provide a quote?
+              </button>
+            </h2>
+            <div
+              id="faq1"
+              class="accordion-collapse collapse show"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">
+                We typically respond to all inquiries within 24 hours. For
+                urgent projects, we can provide a quote on the same day. Simply
+                give us a call for immediate assistance.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#faq2"
+              >
+                Are you fully insured?
+              </button>
+            </h2>
+            <div
+              id="faq2"
+              class="accordion-collapse collapse"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">
+                Yes, KJC is fully insured with public liability insurance up to
+                £5 million. You can have complete peace of mind when working
+                with us.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#faq3"
+              >
+                Do you offer free estimates?
+              </button>
+            </h2>
+            <div
+              id="faq3"
+              class="accordion-collapse collapse"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">
+                Absolutely! We provide free, no-obligation quotes for all
+                projects. We'll visit your site, assess the work needed, and
+                provide a detailed breakdown of costs.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#faq4"
+              >
+                What areas do you cover?
+              </button>
+            </h2>
+            <div
+              id="faq4"
+              class="accordion-collapse collapse"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">
+                We primarily serve Coventry and surrounding areas including
+                Nuneaton, Rugby, Leamington Spa, Kenilworth, and Warwickshire.
+                Contact us to check if we cover your location.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Badges -->
+<section class="py-4 bg-primary text-light">
+  <div class="container">
+    <div class="row text-center g-4">
+      <div class="col-md-3" data-aos="fade-up">
+        <i class="fas fa-check-circle fa-3x mb-2"></i>
+        <h6 class="mb-0">Free Estimates</h6>
+        <small>No obligation quotes</small>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+        <i class="fas fa-shield-alt fa-3x mb-2"></i>
+        <h6 class="mb-0">Fully Insured</h6>
+        <small>Peace of mind guaranteed</small>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+        <i class="fas fa-trophy fa-3x mb-2"></i>
+        <h6 class="mb-0">10+ Years</h6>
+        <small>Of experience</small>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+        <i class="fas fa-star fa-3x mb-2"></i>
+        <h6 class="mb-0">Satisfaction</h6>
+        <small>100% guaranteed</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WhatsApp Chat Popup Modal -->
+<div class="modal fade" id="whatsappModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">
+          <i class="fab fa-whatsapp me-2"></i>Chat with us on WhatsApp
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-4">
+          <i class="fab fa-whatsapp fa-4x text-success mb-3"></i>
+          <h4>Hello! 👋</h4>
+          <p class="text-muted">
+            We'd love to hear from you. Click the button below to start a
+            WhatsApp chat with our team.
+          </p>
+        </div>
+
+        <div class="whatsapp-message-preview bg-light p-3 rounded-3 mb-3">
+          <small class="text-muted">Your message will look like this:</small>
+          <div class="mt-2 p-2 bg-white rounded border">
+            <i class="fab fa-whatsapp text-success me-1"></i>
+            <strong>Hello KJC Team,</strong>
+            <p class="mb-0 mt-1" id="whatsappMessagePreview">
+              I'm interested in your landscaping services. Could you please
+              provide more information and a quote?
+            </p>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Customize your message (optional)</label>
+          <textarea
+            class="form-control"
+            id="whatsappMessage"
+            rows="3"
+            placeholder="Type your message here..."
+          >
+Hello! I'm reaching out regarding your landscaping and construction services. I'd like to get more information and a free quote for my project. Thank you!</textarea
+          >
+        </div>
+
+        <div class="d-grid gap-2">
+          <button class="btn btn-success btn-lg" id="sendWhatsappBtn">
+            <i class="fab fa-whatsapp me-2"></i>Open WhatsApp Chat
+          </button>
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WhatsApp Floating Button -->
+<a href="#" class="whatsapp-float" id="whatsappFloatBtn" target="_blank">
+  <i class="fab fa-whatsapp whatsapp-float-icon"></i>
+  <span class="whatsapp-float-text">Chat with us</span>
+</a>
+
+<!-- Privacy Policy Modal -->
+<div class="modal fade" id="privacyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Privacy Policy</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Your privacy is important to us. The information you provide will be
+          used solely to respond to your inquiry and will not be shared with
+          third parties.
+        </p>
+        <p>
+          By submitting this form, you consent to us contacting you regarding
+          your project. You can opt out at any time.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+          I Understand
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* WhatsApp Floating Button */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background-color: #25d366;
+    color: white;
+    border-radius: 50px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    animation: pulse 2s infinite;
+  }
+
+  .whatsapp-float:hover {
+    transform: scale(1.05);
+    background-color: #20b859;
+    color: white;
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+  }
+
+  .whatsapp-float-icon {
+    font-size: 1.5rem;
+  }
+
+  .whatsapp-float-text {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+    }
+    50% {
+      box-shadow: 0 5px 25px rgba(37, 211, 102, 0.5);
+    }
+    100% {
+      box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+    }
+  }
+
+  /* WhatsApp Modal Styles */
+  .whatsapp-message-preview {
+    background: #f8f9fa;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .whatsapp-float {
+      bottom: 20px;
+      left: 20px;
+      padding: 10px 16px;
+    }
+
+    .whatsapp-float-text {
+      font-size: 0.8rem;
+    }
+
+    .whatsapp-float-icon {
+      font-size: 1.2rem;
+    }
+  }
+
+  /* Contact Method Icon Color */
+  .method-icon .fab.fa-whatsapp {
+    font-size: 1.2rem;
+  }
+</style>
+
+<script>
+  // WhatsApp phone number
+  const whatsappNumber = "447700000000"; // UK number without +
+
+  // Predefined message templates
+  const messageTemplates = {
+    general:
+      "Hello! I'm reaching out regarding your landscaping and construction services. I'd like to get more information and a free quote for my project. Thank you!",
+    landscaping:
+      "Hi, I'm interested in your landscaping services. I'd like to discuss garden design and patio installation. Could you please provide a quote?",
+    fencing:
+      "Hello, I need fencing installation for my property. Can you provide information about your fencing services and pricing?",
+    groundworks:
+      "Hi, I'm looking for groundworks and excavation services. Could you please provide a quote for my project?",
+    drainage:
+      "Hello, I need land drainage solutions for my property. Could you provide more information and a quote?",
+    plant:
+      "Hi, I'm interested in hiring a plant with operator for my project. Could you please provide availability and pricing?",
+    aggregate:
+      "Hello, I need aggregate delivery. Could you provide information about available materials and delivery costs?",
+    bricklaying:
+      "Hi, I'm interested in bricklaying services for an extension. Could you please provide a quote?",
+  };
+
+  // Update WhatsApp message based on selected service
+  const serviceSelect = document.getElementById("service_type");
+  const whatsappMessage = document.getElementById("whatsappMessage");
+  const whatsappMessagePreview = document.getElementById(
+    "whatsappMessagePreview",
+  );
+
+  if (serviceSelect) {
+    serviceSelect.addEventListener("change", function () {
+      const selectedService = this.value;
+      let templateKey = "general";
+
+      if (selectedService.toLowerCase().includes("landscaping"))
+        templateKey = "landscaping";
+      else if (selectedService.toLowerCase().includes("fencing"))
+        templateKey = "fencing";
+      else if (selectedService.toLowerCase().includes("groundwork"))
+        templateKey = "groundworks";
+      else if (selectedService.toLowerCase().includes("drainage"))
+        templateKey = "drainage";
+      else if (selectedService.toLowerCase().includes("plant"))
+        templateKey = "plant";
+      else if (selectedService.toLowerCase().includes("aggregate"))
+        templateKey = "aggregate";
+      else if (selectedService.toLowerCase().includes("brick"))
+        templateKey = "bricklaying";
+
+      if (whatsappMessage) {
+        whatsappMessage.value = messageTemplates[templateKey];
+        whatsappMessagePreview.textContent = messageTemplates[templateKey];
+      }
+    });
+  }
+
+  // WhatsApp popup functionality
+  const whatsappFloatBtn = document.getElementById("whatsappFloatBtn");
+  const whatsappChatBtn = document.getElementById("whatsappChatBtn");
+  const sendWhatsappBtn = document.getElementById("sendWhatsappBtn");
+  const whatsappLink = document.getElementById("whatsappLink");
+
+  function openWhatsAppModal(e) {
+    e.preventDefault();
+    const modal = new bootstrap.Modal(document.getElementById("whatsappModal"));
+    modal.show();
+  }
+
+  function sendWhatsAppMessage() {
+    const message = document.getElementById("whatsappMessage").value;
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+    window.open(whatsappUrl, "_blank");
+  }
+
+  if (whatsappFloatBtn)
+    whatsappFloatBtn.addEventListener("click", openWhatsAppModal);
+  if (whatsappChatBtn)
+    whatsappChatBtn.addEventListener("click", openWhatsAppModal);
+  if (sendWhatsappBtn)
+    sendWhatsappBtn.addEventListener("click", sendWhatsAppMessage);
+
+  if (whatsappLink) {
+    whatsappLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      openWhatsAppModal(e);
+    });
+  }
+
+  // Auto-populate message from form if available
+  function populateMessageFromForm() {
+    const name = document.getElementById("name")?.value;
+    const service = document.getElementById("service_type")?.value;
+    const userMessage = document.getElementById("message")?.value;
+
+    let message = "Hello! I'm reaching out regarding your services.";
+
+    if (name) message = `Hello, I'm ${name}. `;
+    if (service && service !== "")
+      message += `I'm interested in your ${service} services. `;
+    if (userMessage && userMessage !== "") message += userMessage;
+    else
+      message +=
+        "I'd like to get more information and a free quote for my project. Thank you!";
+
+    if (whatsappMessage) whatsappMessage.value = message;
+    if (whatsappMessagePreview) whatsappMessagePreview.textContent = message;
+  }
+
+  // Listen to form input changes
+  const nameInput = document.getElementById("name");
+  const messageInput = document.getElementById("message");
+
+  if (nameInput) nameInput.addEventListener("input", populateMessageFromForm);
+  if (messageInput)
+    messageInput.addEventListener("input", populateMessageFromForm);
+  if (serviceSelect)
+    serviceSelect.addEventListener("change", populateMessageFromForm);
+
+  // Initial population
+  populateMessageFromForm();
+
+  // Form validation and submission handling
+  document
+    .getElementById("contactForm")
+    .addEventListener("submit", function (e) {
+      const submitBtn = document.getElementById("submitBtn");
+      const originalText = submitBtn.innerHTML;
+
+      submitBtn.innerHTML =
+        '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+      submitBtn.disabled = true;
+
+      setTimeout(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }, 3000);
+    });
+
+  // Phone number formatting
+  const phoneInput = document.getElementById("phone");
+  if (phoneInput) {
+    phoneInput.addEventListener("input", function (e) {
+      let x = this.value
+        .replace(/\D/g, "")
+        .match(/(\d{0,4})(\d{0,3})(\d{0,4})/);
+      this.value = !x[2] ? x[1] : x[1] + " " + x[2] + (x[3] ? " " + x[3] : "");
+    });
+  }
+</script>
+{% endblock %}

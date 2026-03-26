@@ -1,0 +1,589 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <!-- Page Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="page-header-modern bg-gradient-primary text-white p-4 rounded-4 shadow-lg">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+          <div>
+            <h1 class="display-6 fw-bold mb-2">
+              <i class="fas fa-star me-2"></i>Manage Testimonials
+            </h1>
+            <p class="mb-0 opacity-75">Approve, edit, or delete client reviews</p>
+          </div>
+          <div>
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-light btn-lg">
+              <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pending Testimonials Section -->
+  {% if pending and pending|length > 0 %}
+  <div class="row mb-5">
+    <div class="col-12">
+      <div class="admin-card">
+        <div class="admin-card-header bg-warning bg-opacity-10">
+          <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-clock text-warning fa-lg"></i>
+            <h5 class="mb-0">Pending Approval ({{ pending|length }})</h5>
+          </div>
+          <p class="text-muted small mb-0 mt-1">
+            Reviews waiting for your approval before appearing on the website
+          </p>
+        </div>
+        <div class="admin-card-body p-0">
+          <div class="testimonials-list">
+            {% for testimonial in pending %}
+            <div class="testimonial-item pending" data-id="{{ testimonial.id }}">
+              <div class="testimonial-header">
+                <div class="testimonial-info">
+                  <div class="testimonial-avatar">
+                    {% if testimonial.client_image %}
+                    <img src="{{ testimonial.client_image }}" alt="{{ testimonial.client_name }}" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover">
+                    {% else %}
+                    <i class="fas fa-user-circle fa-3x text-primary"></i>
+                    {% endif %}
+                  </div>
+                  <div class="testimonial-details">
+                    <h6 class="mb-1">{{ testimonial.client_name }}</h6>
+                    <div class="testimonial-meta">
+                      <span class="badge bg-warning text-dark">
+                        <i class="fas fa-star me-1"></i>{{ testimonial.rating }}/5
+                      </span>
+                      {% if testimonial.client_location %}
+                      <span class="badge bg-light text-dark">
+                        <i class="fas fa-map-marker-alt me-1"></i>{{ testimonial.client_location }}
+                      </span>
+                      {% endif %}
+                      <span class="badge bg-light text-dark">
+                        <i class="far fa-calendar-alt me-1"></i>{{ testimonial.date.strftime('%d %b %Y') }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div class="testimonial-actions">
+                  <button class="btn btn-sm btn-success approve-testimonial" data-id="{{ testimonial.id }}">
+                    <i class="fas fa-check-circle me-1"></i>Approve
+                  </button>
+                  <button class="btn btn-sm btn-outline-primary edit-testimonial" 
+                          data-id="{{ testimonial.id }}"
+                          data-name="{{ testimonial.client_name }}"
+                          data-email="{{ testimonial.client_email }}"
+                          data-location="{{ testimonial.client_location }}"
+                          data-rating="{{ testimonial.rating }}"
+                          data-content="{{ testimonial.content }}"
+                          data-image="{{ testimonial.client_image }}">
+                    <i class="fas fa-edit me-1"></i>Edit
+                  </button>
+                  <button class="btn btn-sm btn-outline-primary view-testimonial"
+                          data-name="{{ testimonial.client_name }}"
+                          data-email="{{ testimonial.client_email }}"
+                          data-location="{{ testimonial.client_location }}"
+                          data-rating="{{ testimonial.rating }}"
+                          data-content="{{ testimonial.content }}"
+                          data-date="{{ testimonial.date.strftime('%d %B %Y at %H:%M') }}">
+                    <i class="fas fa-eye me-1"></i>View
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger delete-testimonial" 
+                          data-id="{{ testimonial.id }}" 
+                          data-name="{{ testimonial.client_name }}">
+                    <i class="fas fa-trash me-1"></i>Delete
+                  </button>
+                </div>
+              </div>
+              <div class="testimonial-preview">
+                <p class="mb-0 text-muted">
+                  "{{ testimonial.content[:150] }}{% if testimonial.content|length > 150 %}...{% endif %}"
+                </p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Approved Testimonials Section -->
+  <div class="row">
+    <div class="col-12">
+      <div class="admin-card">
+        <div class="admin-card-header bg-success bg-opacity-10">
+          <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-check-circle text-success fa-lg"></i>
+            <h5 class="mb-0">Approved Testimonials ({{ approved|length }})</h5>
+          </div>
+          <p class="text-muted small mb-0 mt-1">
+            Reviews currently visible on the website
+          </p>
+        </div>
+        <div class="admin-card-body p-0">
+          {% if approved and approved|length > 0 %}
+          <div class="testimonials-list">
+            {% for testimonial in approved %}
+            <div class="testimonial-item approved" data-id="{{ testimonial.id }}">
+              <div class="testimonial-header">
+                <div class="testimonial-info">
+                  <div class="testimonial-avatar">
+                    {% if testimonial.client_image %}
+                    <img src="{{ testimonial.client_image }}" alt="{{ testimonial.client_name }}" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover">
+                    {% else %}
+                    <i class="fas fa-user-circle fa-3x text-primary"></i>
+                    {% endif %}
+                  </div>
+                  <div class="testimonial-details">
+                    <h6 class="mb-1">{{ testimonial.client_name }}</h6>
+                    <div class="testimonial-meta">
+                      <span class="badge bg-success">
+                        <i class="fas fa-star me-1"></i>{{ testimonial.rating }}/5
+                      </span>
+                      {% if testimonial.client_location %}
+                      <span class="badge bg-light text-dark">
+                        <i class="fas fa-map-marker-alt me-1"></i>{{ testimonial.client_location }}
+                      </span>
+                      {% endif %}
+                      <span class="badge bg-light text-dark">
+                        <i class="far fa-calendar-alt me-1"></i>{{ testimonial.date.strftime('%d %b %Y') }}
+                      </span>
+                      {% if testimonial.featured %}
+                      <span class="badge bg-warning text-dark">
+                        <i class="fas fa-star me-1"></i>Featured
+                      </span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                <div class="testimonial-actions">
+                  <button class="btn btn-sm btn-outline-warning toggle-featured" 
+                          data-id="{{ testimonial.id }}" 
+                          data-featured="{{ testimonial.featured }}">
+                    <i class="fas fa-star me-1"></i>{% if testimonial.featured %}Unfeature{% else %}Feature{% endif %}
+                  </button>
+                  <button class="btn btn-sm btn-outline-primary edit-testimonial" 
+                          data-id="{{ testimonial.id }}"
+                          data-name="{{ testimonial.client_name }}"
+                          data-email="{{ testimonial.client_email }}"
+                          data-location="{{ testimonial.client_location }}"
+                          data-rating="{{ testimonial.rating }}"
+                          data-content="{{ testimonial.content }}"
+                          data-image="{{ testimonial.client_image }}">
+                    <i class="fas fa-edit me-1"></i>Edit
+                  </button>
+                  <button class="btn btn-sm btn-outline-primary view-testimonial"
+                          data-name="{{ testimonial.client_name }}"
+                          data-email="{{ testimonial.client_email }}"
+                          data-location="{{ testimonial.client_location }}"
+                          data-rating="{{ testimonial.rating }}"
+                          data-content="{{ testimonial.content }}"
+                          data-date="{{ testimonial.date.strftime('%d %B %Y at %H:%M') }}">
+                    <i class="fas fa-eye me-1"></i>View
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger delete-testimonial" 
+                          data-id="{{ testimonial.id }}" 
+                          data-name="{{ testimonial.client_name }}">
+                    <i class="fas fa-trash me-1"></i>Delete
+                  </button>
+                </div>
+              </div>
+              <div class="testimonial-preview">
+                <p class="mb-0 text-muted">
+                  "{{ testimonial.content[:150] }}{% if testimonial.content|length > 150 %}...{% endif %}"
+                </p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="text-center py-5">
+            <i class="fas fa-star fa-3x text-muted mb-3"></i>
+            <p class="mb-0">No approved testimonials yet</p>
+            <small class="text-muted">Add testimonials or approve pending ones</small>
+          </div>
+          {% endif %}
+        </div>
+        <div class="admin-card-footer">
+          <a href="{{ url_for('add_testimonial') }}" class="btn btn-primary w-100">
+            <i class="fas fa-plus-circle me-2"></i>Add New Testimonial
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Testimonial Modal -->
+<div class="modal fade" id="viewTestimonialModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title"><i class="fas fa-star me-2"></i>Testimonial Details</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="testimonial-details-modal">
+          <div class="detail-row"><strong>Client:</strong> <span id="viewName"></span></div>
+          <div class="detail-row"><strong>Email:</strong> <span id="viewEmail"></span></div>
+          <div class="detail-row"><strong>Location:</strong> <span id="viewLocation"></span></div>
+          <div class="detail-row"><strong>Rating:</strong> <span id="viewRating"></span></div>
+          <div class="detail-row"><strong>Date:</strong> <span id="viewDate"></span></div>
+          <div class="detail-row"><strong>Review:</strong> <p id="viewContent" class="mt-2 mb-0"></p></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Testimonial Modal -->
+<div class="modal fade" id="editTestimonialModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Edit Testimonial</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <form id="editTestimonialForm" method="POST" enctype="multipart/form-data">
+        <div class="modal-body">
+          <input type="hidden" id="edit_id" name="testimonial_id">
+          
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="edit_client_name" class="form-label">Client Name *</label>
+              <input type="text" class="form-control" id="edit_client_name" name="client_name" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="edit_client_email" class="form-label">Client Email</label>
+              <input type="email" class="form-control" id="edit_client_email" name="client_email">
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="edit_client_location" class="form-label">Location</label>
+              <input type="text" class="form-control" id="edit_client_location" name="client_location">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="edit_rating" class="form-label">Rating (1-5)</label>
+              <select class="form-select" id="edit_rating" name="rating" required>
+                <option value="5">5 Stars - Excellent</option>
+                <option value="4">4 Stars - Very Good</option>
+                <option value="3">3 Stars - Good</option>
+                <option value="2">2 Stars - Fair</option>
+                <option value="1">1 Star - Poor</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="edit_content" class="form-label">Testimonial Content *</label>
+            <textarea class="form-control" id="edit_content" name="content" rows="4" required></textarea>
+          </div>
+          
+          <div class="mb-3">
+            <label for="edit_client_image" class="form-label">Client Image</label>
+            <div class="current-image mb-2" id="currentImageContainer">
+              <small class="text-muted">Current image:</small>
+              <div id="currentImagePreview" class="mt-1"></div>
+            </div>
+            <input type="file" class="form-control" id="edit_client_image" name="client_image" accept="image/*">
+            <small class="text-muted">Leave empty to keep current image. Max size 2MB.</small>
+            <input type="hidden" id="edit_client_image_url" name="client_image_url">
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="edit_approved" name="approved">
+                <label class="form-check-label" for="edit_approved">Approved (visible on website)</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="edit_featured" name="featured">
+                <label class="form-check-label" for="edit_featured">Featured on homepage</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Delete Testimonial</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete the testimonial from <strong id="deleteName"></strong>?</p>
+        <p class="text-muted small">This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <form method="POST" id="deleteForm" action="">
+          <button type="submit" class="btn btn-danger">Delete Testimonial</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .admin-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .admin-card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 2px solid #f0f0f0;
+  }
+
+  .admin-card-footer {
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .admin-card-body {
+    padding: 0;
+  }
+
+  .testimonials-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .testimonial-item {
+    padding: 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+  }
+
+  .testimonial-item:hover {
+    background: #f8f9fa;
+  }
+
+  .testimonial-item.pending {
+    background: rgba(243, 156, 18, 0.05);
+    border-left: 4px solid #f39c12;
+  }
+
+  .testimonial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .testimonial-info {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .testimonial-avatar i,
+  .testimonial-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .testimonial-details h6 {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .testimonial-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .testimonial-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .testimonial-preview {
+    padding-left: 4rem;
+  }
+
+  .testimonial-preview p {
+    color: #6c757d;
+    font-style: italic;
+  }
+
+  .detail-row {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+
+  .detail-row strong {
+    display: inline-block;
+    min-width: 80px;
+    color: #2c3e50;
+  }
+
+  .current-image img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .testimonial-header {
+      flex-direction: column;
+    }
+    .testimonial-actions {
+      width: 100%;
+      justify-content: flex-start;
+    }
+    .testimonial-preview {
+      padding-left: 0;
+    }
+  }
+</style>
+
+<script>
+  // View testimonial details
+  document.querySelectorAll(".view-testimonial").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      document.getElementById("viewName").textContent = this.getAttribute("data-name");
+      document.getElementById("viewEmail").textContent = this.getAttribute("data-email") || "Not provided";
+      document.getElementById("viewLocation").textContent = this.getAttribute("data-location") || "Not specified";
+      const rating = this.getAttribute("data-rating");
+      document.getElementById("viewRating").innerHTML = `${'<i class="fas fa-star text-warning"></i>'.repeat(rating)}${'<i class="far fa-star text-muted"></i>'.repeat(5 - rating)} (${rating}/5)`;
+      document.getElementById("viewContent").textContent = this.getAttribute("data-content");
+      document.getElementById("viewDate").textContent = this.getAttribute("data-date");
+      new bootstrap.Modal(document.getElementById("viewTestimonialModal")).show();
+    });
+  });
+
+  // Edit testimonial
+  const editModal = new bootstrap.Modal(document.getElementById("editTestimonialModal"));
+  const editForm = document.getElementById("editTestimonialForm");
+  
+  document.querySelectorAll(".edit-testimonial").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const id = this.getAttribute("data-id");
+      const name = this.getAttribute("data-name");
+      const email = this.getAttribute("data-email") || "";
+      const location = this.getAttribute("data-location") || "";
+      const rating = this.getAttribute("data-rating");
+      const content = this.getAttribute("data-content");
+      const image = this.getAttribute("data-image") || "";
+      
+      document.getElementById("edit_id").value = id;
+      document.getElementById("edit_client_name").value = name;
+      document.getElementById("edit_client_email").value = email;
+      document.getElementById("edit_client_location").value = location;
+      document.getElementById("edit_rating").value = rating;
+      document.getElementById("edit_content").value = content;
+      document.getElementById("edit_client_image_url").value = image;
+      
+      // Show current image preview
+      const currentImageContainer = document.getElementById("currentImagePreview");
+      if (image) {
+        currentImageContainer.innerHTML = `<img src="${image}" alt="Current image" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">`;
+      } else {
+        currentImageContainer.innerHTML = '<span class="text-muted">No image</span>';
+      }
+      
+      editModal.show();
+    });
+  });
+  
+  // Handle edit form submission
+  editForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const testimonialId = document.getElementById("edit_id").value;
+    
+    fetch(`/admin/testimonials/edit/${testimonialId}`, {
+      method: "POST",
+      body: formData
+    }).then(response => {
+      if (response.ok) {
+        location.reload();
+      } else {
+        alert("Error updating testimonial");
+      }
+    }).catch(error => {
+      console.error("Error:", error);
+      alert("Error updating testimonial");
+    });
+  });
+
+  // Approve testimonial
+  document.querySelectorAll(".approve-testimonial").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const id = this.getAttribute("data-id");
+      if (confirm("Approve this testimonial? It will appear on the website immediately.")) {
+        fetch(`/admin/testimonials/approve/${id}`, { method: "POST" })
+          .then(response => response.ok ? location.reload() : alert("Error approving testimonial"))
+          .catch(() => alert("Error approving testimonial"));
+      }
+    });
+  });
+
+  // Toggle featured status
+  document.querySelectorAll(".toggle-featured").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const id = this.getAttribute("data-id");
+      const currentFeatured = this.getAttribute("data-featured") === "True";
+      const action = currentFeatured ? "remove from featured" : "add to featured";
+      if (confirm(`Are you sure you want to ${action} this testimonial?`)) {
+        fetch(`/admin/testimonials/toggle-featured/${id}`, { method: "POST" })
+          .then(response => response.ok ? location.reload() : alert("Error updating testimonial"))
+          .catch(() => alert("Error updating testimonial"));
+      }
+    });
+  });
+
+  // Delete testimonial
+  const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+  const deleteForm = document.getElementById("deleteForm");
+
+  document.querySelectorAll(".delete-testimonial").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const id = this.getAttribute("data-id");
+      const name = this.getAttribute("data-name");
+      document.getElementById("deleteName").textContent = name;
+      deleteForm.action = `/admin/testimonials/delete/${id}`;
+      deleteModal.show();
+    });
+  });
+</script>
+{% endblock %}

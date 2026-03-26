@@ -1,0 +1,746 @@
+{% extends "base.html" %} {% block content %}
+<div class="container-fluid py-4">
+  <!-- Welcome Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div
+        class="admin-header bg-gradient-primary text-white p-4 rounded-4 shadow-lg"
+      >
+        <div
+          class="d-flex justify-content-between align-items-center flex-wrap gap-3"
+        >
+          <div>
+            <h1 class="display-5 fw-bold mb-2">
+              <i class="fas fa-crown me-2"></i>Admin Control Panel
+            </h1>
+            <p class="mb-0 opacity-75">
+              Welcome back,
+              <strong
+                >{{ current_user.username if current_user else 'Administrator'
+                }}</strong
+              >! Manage your website content from here.
+            </p>
+          </div>
+          <div class="d-flex gap-2">
+            <a
+              href="{{ url_for('index') }}"
+              class="btn btn-outline-light"
+              target="_blank"
+            >
+              <i class="fas fa-globe me-2"></i>View Site
+            </a>
+            <a
+              href="{{ url_for('admin_logout') }}"
+              class="btn btn-light"
+              onclick="return confirm('Are you sure you want to logout?');"
+            >
+              <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Stats Row -->
+  <div class="row g-4 mb-5">
+    <div class="col-md-6 col-lg-3">
+      <div class="stats-card stats-primary" data-aos="fade-up">
+        <div class="stats-icon">
+          <i class="fas fa-folder-open"></i>
+        </div>
+        <div class="stats-info">
+          <h3 class="stats-number">{{ projects_count or 0 }}</h3>
+          <p class="stats-label">Total Projects</p>
+        </div>
+        <div class="stats-link">
+          <a href="{{ url_for('portfolio') }}" class="text-white">
+            View All <i class="fas fa-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div
+        class="stats-card stats-warning"
+        data-aos="fade-up"
+        data-aos-delay="100"
+      >
+        <div class="stats-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="stats-info">
+          <h3 class="stats-number">{{ messages_count or 0 }}</h3>
+          <p class="stats-label">Unread Messages</p>
+        </div>
+        <div class="stats-link">
+          <a href="{{ url_for('view_messages') }}" class="text-white">
+            View All <i class="fas fa-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div
+        class="stats-card stats-success"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <div class="stats-icon">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="stats-info">
+          <h3 class="stats-number">{{ testimonials_count or 0 }}</h3>
+          <p class="stats-label">Approved Reviews</p>
+        </div>
+        <div class="stats-link">
+          <a href="{{ url_for('testimonials_page') }}" class="text-white">
+            View All <i class="fas fa-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-3">
+      <div
+        class="stats-card stats-info"
+        data-aos="fade-up"
+        data-aos-delay="300"
+      >
+        <div class="stats-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="stats-info">
+          <h3 class="stats-number">{{ pending_testimonials|default(0) }}</h3>
+          <p class="stats-label">Pending Reviews</p>
+        </div>
+        <div class="stats-link">
+          <a href="{{ url_for('admin_testimonials') }}" class="text-white">
+            Review <i class="fas fa-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Admin Grid -->
+  <div class="row g-4">
+    <!-- Content Management -->
+    <div class="col-lg-6" data-aos="fade-up">
+      <div class="admin-card h-100">
+        <div class="admin-card-header">
+          <i class="fas fa-pen-fancy text-primary me-2"></i>
+          <h5 class="mb-0">Content Management</h5>
+        </div>
+        <div class="admin-card-body">
+          <div class="admin-grid">
+            <a href="{{ url_for('add_project') }}" class="admin-item">
+              <div class="admin-item-icon bg-primary-light">
+                <i class="fas fa-plus-circle text-primary"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Add New Project</h6>
+                <small>Showcase your latest work</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+            <a href="{{ url_for('add_testimonial') }}" class="admin-item">
+              <div class="admin-item-icon bg-success-light">
+                <i class="fas fa-star text-success"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Add Testimonial</h6>
+                <small>Share client feedback</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+            <a href="{{ url_for('admin_testimonials') }}" class="admin-item">
+              <div class="admin-item-icon bg-warning-light">
+                <i class="fas fa-clock text-warning"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Pending Reviews</h6>
+                <small
+                  >{{ pending_testimonials|default(0) }} reviews need
+                  approval</small
+                >
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+            <a href="{{ url_for('portfolio') }}" class="admin-item">
+              <div class="admin-item-icon bg-info-light">
+                <i class="fas fa-images text-info"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Manage Portfolio</h6>
+                <small>Edit or delete projects</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+            <a href="{{ url_for('services_page') }}" class="admin-item">
+              <div class="admin-item-icon bg-secondary-light">
+                <i class="fas fa-tools text-secondary"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Manage Services</h6>
+                <small>Update service listings</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Communication -->
+    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+      <div class="admin-card h-100">
+        <div class="admin-card-header">
+          <i class="fas fa-comments text-primary me-2"></i>
+          <h5 class="mb-0">Communication</h5>
+        </div>
+        <div class="admin-card-body">
+          <div class="admin-grid">
+            <a href="{{ url_for('view_messages') }}" class="admin-item">
+              <div class="admin-item-icon bg-warning-light">
+                <i class="fas fa-envelope text-warning"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Contact Messages</h6>
+                <small>{{ messages_count }} unread messages</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+            <a href="{{ url_for('admin_testimonials') }}" class="admin-item">
+              <div class="admin-item-icon bg-primary-light">
+                <i class="fas fa-star text-primary"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Manage Testimonials</h6>
+                <small>Approve or edit client reviews</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+            <a href="#" class="admin-item">
+              <div class="admin-item-icon bg-success-light">
+                <i class="fas fa-envelope-open-text text-success"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Newsletter Subscribers</h6>
+                <small>Manage email list</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+            <a href="#" class="admin-item">
+              <div class="admin-item-icon bg-info-light">
+                <i class="fas fa-question-circle text-info"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>FAQ Manager</h6>
+                <small>Update frequently asked questions</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Website Settings -->
+    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+      <div class="admin-card h-100">
+        <div class="admin-card-header">
+          <i class="fas fa-cog text-primary me-2"></i>
+          <h5 class="mb-0">Website Settings</h5>
+        </div>
+        <div class="admin-card-body">
+          <div class="admin-grid">
+            <a href="{{ url_for('admin_settings') }}" class="admin-item">
+              <div class="admin-item-icon bg-info-light">
+                <i class="fas fa-sliders-h text-info"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>General Settings</h6>
+                <small>Site title, contact info, social links</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+            <a href="#" class="admin-item">
+              <div class="admin-item-icon bg-primary-light">
+                <i class="fas fa-palette text-primary"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Appearance</h6>
+                <small>Colors, fonts, layout</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+            <a href="#" class="admin-item">
+              <div class="admin-item-icon bg-success-light">
+                <i class="fas fa-chart-line text-success"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Analytics</h6>
+                <small>View site statistics</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Account & Security -->
+    <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+      <div class="admin-card h-100">
+        <div class="admin-card-header">
+          <i class="fas fa-user-shield text-primary me-2"></i>
+          <h5 class="mb-0">Account & Security</h5>
+        </div>
+        <div class="admin-card-body">
+          <div class="admin-grid">
+            <a href="#" class="admin-item">
+              <div class="admin-item-icon bg-primary-light">
+                <i class="fas fa-user-edit text-primary"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Profile Settings</h6>
+                <small>Update your account information</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+            <a href="#" class="admin-item">
+              <div class="admin-item-icon bg-warning-light">
+                <i class="fas fa-key text-warning"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Change Password</h6>
+                <small>Update your password</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+            <a
+              href="{{ url_for('admin_logout') }}"
+              class="admin-item"
+              onclick="return confirm('Are you sure you want to logout?');"
+            >
+              <div class="admin-item-icon bg-danger-light">
+                <i class="fas fa-sign-out-alt text-danger"></i>
+              </div>
+              <div class="admin-item-info">
+                <h6>Logout</h6>
+                <small>Sign out of admin panel</small>
+              </div>
+              <i class="fas fa-chevron-right admin-item-arrow"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity Section -->
+  <div class="row mt-4" data-aos="fade-up">
+    <div class="col-12">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <i class="fas fa-history text-primary me-2"></i>
+          <h5 class="mb-0">Recent Activity</h5>
+        </div>
+        <div class="admin-card-body p-0">
+          <div class="activity-list">
+            {% if recent_messages %} {% for msg in recent_messages[:3] %}
+            <div class="activity-item">
+              <div class="activity-icon bg-primary-light">
+                <i class="fas fa-envelope text-primary"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">
+                  New message from {{ msg.name }}
+                </div>
+                <div class="activity-desc">{{ msg.message[:100] }}...</div>
+                <div class="activity-time">
+                  {{ msg.date.strftime('%d %b %Y at %H:%M') }}
+                </div>
+              </div>
+              <div class="activity-action">
+                <a
+                  href="{{ url_for('view_messages') }}"
+                  class="btn btn-sm btn-outline-primary"
+                  >View</a
+                >
+              </div>
+            </div>
+            {% endfor %} {% if pending_testimonials|default(0) > 0 %}
+            <div class="activity-item">
+              <div class="activity-icon bg-warning-light">
+                <i class="fas fa-star text-warning"></i>
+              </div>
+              <div class="activity-content">
+                <div class="activity-title">Pending Testimonials</div>
+                <div class="activity-desc">
+                  {{ pending_testimonials }} client review{{ 's' if
+                  pending_testimonials > 1 else '' }} waiting for approval
+                </div>
+                <div class="activity-time">Needs your attention</div>
+              </div>
+              <div class="activity-action">
+                <a
+                  href="{{ url_for('admin_testimonials') }}"
+                  class="btn btn-sm btn-outline-warning"
+                  >Review</a
+                >
+              </div>
+            </div>
+            {% endif %} {% else %}
+            <div class="activity-empty text-center p-5">
+              <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+              <p class="mb-0">No recent activity</p>
+              <small class="text-muted"
+                >New messages and updates will appear here</small
+              >
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% if recent_messages or pending_testimonials|default(0) > 0 %}
+        <div class="admin-card-footer">
+          <a
+            href="{{ url_for('view_messages') }}"
+            class="btn btn-outline-primary w-100"
+          >
+            View All Activity <i class="fas fa-arrow-right ms-2"></i>
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- System Info -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="system-info p-3 bg-light rounded-4">
+        <div class="row text-center g-3">
+          <div class="col-md-3">
+            <i class="fas fa-code text-primary me-2"></i>
+            <strong>Flask Version:</strong> 2.3.3
+          </div>
+          <div class="col-md-3">
+            <i class="fas fa-database text-primary me-2"></i>
+            <strong>Database:</strong> SQLite
+          </div>
+          <div class="col-md-3">
+            <i class="fas fa-clock text-primary me-2"></i>
+            <strong>Server Time:</strong> {{ now.strftime('%H:%M:%S') }}
+          </div>
+          <div class="col-md-3">
+            <i class="fas fa-calendar text-primary me-2"></i>
+            <strong>Date:</strong> {{ now.strftime('%d %B %Y') }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Admin Header */
+  .bg-gradient-primary {
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--primary-dark)
+    );
+  }
+
+  /* Stats Cards */
+  .stats-card {
+    border-radius: 1rem;
+    padding: 1.5rem;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .stats-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+
+  .stats-card:hover::before {
+    transform: scale(1.5);
+  }
+
+  .stats-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .stats-primary {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+  }
+  .stats-warning {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+  }
+  .stats-success {
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+  }
+  .stats-info {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+  }
+
+  .stats-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .stats-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0;
+  }
+
+  .stats-label {
+    opacity: 0.9;
+    margin-bottom: 0;
+  }
+
+  .stats-link a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .stats-link a:hover {
+    color: white;
+    transform: translateX(5px);
+  }
+
+  /* Admin Cards */
+  .admin-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .admin-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  .admin-card-header {
+    padding: 1.25rem 1.5rem;
+    background: white;
+    border-bottom: 2px solid #f0f0f0;
+  }
+
+  .admin-card-footer {
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+  }
+
+  .admin-card-body {
+    padding: 1.5rem;
+  }
+
+  /* Admin Grid Items */
+  .admin-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .admin-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .admin-item:hover {
+    background: #ffffff;
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .admin-item-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+  }
+
+  .admin-item-icon i {
+    font-size: 1.5rem;
+  }
+
+  .bg-primary-light {
+    background: rgba(243, 156, 18, 0.1);
+  }
+  .bg-success-light {
+    background: rgba(39, 174, 96, 0.1);
+  }
+  .bg-info-light {
+    background: rgba(52, 152, 219, 0.1);
+  }
+  .bg-warning-light {
+    background: rgba(243, 156, 18, 0.1);
+  }
+  .bg-danger-light {
+    background: rgba(231, 76, 60, 0.1);
+  }
+  .bg-secondary-light {
+    background: rgba(108, 117, 125, 0.1);
+  }
+
+  .admin-item-info {
+    flex: 1;
+  }
+
+  .admin-item-info h6 {
+    margin-bottom: 0.25rem;
+    color: var(--dark-color);
+    font-weight: 600;
+  }
+
+  .admin-item-info small {
+    font-size: 0.8rem;
+    color: #6c757d;
+  }
+
+  .admin-item-arrow {
+    color: #6c757d;
+    transition: transform 0.3s ease;
+  }
+
+  .admin-item:hover .admin-item-arrow {
+    transform: translateX(5px);
+    color: var(--primary-color);
+  }
+
+  /* Activity List */
+  .activity-list {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .activity-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+  }
+
+  .activity-item:hover {
+    background: #f8f9fa;
+  }
+
+  .activity-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+  }
+
+  .activity-content {
+    flex: 1;
+  }
+
+  .activity-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .activity-desc {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 0.25rem;
+  }
+
+  .activity-time {
+    font-size: 0.75rem;
+    color: #adb5bd;
+  }
+
+  .activity-action {
+    margin-left: 1rem;
+  }
+
+  .activity-empty {
+    background: #f8f9fa;
+  }
+
+  /* System Info */
+  .system-info {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border: 1px solid #e0e0e0;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .stats-card {
+      padding: 1rem;
+    }
+    .stats-number {
+      font-size: 1.8rem;
+    }
+    .admin-item {
+      padding: 0.75rem;
+    }
+    .admin-item-icon {
+      width: 40px;
+      height: 40px;
+    }
+    .admin-item-icon i {
+      font-size: 1.2rem;
+    }
+    .activity-item {
+      flex-direction: column;
+      text-align: center;
+    }
+    .activity-icon {
+      margin-bottom: 0.5rem;
+    }
+    .activity-action {
+      margin-top: 0.5rem;
+      margin-left: 0;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const currentPath = window.location.pathname;
+    const adminLinks = document.querySelectorAll(".admin-item");
+
+    adminLinks.forEach((link) => {
+      const href = link.getAttribute("href");
+      if (href && currentPath === href) {
+        link.style.background = "#ffffff";
+        link.style.boxShadow = "0 5px 15px rgba(0,0,0,0.08)";
+      }
+    });
+  });
+</script>
+{% endblock %}

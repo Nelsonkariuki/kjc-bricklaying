@@ -1,0 +1,578 @@
+{% extends "base.html" %} {% block content %}
+<div class="container-fluid py-4">
+  <!-- Page Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div
+        class="page-header-modern bg-gradient-primary text-white p-4 rounded-4 shadow-lg"
+      >
+        <div
+          class="d-flex justify-content-between align-items-center flex-wrap gap-3"
+        >
+          <div>
+            <h1 class="display-6 fw-bold mb-2">
+              <i class="fas fa-cog me-2"></i>Website Settings
+            </h1>
+            <p class="mb-0 opacity-75">
+              Configure your website settings and contact information
+            </p>
+          </div>
+          <div>
+            <a
+              href="{{ url_for('admin_dashboard') }}"
+              class="btn btn-light btn-lg"
+            >
+              <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Form -->
+  <div class="row">
+    <div class="col-12">
+      <div class="admin-card">
+        <div class="admin-card-header">
+          <i class="fas fa-sliders-h text-primary me-2"></i>
+          <h5 class="mb-0">General Settings</h5>
+        </div>
+        <div class="admin-card-body p-4">
+          <form method="POST" id="settingsForm">
+            <div class="row g-4">
+              <!-- Site Information -->
+              <div class="col-12">
+                <h6 class="mb-3">
+                  <i class="fas fa-info-circle text-primary me-2"></i>Site
+                  Information
+                </h6>
+              </div>
+              <div class="col-md-6">
+                <label for="site_title" class="form-label fw-semibold"
+                  >Site Title</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="site_title"
+                  name="site_title"
+                  value="{{ site_title or 'KJC Bricklaying' }}"
+                />
+                <small class="text-muted"
+                  >Appears in browser tabs and search results</small
+                >
+              </div>
+              <div class="col-md-6">
+                <label for="site_description" class="form-label fw-semibold"
+                  >Site Description</label
+                >
+                <textarea
+                  class="form-control"
+                  id="site_description"
+                  name="site_description"
+                  rows="2"
+                >
+Professional bricklaying services in Coventry and surrounding areas. Over 10 years of experience, quality workmanship guaranteed.</textarea
+                >
+                <small class="text-muted"
+                  >Used for SEO and search engine results</small
+                >
+              </div>
+
+              <!-- Contact Information -->
+              <div class="col-12 mt-4">
+                <h6 class="mb-3">
+                  <i class="fas fa-address-card text-primary me-2"></i>Contact
+                  Information
+                </h6>
+              </div>
+              <div class="col-md-4">
+                <label for="phone" class="form-label fw-semibold"
+                  >Phone Number</label
+                >
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="phone"
+                  name="phone"
+                  value="{{ site_phone or '07700 000000' }}"
+                />
+              </div>
+              <div class="col-md-4">
+                <label for="email" class="form-label fw-semibold"
+                  >Email Address</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  value="{{ site_email or 'info@kjcbricklaying.com' }}"
+                />
+              </div>
+              <div class="col-md-4">
+                <label for="address" class="form-label fw-semibold"
+                  >Address</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="address"
+                  name="address"
+                  value="Coventry, West Midlands"
+                />
+              </div>
+
+              <!-- Social Media Links -->
+              <div class="col-12 mt-4">
+                <h6 class="mb-3">
+                  <i class="fas fa-share-alt text-primary me-2"></i>Social Media
+                  Links
+                </h6>
+                <p class="text-muted small mb-3">
+                  Leave blank to hide social media icons
+                </p>
+              </div>
+              <div class="col-md-3">
+                <label for="facebook" class="form-label fw-semibold">
+                  <i class="fab fa-facebook text-primary me-1"></i>Facebook
+                </label>
+                <input
+                  type="url"
+                  class="form-control"
+                  id="facebook"
+                  name="facebook"
+                  placeholder="https://facebook.com/yourpage"
+                />
+              </div>
+              <div class="col-md-3">
+                <label for="twitter" class="form-label fw-semibold">
+                  <i class="fab fa-twitter text-primary me-1"></i>Twitter
+                </label>
+                <input
+                  type="url"
+                  class="form-control"
+                  id="twitter"
+                  name="twitter"
+                  placeholder="https://twitter.com/yourhandle"
+                />
+              </div>
+              <div class="col-md-3">
+                <label for="instagram" class="form-label fw-semibold">
+                  <i class="fab fa-instagram text-primary me-1"></i>Instagram
+                </label>
+                <input
+                  type="url"
+                  class="form-control"
+                  id="instagram"
+                  name="instagram"
+                  placeholder="https://instagram.com/yourprofile"
+                />
+              </div>
+              <div class="col-md-3">
+                <label for="linkedin" class="form-label fw-semibold">
+                  <i class="fab fa-linkedin text-primary me-1"></i>LinkedIn
+                </label>
+                <input
+                  type="url"
+                  class="form-control"
+                  id="linkedin"
+                  name="linkedin"
+                  placeholder="https://linkedin.com/company/yourcompany"
+                />
+              </div>
+
+              <!-- Business Hours -->
+              <div class="col-12 mt-4">
+                <h6 class="mb-3">
+                  <i class="fas fa-clock text-primary me-2"></i>Business Hours
+                </h6>
+              </div>
+              <div class="col-md-6">
+                <label for="hours_weekday" class="form-label fw-semibold"
+                  >Weekday Hours</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="hours_weekday"
+                  name="hours_weekday"
+                  value="7:00 AM - 5:00 PM"
+                />
+                <small class="text-muted">Monday - Friday</small>
+              </div>
+              <div class="col-md-6">
+                <label for="hours_saturday" class="form-label fw-semibold"
+                  >Saturday Hours</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="hours_saturday"
+                  name="hours_saturday"
+                  value="8:00 AM - 1:00 PM"
+                />
+              </div>
+
+              <!-- SEO Settings -->
+              <div class="col-12 mt-4">
+                <h6 class="mb-3">
+                  <i class="fas fa-search text-primary me-2"></i>SEO Settings
+                </h6>
+              </div>
+              <div class="col-md-6">
+                <label for="meta_keywords" class="form-label fw-semibold"
+                  >Meta Keywords</label
+                >
+                <textarea
+                  class="form-control"
+                  id="meta_keywords"
+                  name="meta_keywords"
+                  rows="2"
+                >
+bricklayer coventry, bricklaying services, builder, construction, extensions, garden walls</textarea
+                >
+                <small class="text-muted"
+                  >Comma-separated keywords for search engines</small
+                >
+              </div>
+              <div class="col-md-6">
+                <label for="google_analytics" class="form-label fw-semibold"
+                  >Google Analytics ID</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="google_analytics"
+                  name="google_analytics"
+                  placeholder="UA-XXXXXXXXX-X or G-XXXXXXXXXX"
+                />
+                <small class="text-muted"
+                  >Add your Google Analytics tracking ID</small
+                >
+              </div>
+
+              <!-- Form Actions -->
+              <div class="col-12 mt-4">
+                <hr />
+                <div class="d-flex gap-3">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-lg px-5"
+                    id="saveBtn"
+                  >
+                    <i class="fas fa-save me-2"></i>Save Settings
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary btn-lg px-5"
+                    id="resetBtn"
+                  >
+                    <i class="fas fa-undo me-2"></i>Reset
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Danger Zone -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="admin-card border-danger">
+        <div class="admin-card-header bg-danger bg-opacity-10 border-danger">
+          <i class="fas fa-exclamation-triangle text-danger me-2"></i>
+          <h5 class="mb-0 text-danger">Danger Zone</h5>
+        </div>
+        <div class="admin-card-body p-4">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <h6 class="mb-1">Clear All Cache</h6>
+              <p class="text-muted small mb-0">
+                Clear cached data to see latest changes immediately
+              </p>
+            </div>
+            <div class="col-md-4 text-md-end">
+              <button class="btn btn-outline-danger" id="clearCacheBtn">
+                <i class="fas fa-trash-alt me-2"></i>Clear Cache
+              </button>
+            </div>
+          </div>
+          <hr class="my-3" />
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <h6 class="mb-1">Export Data</h6>
+              <p class="text-muted small mb-0">
+                Export all website data for backup
+              </p>
+            </div>
+            <div class="col-md-4 text-md-end">
+              <button class="btn btn-outline-success" id="exportDataBtn">
+                <i class="fas fa-download me-2"></i>Export Data
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Page Header */
+  .bg-gradient-primary {
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--primary-dark)
+    );
+  }
+
+  /* Admin Card */
+  .admin-card {
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .admin-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  .admin-card-header {
+    padding: 1.25rem 1.5rem;
+    background: white;
+    border-bottom: 2px solid #f0f0f0;
+  }
+
+  .admin-card-body {
+    padding: 1.5rem;
+  }
+
+  /* Form Controls */
+  .form-control {
+    border-radius: 0.75rem;
+    border: 2px solid #e0e0e0;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(192, 57, 43, 0.1);
+  }
+
+  textarea.form-control {
+    resize: vertical;
+  }
+
+  /* Success/Error States */
+  .form-control.is-valid {
+    border-color: #28a745;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2328a745"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+  }
+
+  .form-control.is-invalid {
+    border-color: #dc3545;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23dc3545"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .admin-card-body {
+      padding: 1rem;
+    }
+
+    .btn-lg {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+
+    .text-md-end {
+      text-align: left !important;
+      margin-top: 1rem;
+    }
+  }
+</style>
+
+<script>
+  // Form validation and submission
+  const form = document.getElementById("settingsForm");
+  const saveBtn = document.getElementById("saveBtn");
+  const resetBtn = document.getElementById("resetBtn");
+
+  // Save settings
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    // Show loading state
+    const originalText = saveBtn.innerHTML;
+    saveBtn.innerHTML =
+      '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+    saveBtn.disabled = true;
+
+    // Submit the form
+    fetch(window.location.href, {
+      method: "POST",
+      body: new FormData(form),
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Show success message
+          showNotification("Settings saved successfully!", "success");
+          saveBtn.innerHTML = '<i class="fas fa-check me-2"></i>Saved!';
+          setTimeout(() => {
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
+          }, 2000);
+        } else {
+          throw new Error("Failed to save");
+        }
+      })
+      .catch((error) => {
+        showNotification("Error saving settings", "danger");
+        saveBtn.innerHTML = originalText;
+        saveBtn.disabled = false;
+      });
+
+    // Fallback: submit normally if fetch fails
+    setTimeout(() => {
+      if (saveBtn.disabled) {
+        form.submit();
+      }
+    }, 3000);
+  });
+
+  // Reset form to original values
+  resetBtn.addEventListener("click", function () {
+    if (
+      confirm("Reset all settings to original values? This cannot be undone.")
+    ) {
+      location.reload();
+    }
+  });
+
+  // Clear cache
+  document
+    .getElementById("clearCacheBtn")
+    ?.addEventListener("click", function () {
+      if (
+        confirm(
+          "Clear all cached data? This may temporarily affect performance.",
+        )
+      ) {
+        fetch("/admin/clear-cache", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then(() => {
+            showNotification("Cache cleared successfully!", "success");
+          })
+          .catch(() => {
+            showNotification("Error clearing cache", "danger");
+          });
+      }
+    });
+
+  // Export data
+  document
+    .getElementById("exportDataBtn")
+    ?.addEventListener("click", function () {
+      window.location.href = "/admin/export-data";
+    });
+
+  // Show notification
+  function showNotification(message, type) {
+    const alertDiv = document.createElement("div");
+    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+    alertDiv.innerHTML = `
+      <i class="fas fa-${type === "success" ? "check-circle" : "exclamation-circle"} me-2"></i>
+      ${message}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+
+    const container = document.querySelector(".flash-messages .container");
+    if (container) {
+      container.insertBefore(alertDiv, container.firstChild);
+      setTimeout(() => {
+        alertDiv.classList.remove("show");
+        setTimeout(() => alertDiv.remove(), 300);
+      }, 5000);
+    }
+  }
+
+  // Validate URL inputs
+  const urlInputs = document.querySelectorAll('input[type="url"]');
+  urlInputs.forEach((input) => {
+    input.addEventListener("blur", function () {
+      const value = this.value.trim();
+      if (
+        value &&
+        !value.startsWith("http://") &&
+        !value.startsWith("https://")
+      ) {
+        this.classList.add("is-invalid");
+        this.classList.remove("is-valid");
+      } else if (value) {
+        this.classList.add("is-valid");
+        this.classList.remove("is-invalid");
+      } else {
+        this.classList.remove("is-valid", "is-invalid");
+      }
+    });
+  });
+
+  // Validate email
+  const emailInput = document.getElementById("email");
+  if (emailInput) {
+    emailInput.addEventListener("blur", function () {
+      const value = this.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (value && !emailRegex.test(value)) {
+        this.classList.add("is-invalid");
+        this.classList.remove("is-valid");
+      } else if (value) {
+        this.classList.add("is-valid");
+        this.classList.remove("is-invalid");
+      } else {
+        this.classList.remove("is-valid", "is-invalid");
+      }
+    });
+  }
+
+  // Validate phone
+  const phoneInput = document.getElementById("phone");
+  if (phoneInput) {
+    phoneInput.addEventListener("blur", function () {
+      const value = this.value.trim();
+      const phoneRegex = /^[\d\s\-+()]{10,}$/;
+      if (value && !phoneRegex.test(value)) {
+        this.classList.add("is-invalid");
+        this.classList.remove("is-valid");
+      } else if (value) {
+        this.classList.add("is-valid");
+        this.classList.remove("is-invalid");
+      } else {
+        this.classList.remove("is-valid", "is-invalid");
+      }
+    });
+  }
+</script>
+{% endblock %}

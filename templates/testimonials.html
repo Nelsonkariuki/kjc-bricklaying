@@ -1,0 +1,585 @@
+{% extends "base.html" %} {% block content %}
+<!-- Page Header -->
+<section class="page-header bg-primary text-light py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center" data-aos="fade-up">
+        <h1 class="display-4 fw-bold mb-3">Client Testimonials</h1>
+        <p class="lead mb-0">What our clients say about KJC Bricklaying</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5">
+  <div class="container">
+    <!-- Rating Summary -->
+    <div class="row mb-5" data-aos="fade-up">
+      <div class="col-12">
+        <div class="rating-summary text-center p-4 bg-light rounded-4">
+          <div class="row align-items-center">
+            <div class="col-md-4 mb-3 mb-md-0">
+              <div class="overall-rating">
+                <div class="rating-number display-1 fw-bold text-primary">
+                  {{ "%.1f"|format(average_rating) if average_rating else '4.9'
+                  }}
+                </div>
+                <div class="rating-stars mb-2">
+                  {% set full_stars = (average_rating|default(4.9))|int %} {%
+                  set half_star = (average_rating|default(4.9) - full_stars) >=
+                  0.5 %} {% for i in range(5) %} {% if i < full_stars %}
+                  <i class="fas fa-star text-warning"></i>
+                  {% elif i == full_stars and half_star %}
+                  <i class="fas fa-star-half-alt text-warning"></i>
+                  {% else %}
+                  <i class="far fa-star text-warning"></i>
+                  {% endif %} {% endfor %}
+                </div>
+                <div class="rating-text text-muted">
+                  Based on {{ testimonials|length }} reviews
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="rating-bars">
+                {% set star_counts = {'5': 0, '4': 0, '3': 0, '2': 0, '1': 0} %}
+                {% for testimonial in testimonials %} {% set _ =
+                star_counts.update({testimonial.rating|string:
+                star_counts[testimonial.rating|string] + 1}) %} {% endfor %} {%
+                for star in ['5', '4', '3', '2', '1'] %} {% set count =
+                star_counts[star] %} {% set percentage = (count /
+                testimonials|length * 100)|int if testimonials|length > 0 else 0
+                %}
+                <div class="rating-bar-item mb-2">
+                  <div class="d-flex justify-content-between mb-1">
+                    <span>{{ star }} Star</span>
+                    <span>{{ percentage }}%</span>
+                  </div>
+                  <div class="progress" style="height: 8px">
+                    <div
+                      class="progress-bar bg-warning"
+                      style="width: {{ percentage }}%"
+                    ></div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Testimonials Grid -->
+    <div class="row g-4">
+      {% if testimonials and testimonials|length > 0 %} {% for testimonial in
+      testimonials %}
+      <div
+        class="col-md-6 col-lg-4"
+        data-aos="fade-up"
+        data-aos-delay="{{ loop.index * 100 }}"
+      >
+        <div class="testimonial-card">
+          <div class="quote-icon">
+            <i class="fas fa-quote-left"></i>
+          </div>
+          <div class="testimonial-rating mb-3">
+            {% for i in range(testimonial.rating) %}
+            <i class="fas fa-star"></i>
+            {% endfor %} {% for i in range(5 - testimonial.rating) %}
+            <i class="far fa-star"></i>
+            {% endfor %}
+          </div>
+          <p class="testimonial-text">"{{ testimonial.content }}"</p>
+          <div class="testimonial-author">
+            <div class="author-info">
+              <div class="author-avatar">
+                {% if testimonial.client_image %}
+                <img
+                  src="{{ testimonial.client_image }}"
+                  alt="{{ testimonial.client_name }}"
+                  class="rounded-circle"
+                  style="width: 50px; height: 50px; object-fit: cover"
+                />
+                {% else %}
+                <i class="fas fa-user-circle"></i>
+                {% endif %}
+              </div>
+              <div class="author-details">
+                <strong class="author-name"
+                  >{{ testimonial.client_name }}</strong
+                >
+                {% if testimonial.client_location %}
+                <div class="author-location">
+                  <i class="fas fa-map-marker-alt fa-xs"></i> {{
+                  testimonial.client_location }}
+                </div>
+                {% endif %}
+                <div class="author-date">
+                  <i class="far fa-calendar-alt fa-xs"></i> {{
+                  testimonial.date.strftime('%B %Y') }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <div class="col-12 text-center py-5">
+        <div class="empty-state" data-aos="fade-up">
+          <i class="fas fa-comments fa-5x text-muted mb-4"></i>
+          <h3 class="mb-3">Testimonials Coming Soon</h3>
+          <p class="text-muted mb-4">
+            We'll share client feedback here shortly!
+          </p>
+          <a href="#reviewForm" class="btn btn-primary">
+            <i class="fas fa-pen me-2"></i>Be the First to Review
+          </a>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-5" data-aos="fade-up">
+      <a href="#reviewForm" class="btn btn-primary btn-lg">
+        <i class="fas fa-star me-2"></i>Leave a Review
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Submit Review Section -->
+<section class="py-5 bg-light" id="reviewForm">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8" data-aos="fade-up">
+        <div class="review-form-card">
+          <div class="text-center mb-4">
+            <i class="fas fa-pen-fancy fa-3x text-primary mb-3"></i>
+            <h2 class="display-6 fw-bold">Share Your Experience</h2>
+            <p class="text-muted">
+              We'd love to hear about your project with us
+            </p>
+          </div>
+
+          <form
+            method="POST"
+            action="{{ url_for('submit_review') }}"
+            class="review-form"
+            id="testimonialForm"
+            enctype="multipart/form-data"
+          >
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="client_name" class="form-label">Your Name *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="client_name"
+                  name="client_name"
+                  required
+                />
+                <div class="invalid-feedback">Please enter your name</div>
+              </div>
+              <div class="col-md-6">
+                <label for="client_location" class="form-label">Location</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="client_location"
+                  name="client_location"
+                  placeholder="e.g., Coventry"
+                />
+              </div>
+              <div class="col-12">
+                <label for="client_email" class="form-label"
+                  >Email (for verification) *</label
+                >
+                <input
+                  type="email"
+                  class="form-control"
+                  id="client_email"
+                  name="client_email"
+                  required
+                />
+                <small class="text-muted"
+                  >Your email will not be published</small
+                >
+              </div>
+              <div class="col-12">
+                <label class="form-label">Your Rating *</label>
+                <div class="rating-input mb-3">
+                  <div class="star-rating">
+                    <input type="radio" id="star5" name="rating" value="5" />
+                    <label for="star5" title="5 stars"
+                      ><i class="fas fa-star"></i
+                    ></label>
+                    <input type="radio" id="star4" name="rating" value="4" />
+                    <label for="star4" title="4 stars"
+                      ><i class="fas fa-star"></i
+                    ></label>
+                    <input type="radio" id="star3" name="rating" value="3" />
+                    <label for="star3" title="3 stars"
+                      ><i class="fas fa-star"></i
+                    ></label>
+                    <input type="radio" id="star2" name="rating" value="2" />
+                    <label for="star2" title="2 stars"
+                      ><i class="fas fa-star"></i
+                    ></label>
+                    <input type="radio" id="star1" name="rating" value="1" />
+                    <label for="star1" title="1 star"
+                      ><i class="fas fa-star"></i
+                    ></label>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="content" class="form-label">Your Review *</label>
+                <textarea
+                  class="form-control"
+                  id="content"
+                  name="content"
+                  rows="5"
+                  placeholder="Tell us about your experience with KJC Bricklaying..."
+                  required
+                ></textarea>
+                <div class="invalid-feedback">Please enter your review</div>
+              </div>
+              <div class="col-12">
+                <label for="client_image" class="form-label"
+                  >Your Photo (Optional)</label
+                >
+                <input
+                  type="file"
+                  class="form-control"
+                  id="client_image"
+                  name="client_image"
+                  accept="image/*"
+                />
+                <small class="text-muted"
+                  >Upload a photo to make your review more personal (max
+                  2MB)</small
+                >
+              </div>
+              <div class="col-12">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="consent"
+                    required
+                  />
+                  <label class="form-check-label" for="consent">
+                    I consent to having my review published on this website
+                  </label>
+                </div>
+              </div>
+              <div class="col-12">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-lg w-100"
+                  id="submitReview"
+                >
+                  <i class="fas fa-paper-plane me-2"></i>Submit Review
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div class="text-center mt-4">
+            <p class="text-muted small">
+              <i class="fas fa-shield-alt me-1"></i> Your review will be
+              reviewed before publishing
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Badges -->
+<section class="py-4 bg-primary text-light">
+  <div class="container">
+    <div class="row text-center g-4">
+      <div class="col-md-4" data-aos="fade-up">
+        <i class="fas fa-trophy fa-2x mb-2"></i>
+        <h6 class="mb-0">Award Winning Service</h6>
+        <small>Recognized for excellence</small>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <i class="fas fa-clock fa-2x mb-2"></i>
+        <h6 class="mb-0">10+ Years Experience</h6>
+        <small>Trusted since 2014</small>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <i class="fas fa-smile fa-2x mb-2"></i>
+        <h6 class="mb-0">100% Satisfaction</h6>
+        <small>Guaranteed quality work</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .page-header {
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--primary-dark)
+    );
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(5deg);
+    }
+  }
+
+  .rating-summary {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .overall-rating .rating-number {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .rating-stars i {
+    font-size: 1.2rem;
+    margin: 0 2px;
+  }
+
+  .testimonial-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    position: relative;
+    height: 100%;
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  }
+
+  .quote-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    color: rgba(192, 57, 43, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .testimonial-card:hover .quote-icon {
+    color: rgba(192, 57, 43, 0.2);
+    transform: scale(1.1);
+  }
+
+  .testimonial-rating i {
+    color: #ffc107;
+    font-size: 1rem;
+    margin-right: 2px;
+  }
+
+  .testimonial-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    font-style: italic;
+    margin: 1rem 0;
+  }
+
+  .testimonial-author {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+  }
+
+  .author-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .author-avatar i,
+  .author-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .author-avatar i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+  }
+
+  .author-name {
+    font-size: 1rem;
+    display: block;
+  }
+
+  .author-location,
+  .author-date {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 0.25rem;
+  }
+
+  .review-form-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .star-rating input {
+    display: none;
+  }
+
+  .star-rating label {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #ddd;
+    transition: all 0.3s ease;
+  }
+
+  .star-rating label:hover,
+  .star-rating label:hover ~ label,
+  .star-rating input:checked ~ label {
+    color: #ffc107;
+  }
+
+  .form-control {
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(192, 57, 43, 0.1);
+  }
+
+  textarea.form-control {
+    border-radius: 10px;
+  }
+
+  .empty-state {
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  @media (max-width: 768px) {
+    .review-form-card {
+      padding: 1.5rem;
+    }
+    .testimonial-card {
+      padding: 1.5rem;
+    }
+    .author-avatar i,
+    .author-avatar img {
+      width: 40px;
+      height: 40px;
+    }
+    .author-avatar i {
+      font-size: 2rem;
+    }
+    .rating-summary .overall-rating .rating-number {
+      font-size: 3rem;
+    }
+  }
+</style>
+
+<script>
+  // Handle review form submission
+  document
+    .getElementById("testimonialForm")
+    ?.addEventListener("submit", function (e) {
+      const submitBtn = document.getElementById("submitReview");
+      const originalText = submitBtn.innerHTML;
+
+      const ratingSelected = document.querySelector(
+        'input[name="rating"]:checked',
+      );
+      if (!ratingSelected) {
+        e.preventDefault();
+        alert("Please select a rating");
+        return;
+      }
+
+      submitBtn.innerHTML =
+        '<span class="spinner-border spinner-border-sm me-2"></span>Submitting...';
+      submitBtn.disabled = true;
+    });
+
+  // Auto-expand textarea
+  const textarea = document.querySelector("textarea");
+  if (textarea) {
+    textarea.addEventListener("input", function () {
+      this.style.height = "auto";
+      this.style.height = this.scrollHeight + "px";
+    });
+  }
+
+  // Animate rating bars on scroll
+  const observerOptions = { threshold: 0.5, rootMargin: "0px" };
+  const ratingObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const progressBars = document.querySelectorAll(".progress-bar");
+        progressBars.forEach((bar) => {
+          const width = bar.style.width;
+          bar.style.width = "0";
+          setTimeout(() => {
+            bar.style.width = width;
+          }, 100);
+        });
+        ratingObserver.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  const ratingSummary = document.querySelector(".rating-summary");
+  if (ratingSummary) {
+    ratingObserver.observe(ratingSummary);
+  }
+</script>
+{% endblock %}

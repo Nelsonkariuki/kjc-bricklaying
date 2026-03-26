@@ -1,0 +1,630 @@
+{% extends "base.html" %} {% block content %}
+<!-- Page Header -->
+<section class="page-header bg-primary text-light py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center" data-aos="fade-up">
+        <h1 class="display-4 fw-bold mb-3">Our Services</h1>
+        <p class="lead mb-0">
+          Comprehensive bricklaying solutions for every project
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Grid -->
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      {% for service in services %}
+      <div
+        class="col-md-6 col-lg-4"
+        data-aos="fade-up"
+        data-aos-delay="{{ loop.index * 100 }}"
+      >
+        <div class="service-card-enhanced h-100">
+          <div class="service-icon-wrapper">
+            <div class="service-icon-circle">
+              <i class="fas {{ service.icon }}"></i>
+            </div>
+          </div>
+          <h3 class="service-title">{{ service.title }}</h3>
+          <p class="service-description">{{ service.description }}</p>
+          <div class="service-features">
+            <div class="feature-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Free Consultation</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Quality Materials</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-check-circle"></i>
+              <span>Workmanship Guarantee</span>
+            </div>
+          </div>
+          <a
+            href="{{ url_for('contact') }}"
+            class="btn btn-primary btn-service"
+          >
+            Get a Quote <i class="fas fa-arrow-right ms-2"></i>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6" data-aos="fade-right">
+        <div class="section-header mb-4">
+          <span class="badge bg-primary mb-3">Why Choose Us</span>
+          <h2 class="display-5 fw-bold mb-3">The KJC Bricklaying Difference</h2>
+          <p class="lead text-muted">
+            Experience, quality, and dedication to every project
+          </p>
+        </div>
+
+        <div class="benefits-list">
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <div class="benefit-content">
+              <h5>10+ Years Experience</h5>
+              <p>
+                Over a decade of proven excellence in bricklaying across
+                Coventry and surrounding areas
+              </p>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="benefit-content">
+              <h5>Fully Insured</h5>
+              <p>
+                Complete peace of mind with comprehensive public liability
+                insurance up to £5 million
+              </p>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-calculator"></i>
+            </div>
+            <div class="benefit-content">
+              <h5>Free Estimates</h5>
+              <p>
+                No-obligation quotes with transparent, detailed pricing for
+                complete clarity
+              </p>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="benefit-content">
+              <h5>On-Time Delivery</h5>
+              <p>
+                We respect your time and always complete projects within agreed
+                deadlines
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6" data-aos="fade-left">
+        <div class="image-showcase">
+          <img
+            src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3"
+            alt="Professional bricklaying work"
+            class="img-fluid rounded-4 shadow-lg"
+          />
+          <div class="experience-badge">
+            <div class="experience-number">10+</div>
+            <div class="experience-text">Years of Excellence</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Our Process Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="section-header text-center mb-5" data-aos="fade-up">
+      <span class="badge bg-primary mb-3">How We Work</span>
+      <h2 class="display-5 fw-bold mb-3">Our Simple Process</h2>
+      <p class="lead text-muted">
+        From consultation to completion, we make it easy
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="0">
+        <div class="process-card">
+          <div class="process-number">01</div>
+          <div class="process-icon">
+            <i class="fas fa-comments"></i>
+          </div>
+          <h5>Free Consultation</h5>
+          <p>Discuss your project needs and get expert advice</p>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+        <div class="process-card">
+          <div class="process-number">02</div>
+          <div class="process-icon">
+            <i class="fas fa-file-alt"></i>
+          </div>
+          <h5>Detailed Quote</h5>
+          <p>Receive a transparent, itemized estimate</p>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+        <div class="process-card">
+          <div class="process-number">03</div>
+          <div class="process-icon">
+            <i class="fas fa-hard-hat"></i>
+          </div>
+          <h5>Quality Workmanship</h5>
+          <p>Expert execution with premium materials</p>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+        <div class="process-card">
+          <div class="process-number">04</div>
+          <div class="process-icon">
+            <i class="fas fa-smile"></i>
+          </div>
+          <h5>Complete Satisfaction</h5>
+          <p>Final walkthrough and quality guarantee</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Service Areas Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 order-lg-2" data-aos="fade-left">
+        <div class="section-header mb-4">
+          <span class="badge bg-primary mb-3">Coverage Area</span>
+          <h2 class="display-5 fw-bold mb-3">Areas We Serve</h2>
+          <p class="lead text-muted">
+            Proudly serving Coventry and surrounding communities
+          </p>
+        </div>
+        <div class="service-areas-grid">
+          <div class="area-item">
+            <i class="fas fa-map-marker-alt text-primary"></i>
+            <span>Coventry City Centre</span>
+          </div>
+          <div class="area-item">
+            <i class="fas fa-map-marker-alt text-primary"></i>
+            <span>Nuneaton</span>
+          </div>
+          <div class="area-item">
+            <i class="fas fa-map-marker-alt text-primary"></i>
+            <span>Rugby</span>
+          </div>
+          <div class="area-item">
+            <i class="fas fa-map-marker-alt text-primary"></i>
+            <span>Leamington Spa</span>
+          </div>
+          <div class="area-item">
+            <i class="fas fa-map-marker-alt text-primary"></i>
+            <span>Kenilworth</span>
+          </div>
+          <div class="area-item">
+            <i class="fas fa-map-marker-alt text-primary"></i>
+            <span>Warwick</span>
+          </div>
+          <div class="area-item">
+            <i class="fas fa-map-marker-alt text-primary"></i>
+            <span>Bedworth</span>
+          </div>
+          <div class="area-item">
+            <i class="fas fa-map-marker-alt text-primary"></i>
+            <span>Solihull</span>
+          </div>
+        </div>
+        <div class="mt-4">
+          <p class="text-muted">
+            <i class="fas fa-question-circle me-2"></i>
+            Don't see your area? Contact us to check if we cover your location!
+          </p>
+        </div>
+      </div>
+      <div class="col-lg-6 order-lg-1" data-aos="fade-right">
+        <div class="map-placeholder">
+          <img
+            src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?ixlib=rb-4.0.3"
+            alt="Coventry area map"
+            class="img-fluid rounded-4 shadow-lg"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-light">
+  <div class="container text-center" data-aos="zoom-in">
+    <h2 class="display-5 fw-bold mb-4">Ready to Transform Your Property?</h2>
+    <p class="lead mb-4">Contact us today for a free consultation and quote</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg px-5">
+        <i class="fas fa-calendar-check me-2"></i>Book Consultation
+      </a>
+      <a href="tel:+447700000000" class="btn btn-outline-light btn-lg px-5">
+        <i class="fas fa-phone-alt me-2"></i>Call Now
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Page Header */
+  .page-header {
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--primary-dark)
+    );
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(5deg);
+    }
+  }
+
+  /* Enhanced Service Cards */
+  .service-card-enhanced {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card-enhanced::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(
+      90deg,
+      var(--primary-color),
+      var(--accent-color)
+    );
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .service-card-enhanced:hover::before {
+    transform: scaleX(1);
+  }
+
+  .service-card-enhanced:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .service-icon-wrapper {
+    margin-bottom: 1.5rem;
+  }
+
+  .service-icon-circle {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--primary-dark)
+    );
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+  }
+
+  .service-card-enhanced:hover .service-icon-circle {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .service-icon-circle i {
+    font-size: 2.5rem;
+    color: white;
+  }
+
+  .service-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .service-description {
+    color: var(--gray-color);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .service-features {
+    margin: 1.5rem 0;
+    text-align: left;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .feature-item i {
+    color: var(--primary-color);
+    font-size: 0.9rem;
+  }
+
+  .btn-service {
+    width: 100%;
+    border-radius: 50px;
+    padding: 0.75rem;
+  }
+
+  /* Benefits List */
+  .benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .benefit-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .benefit-item:hover {
+    transform: translateX(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .benefit-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--primary-dark)
+    );
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .benefit-icon i {
+    font-size: 1.5rem;
+    color: white;
+  }
+
+  .benefit-content h5 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .benefit-content p {
+    color: var(--gray-color);
+    margin-bottom: 0;
+    font-size: 0.9rem;
+  }
+
+  /* Image Showcase */
+  .image-showcase {
+    position: relative;
+  }
+
+  .experience-badge {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    background: white;
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  .experience-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    line-height: 1;
+  }
+
+  .experience-text {
+    font-size: 0.8rem;
+    color: var(--gray-color);
+  }
+
+  /* Process Cards */
+  .process-card {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .process-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .process-number {
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    width: 35px;
+    height: 35px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  .process-icon {
+    width: 70px;
+    height: 70px;
+    background: rgba(192, 57, 43, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+  }
+
+  .process-icon i {
+    font-size: 2rem;
+    color: var(--primary-color);
+  }
+
+  .process-card h5 {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .process-card p {
+    color: var(--gray-color);
+    font-size: 0.9rem;
+    margin-bottom: 0;
+  }
+
+  /* Service Areas Grid */
+  .service-areas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .area-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .area-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .area-item i {
+    font-size: 1.1rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .service-icon-circle {
+      width: 60px;
+      height: 60px;
+    }
+
+    .service-icon-circle i {
+      font-size: 1.8rem;
+    }
+
+    .benefit-item {
+      padding: 0.75rem;
+    }
+
+    .process-card {
+      padding: 1.5rem;
+    }
+
+    .service-areas-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .experience-badge {
+      bottom: -10px;
+      right: -10px;
+      padding: 0.75rem;
+    }
+
+    .experience-number {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,874 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="KJC Bricklaying - Professional landscaping, fencing, groundworks, and bricklaying services in Coventry. Over 10 years of experience, quality workmanship guaranteed."
+    />
+    <meta
+      name="keywords"
+      content="landscaping coventry, fencing contractors, groundworks, land drainage, plant hire, aggregate delivery, bricklayer coventry"
+    />
+    <meta name="author" content="KJC Bricklaying" />
+    <meta name="robots" content="index, follow" />
+    <title>
+      {% block title %}KJC | Professional Landscaping & Construction Services in
+      Coventry{% endblock %}
+    </title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <link
+      href="{{ url_for('static', filename='css/style.css') }}"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* Root Variables - Orange/Black Theme */
+      :root {
+        --primary-color: #f39c12;
+        --primary-dark: #e67e22;
+        --primary-light: #f1c40f;
+        --secondary-color: #2c3e50;
+        --accent-color: #f39c12;
+        --dark-color: #1a1a2e;
+        --light-color: #f8f9fa;
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Navigation Styles */
+      .navbar {
+        background: rgba(26, 26, 46, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 0;
+        transition: var(--transition);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .navbar.scrolled {
+        padding: 0.5rem 0;
+        background: rgba(26, 26, 46, 0.98);
+      }
+
+      .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.8rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        transition: var(--transition);
+      }
+
+      .navbar-brand img {
+        height: 55px;
+        width: auto;
+        transition: var(--transition);
+      }
+
+      .navbar.scrolled .navbar-brand img {
+        height: 45px;
+      }
+
+      .navbar-brand i {
+        color: var(--primary-color);
+        margin-right: 8px;
+        font-size: 2rem;
+      }
+
+      .navbar-brand span {
+        background: linear-gradient(135deg, #fff, var(--primary-light));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-size: 1.6rem;
+      }
+
+      .nav-link {
+        position: relative;
+        font-weight: 500;
+        margin: 0 5px;
+        padding: 0.5rem 1rem;
+        transition: var(--transition);
+        font-size: 1rem;
+      }
+
+      .nav-link i {
+        font-size: 0.9rem;
+        transition: transform 0.3s ease;
+      }
+
+      .nav-link:hover i {
+        transform: translateY(-2px);
+      }
+
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        transition: var(--transition);
+        transform: translateX(-50%);
+      }
+
+      .nav-link:hover::after,
+      .nav-link.active::after {
+        width: 80%;
+      }
+
+      /* Flash Messages */
+      .flash-messages {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        left: auto;
+        z-index: 9999;
+        max-width: 400px;
+        width: 100%;
+      }
+
+      .flash-messages .alert {
+        animation: slideInRight 0.3s ease-out;
+        margin-bottom: 10px;
+        border-left: 4px solid;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Footer Styles */
+      .footer {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--accent-color),
+          var(--primary-color)
+        );
+        animation: gradientShift 3s ease infinite;
+      }
+
+      @keyframes gradientShift {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      .footer-widget {
+        margin-bottom: 1.5rem;
+      }
+
+      .footer-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .footer-title img {
+        height: 35px;
+        width: auto;
+      }
+
+      .footer-title::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 40px;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        border-radius: 3px;
+      }
+
+      .footer-text {
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+
+      /* Social Links */
+      .social-links {
+        display: flex;
+        gap: 10px;
+      }
+
+      .social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        color: #fff;
+        transition: var(--transition);
+      }
+
+      .social-link:hover {
+        background: var(--primary-color);
+        transform: translateY(-3px);
+        color: #fff;
+      }
+
+      /* Footer Links */
+      .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .footer-links li {
+        margin-bottom: 0.75rem;
+      }
+
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: var(--transition);
+        display: inline-block;
+      }
+
+      .footer-links a i {
+        font-size: 0.7rem;
+        transition: transform 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: var(--primary-color);
+        transform: translateX(5px);
+      }
+
+      .footer-links a:hover i {
+        transform: translateX(3px);
+      }
+
+      /* Contact Info */
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .contact-item {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+
+      .contact-item i {
+        font-size: 1.2rem;
+        color: var(--primary-color);
+        margin-top: 0.25rem;
+      }
+
+      .contact-item a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .contact-item a:hover {
+        color: var(--primary-color);
+      }
+
+      /* Footer Bottom */
+      .footer-bottom {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.9rem;
+      }
+
+      /* Back to Top Button */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+        z-index: 1000;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      .back-to-top.show {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .back-to-top:hover {
+        background: var(--primary-dark);
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Carousel Styles */
+      .carousel {
+        position: relative;
+      }
+
+      .carousel-inner {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .carousel-item {
+        position: relative;
+        display: none;
+        float: left;
+        width: 100%;
+        margin-right: -100%;
+        backface-visibility: hidden;
+        transition: transform 0.6s ease-in-out;
+      }
+
+      .carousel-item.active,
+      .carousel-item-next,
+      .carousel-item-prev {
+        display: block;
+      }
+
+      .carousel-item-next:not(.carousel-item-start),
+      .active.carousel-item-end {
+        transform: translateX(100%);
+      }
+
+      .carousel-item-prev:not(.carousel-item-end),
+      .active.carousel-item-start {
+        transform: translateX(-100%);
+      }
+
+      .carousel-fade .carousel-item {
+        opacity: 0;
+        transition-property: opacity;
+        transform: none;
+      }
+
+      .carousel-fade .carousel-item.active,
+      .carousel-fade .carousel-item-next.carousel-item-start,
+      .carousel-fade .carousel-item-prev.carousel-item-end {
+        z-index: 1;
+        opacity: 1;
+      }
+
+      .carousel-fade .active.carousel-item-start,
+      .carousel-fade .active.carousel-item-end {
+        z-index: 0;
+        opacity: 0;
+        transition: opacity 0s 0.6s;
+      }
+
+      .carousel-control-prev,
+      .carousel-control-next {
+        transition: opacity 0.3s ease;
+      }
+
+      .carousel-indicators [data-bs-target] {
+        transition: all 0.3s ease;
+      }
+
+      .carousel-item {
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+      }
+
+      .carousel-item img {
+        will-change: transform;
+        transform: translateZ(0);
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .navbar-brand {
+          font-size: 1.5rem;
+        }
+        .navbar-brand img {
+          height: 45px;
+        }
+        .navbar-brand span {
+          font-size: 1.3rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .flash-messages {
+          top: 70px;
+          right: 10px;
+          left: 10px;
+          max-width: none;
+        }
+
+        .back-to-top {
+          bottom: 20px;
+          right: 20px;
+          width: 40px;
+          height: 40px;
+        }
+
+        .footer-widget {
+          text-align: center;
+        }
+
+        .footer-title::after {
+          left: 50%;
+          transform: translateX(-50%);
+        }
+
+        .social-links {
+          justify-content: center;
+        }
+
+        .contact-item {
+          justify-content: center;
+        }
+
+        .navbar-brand img {
+          height: 40px;
+        }
+
+        .navbar-brand span {
+          font-size: 1.2rem;
+        }
+
+        .navbar-brand {
+          font-size: 1.3rem;
+        }
+      }
+
+      /* Loading Animation */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      main {
+        animation: fadeIn 0.5s ease-out;
+      }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+          <!-- Logo Image - Place your logo file in static/images/logo.png -->
+          <img
+            src="{{ url_for('static', filename='images/logo.png') }}"
+            alt="KJC Logo"
+            onerror="
+              this.style.display = 'none';
+              this.nextElementSibling.style.display = 'flex';
+            "
+          />
+          <i class="fas fa-brick" style="display: none"></i>
+          <span>KJC</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('index') }}">
+                <i class="fas fa-home me-1"></i>Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('services_page') }}">
+                <i class="fas fa-tools me-1"></i>Services
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('portfolio') }}">
+                <i class="fas fa-images me-1"></i>Portfolio
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('testimonials_page') }}">
+                <i class="fas fa-star me-1"></i>Testimonials
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('contact') }}">
+                <i class="fas fa-envelope me-1"></i>Contact
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+      <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div
+          class="alert alert-{{ category }} alert-dismissible fade show shadow-sm"
+          role="alert"
+        >
+          <i
+            class="fas fa-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-circle{% else %}info-circle{% endif %} me-2"
+          ></i>
+          {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>{% block content %}{% endblock %}</main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row g-4">
+          <!-- Company Info -->
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-widget">
+              <h5 class="footer-title">
+                <img
+                  src="{{ url_for('static', filename='images/logo-white.png') }}"
+                  alt="KJC Logo"
+                  onerror="
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'inline-block';
+                  "
+                />
+                <i class="fas fa-brick" style="display: none"></i>
+                <span>KJC</span>
+              </h5>
+              <p class="footer-text">
+                Professional landscaping, fencing, groundworks, and construction
+                services in Coventry and surrounding areas. Quality workmanship
+                guaranteed with over 10 years of experience.
+              </p>
+              <div class="social-links mt-3">
+                <a href="#" class="social-link" aria-label="Facebook">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Twitter">
+                  <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Instagram">
+                  <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="LinkedIn">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="col-lg-2 col-md-6">
+            <div class="footer-widget">
+              <h5 class="footer-title">Quick Links</h5>
+              <ul class="footer-links">
+                <li>
+                  <a href="{{ url_for('index') }}"
+                    ><i class="fas fa-chevron-right me-2"></i>Home</a
+                  >
+                </li>
+                <li>
+                  <a href="{{ url_for('services_page') }}"
+                    ><i class="fas fa-chevron-right me-2"></i>Services</a
+                  >
+                </li>
+                <li>
+                  <a href="{{ url_for('portfolio') }}"
+                    ><i class="fas fa-chevron-right me-2"></i>Portfolio</a
+                  >
+                </li>
+                <li>
+                  <a href="{{ url_for('testimonials_page') }}"
+                    ><i class="fas fa-chevron-right me-2"></i>Testimonials</a
+                  >
+                </li>
+                <li>
+                  <a href="{{ url_for('contact') }}"
+                    ><i class="fas fa-chevron-right me-2"></i>Contact</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Services -->
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-widget">
+              <h5 class="footer-title">Our Services</h5>
+              <ul class="footer-links">
+                <li>
+                  <a href="{{ url_for('services_page') }}">Landscaping</a>
+                </li>
+                <li><a href="{{ url_for('services_page') }}">Fencing</a></li>
+                <li>
+                  <a href="{{ url_for('services_page') }}">Groundworks</a>
+                </li>
+                <li>
+                  <a href="{{ url_for('services_page') }}">Land Drainage</a>
+                </li>
+                <li>
+                  <a href="{{ url_for('services_page') }}"
+                    >Plant with Operator</a
+                  >
+                </li>
+                <li>
+                  <a href="{{ url_for('services_page') }}"
+                    >Aggregate Delivery</a
+                  >
+                </li>
+                <li>
+                  <a href="{{ url_for('services_page') }}">Bricklaying</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-widget">
+              <h5 class="footer-title">Contact Info</h5>
+              <div class="contact-info">
+                <div class="contact-item">
+                  <i class="fas fa-phone-alt"></i>
+                  <div>
+                    <strong>Phone</strong><br />
+                    <a href="tel:+447700000000">07700 000000</a>
+                  </div>
+                </div>
+                <div class="contact-item">
+                  <i class="fas fa-envelope"></i>
+                  <div>
+                    <strong>Email</strong><br />
+                    <a href="mailto:info@kjcbricklaying.com"
+                      >info@kjcbricklaying.com</a
+                    >
+                  </div>
+                </div>
+                <div class="contact-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div>
+                    <strong>Location</strong><br />
+                    Coventry, West Midlands
+                  </div>
+                </div>
+                <div class="contact-item">
+                  <i class="fas fa-clock"></i>
+                  <div>
+                    <strong>Business Hours</strong><br />
+                    Mon-Fri: 7:00 AM - 5:00 PM<br />
+                    Sat: 8:00 AM - 1:00 PM
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+          <div class="row align-items-center">
+            <div class="col-md-6 text-center text-md-start">
+              <p class="mb-0">
+                &copy; {{ now.year if now else 2024 }} KJC. All rights reserved.
+              </p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+              <p class="mb-0">
+                Built with <i class="fas fa-heart text-danger"></i> in Coventry
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" aria-label="Back to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+      // Initialize AOS
+      AOS.init({
+        duration: 800,
+        once: true,
+        offset: 100,
+        easing: "ease-out-quad",
+      });
+
+      // Navbar scroll effect
+      window.addEventListener("scroll", () => {
+        const navbar = document.querySelector(".navbar");
+        if (window.pageYOffset > 50) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+
+      // Back to top button functionality
+      const backToTopBtn = document.querySelector(".back-to-top");
+      if (backToTopBtn) {
+        window.addEventListener("scroll", () => {
+          if (window.pageYOffset > 300) {
+            backToTopBtn.classList.add("show");
+          } else {
+            backToTopBtn.classList.remove("show");
+          }
+        });
+
+        backToTopBtn.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+
+      // Active nav link highlighting
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+      navLinks.forEach((link) => {
+        const href = link.getAttribute("href");
+        if (href === currentPath || (currentPath === "/" && href === "/")) {
+          link.classList.add("active");
+        }
+      });
+
+      // Smooth carousel initialization with no flicker
+      document.addEventListener("DOMContentLoaded", function () {
+        const carousels = document.querySelectorAll(".carousel");
+        carousels.forEach((carousel) => {
+          carousel.style.visibility = "visible";
+          const images = carousel.querySelectorAll("img");
+          images.forEach((img) => {
+            if (img.complete) {
+              img.classList.add("loaded");
+            } else {
+              img.addEventListener("load", function () {
+                this.classList.add("loaded");
+              });
+            }
+          });
+        });
+      });
+
+      // Fix for logo fallback
+      const logoImages = document.querySelectorAll(
+        ".navbar-brand img, .footer-title img",
+      );
+      logoImages.forEach((img) => {
+        img.addEventListener("error", function () {
+          this.style.display = "none";
+          const fallbackIcon = this.nextElementSibling;
+          if (fallbackIcon && fallbackIcon.classList.contains("fa-brick")) {
+            fallbackIcon.style.display = "inline-block";
+          }
+        });
+      });
+    </script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

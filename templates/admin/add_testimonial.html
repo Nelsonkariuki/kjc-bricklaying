@@ -1,0 +1,503 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Page Header -->
+            <div class="mb-4" data-aos="fade-up">
+                <h1 class="display-5 fw-bold mb-2">
+                    <i class="fas fa-star text-warning me-2"></i>Add Testimonial
+                </h1>
+                <p class="text-muted">Share positive feedback from your satisfied clients</p>
+            </div>
+            
+            <!-- Form Card -->
+            <div class="card border-0 shadow-lg rounded-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-header bg-gradient-primary text-white rounded-top-4 py-3">
+                    <h4 class="mb-0">
+                        <i class="fas fa-pen-fancy me-2"></i>Client Feedback
+                    </h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" id="testimonialForm" novalidate>
+                        <!-- Client Information -->
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="client_name" class="form-label fw-semibold">
+                                    <i class="fas fa-user text-primary me-1"></i>Client Name *
+                                </label>
+                                <input type="text" 
+                                       class="form-control form-control-lg" 
+                                       id="client_name" 
+                                       name="client_name" 
+                                       placeholder="e.g., John Smith"
+                                       required>
+                                <div class="invalid-feedback">Please enter client name</div>
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <label for="client_location" class="form-label fw-semibold">
+                                    <i class="fas fa-map-marker-alt text-primary me-1"></i>Location
+                                </label>
+                                <input type="text" 
+                                       class="form-control form-control-lg" 
+                                       id="client_location" 
+                                       name="client_location" 
+                                       placeholder="e.g., Coventry">
+                                <small class="text-muted">City or area where the client is based</small>
+                            </div>
+                        </div>
+                        
+                        <!-- Rating Selection -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                <i class="fas fa-star text-warning me-1"></i>Rating *
+                            </label>
+                            <div class="rating-input-wrapper">
+                                <div class="star-rating-large">
+                                    <div class="rating-stars">
+                                        <input type="radio" id="star5" name="rating" value="5" checked>
+                                        <label for="star5" title="5 Stars - Excellent"><i class="fas fa-star"></i></label>
+                                        <input type="radio" id="star4" name="rating" value="4">
+                                        <label for="star4" title="4 Stars - Very Good"><i class="fas fa-star"></i></label>
+                                        <input type="radio" id="star3" name="rating" value="3">
+                                        <label for="star3" title="3 Stars - Good"><i class="fas fa-star"></i></label>
+                                        <input type="radio" id="star2" name="rating" value="2">
+                                        <label for="star2" title="2 Stars - Fair"><i class="fas fa-star"></i></label>
+                                        <input type="radio" id="star1" name="rating" value="1">
+                                        <label for="star1" title="1 Star - Poor"><i class="fas fa-star"></i></label>
+                                    </div>
+                                    <div class="rating-label mt-2" id="ratingLabel">5 Stars - Excellent</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Testimonial Content -->
+                        <div class="mb-4">
+                            <label for="content" class="form-label fw-semibold">
+                                <i class="fas fa-quote-left text-primary me-1"></i>Testimonial *
+                            </label>
+                            <textarea class="form-control" 
+                                      id="content" 
+                                      name="content" 
+                                      rows="5" 
+                                      placeholder="Write what the client said about your work..."
+                                      required></textarea>
+                            <div class="invalid-feedback">Please enter the testimonial content</div>
+                            <small class="text-muted">Use the client's actual words for authenticity</small>
+                        </div>
+                        
+                        <!-- Live Preview Section -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                <i class="fas fa-eye text-primary me-1"></i>Live Preview
+                            </label>
+                            <div class="preview-card" id="previewCard">
+                                <div class="preview-content">
+                                    <div class="preview-rating mb-2" id="previewRating">
+                                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                    </div>
+                                    <p class="preview-text" id="previewText">
+                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore."
+                                    </p>
+                                    <div class="preview-author">
+                                        <div class="preview-avatar">
+                                            <i class="fas fa-user-circle"></i>
+                                        </div>
+                                        <div class="preview-details">
+                                            <strong id="previewName">Client Name</strong>
+                                            <div class="preview-location" id="previewLocation"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Additional Options -->
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="approved" name="approved" checked style="cursor: pointer;">
+                                <label class="form-check-label fw-semibold" for="approved" style="cursor: pointer;">
+                                    <i class="fas fa-check-circle text-success me-1"></i>Publish Immediately
+                                </label>
+                                <div class="text-muted small mt-1">If unchecked, testimonial will be saved as draft</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Form Actions -->
+                        <div class="d-flex gap-3 pt-3">
+                            <button type="submit" class="btn btn-primary btn-lg flex-grow-1" id="submitBtn">
+                                <i class="fas fa-save me-2"></i>Save Testimonial
+                            </button>
+                            <a href="{{ url_for('testimonials_page') }}" class="btn btn-outline-secondary btn-lg px-4">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Help Tips -->
+            <div class="mt-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="alert alert-info border-0 rounded-3">
+                    <i class="fas fa-lightbulb me-2"></i>
+                    <strong>Tips for Great Testimonials:</strong>
+                    <ul class="mb-0 mt-2">
+                        <li>Use the client's actual words and include specific details about the project</li>
+                        <li>Mention the type of work done (extension, garden wall, repointing, etc.)</li>
+                        <li>Include the client's location to show your service area</li>
+                        <li>Ask for permission before publishing client feedback</li>
+                        <li>Photos of the completed work alongside testimonials are even more powerful</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Gradient Header */
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+    }
+    
+    /* Rounded corners */
+    .rounded-4 {
+        border-radius: 1rem !important;
+    }
+    
+    .rounded-top-4 {
+        border-radius: 1rem 1rem 0 0 !important;
+    }
+    
+    /* Form Controls */
+    .form-control, .form-select {
+        border-radius: 0.75rem;
+        border: 2px solid #e0e0e0;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(192, 57, 43, 0.1);
+    }
+    
+    .form-control-lg {
+        font-size: 1.1rem;
+    }
+    
+    /* Star Rating Large */
+    .star-rating-large {
+        text-align: center;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 1rem;
+    }
+    
+    .rating-stars {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .rating-stars input {
+        display: none;
+    }
+    
+    .rating-stars label {
+        cursor: pointer;
+        font-size: 2.5rem;
+        color: #ddd;
+        transition: all 0.3s ease;
+    }
+    
+    .rating-stars label:hover,
+    .rating-stars label:hover ~ label,
+    .rating-stars input:checked ~ label {
+        color: #ffc107;
+        transform: scale(1.1);
+    }
+    
+    .rating-label {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--primary-color);
+    }
+    
+    /* Live Preview Card */
+    .preview-card {
+        background: linear-gradient(135deg, #f8f9fa, #ffffff);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+    }
+    
+    .preview-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    
+    .preview-rating i {
+        color: #ffc107;
+        font-size: 1.1rem;
+        margin-right: 2px;
+    }
+    
+    .preview-text {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #555;
+        font-style: italic;
+        margin: 1rem 0;
+    }
+    
+    .preview-author {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e0e0e0;
+    }
+    
+    .preview-avatar i {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+    }
+    
+    .preview-details strong {
+        font-size: 1rem;
+        display: block;
+    }
+    
+    .preview-location {
+        font-size: 0.8rem;
+        color: #888;
+        margin-top: 0.25rem;
+    }
+    
+    /* Switch Styling */
+    .form-switch .form-check-input {
+        width: 3rem;
+        height: 1.5rem;
+        cursor: pointer;
+    }
+    
+    .form-switch .form-check-input:checked {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    
+    /* Alert Styling */
+    .alert-info {
+        background: linear-gradient(135deg, #e3f2fd, #bbdef5);
+        border: none;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .card-body {
+            padding: 1.5rem !important;
+        }
+        
+        .btn-lg {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
+        
+        .rating-stars label {
+            font-size: 1.8rem;
+        }
+        
+        .preview-avatar i {
+            font-size: 2rem;
+        }
+    }
+    
+    /* Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .preview-card {
+        animation: fadeIn 0.3s ease-out;
+    }
+</style>
+
+<script>
+    // Live preview functionality
+    const clientNameInput = document.getElementById('client_name');
+    const clientLocationInput = document.getElementById('client_location');
+    const contentTextarea = document.getElementById('content');
+    const ratingInputs = document.querySelectorAll('input[name="rating"]');
+    const ratingLabel = document.getElementById('ratingLabel');
+    
+    const previewName = document.getElementById('previewName');
+    const previewLocation = document.getElementById('previewLocation');
+    const previewText = document.getElementById('previewText');
+    const previewRating = document.getElementById('previewRating');
+    
+    // Update preview in real-time
+    clientNameInput.addEventListener('input', function() {
+        previewName.textContent = this.value || 'Client Name';
+    });
+    
+    clientLocationInput.addEventListener('input', function() {
+        if (this.value) {
+            previewLocation.innerHTML = `<i class="fas fa-map-marker-alt fa-xs me-1"></i>${this.value}`;
+        } else {
+            previewLocation.innerHTML = '';
+        }
+    });
+    
+    contentTextarea.addEventListener('input', function() {
+        previewText.textContent = this.value ? `"${this.value}"` : '"Your testimonial will appear here..."';
+    });
+    
+    // Update rating preview
+    function updateRating(value) {
+        const stars = parseInt(value);
+        let ratingHtml = '';
+        
+        for (let i = 1; i <= 5; i++) {
+            if (i <= stars) {
+                ratingHtml += '<i class="fas fa-star"></i>';
+            } else {
+                ratingHtml += '<i class="far fa-star"></i>';
+            }
+        }
+        
+        previewRating.innerHTML = ratingHtml;
+        
+        // Update rating label
+        const ratingTexts = {
+            5: '5 Stars - Excellent',
+            4: '4 Stars - Very Good',
+            3: '3 Stars - Good',
+            2: '2 Stars - Fair',
+            1: '1 Star - Poor'
+        };
+        ratingLabel.textContent = ratingTexts[stars] || '5 Stars - Excellent';
+    }
+    
+    ratingInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            if (this.checked) {
+                updateRating(this.value);
+            }
+        });
+    });
+    
+    // Initialize with default rating (5 stars)
+    updateRating(5);
+    
+    // Form validation and submission
+    const form = document.getElementById('testimonialForm');
+    form.addEventListener('submit', function(e) {
+        const clientName = clientNameInput.value.trim();
+        const content = contentTextarea.value.trim();
+        
+        if (!clientName) {
+            e.preventDefault();
+            alert('Please enter the client name');
+            clientNameInput.focus();
+            return;
+        }
+        
+        if (!content) {
+            e.preventDefault();
+            alert('Please enter the testimonial content');
+            contentTextarea.focus();
+            return;
+        }
+        
+        // Show loading state
+        const submitBtn = document.getElementById('submitBtn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+        submitBtn.disabled = true;
+        
+        // Form will submit normally, but we show loading state
+        setTimeout(() => {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }, 2000);
+    });
+    
+    // Auto-expand textarea
+    const textarea = document.getElementById('content');
+    if (textarea) {
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+        });
+    }
+    
+    // Sample testimonial suggestions
+    const sampleSuggestions = [
+        "Karol did an amazing job on our extension. Professional, punctual, and quality workmanship. Would highly recommend!",
+        "Very pleased with the garden wall. Karol was reliable, clean, and the work exceeded our expectations.",
+        "Excellent service from start to finish. The chimney repair was done perfectly and at a fair price.",
+        "Professional, trustworthy, and skilled. Our new driveway looks fantastic. Thank you!"
+    ];
+    
+    // Add suggestion buttons
+    const helpText = document.createElement('div');
+    helpText.className = 'mt-2';
+    helpText.innerHTML = `
+        <small class="text-muted">
+            <i class="fas fa-lightbulb me-1"></i>
+            Sample testimonials:
+            ${sampleSuggestions.map((text, i) => `
+                <a href="#" class="sample-text-link" data-text="${text.replace(/"/g, '&quot;')}">Sample ${i+1}</a>
+            `).join(' | ')}
+        </small>
+    `;
+    contentTextarea.parentNode.appendChild(helpText);
+    
+    // Handle sample text links
+    document.querySelectorAll('.sample-text-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const text = this.getAttribute('data-text');
+            contentTextarea.value = text;
+            previewText.textContent = `"${text}"`;
+            // Trigger auto-expand
+            contentTextarea.style.height = 'auto';
+            contentTextarea.style.height = Math.min(contentTextarea.scrollHeight, 200) + 'px';
+        });
+    });
+    
+    // Character counter
+    const charCounter = document.createElement('div');
+    charCounter.className = 'text-muted small mt-1';
+    charCounter.innerHTML = '<i class="fas fa-text-size me-1"></i><span id="charCount">0</span> characters';
+    contentTextarea.parentNode.appendChild(charCounter);
+    
+    const charCountSpan = document.getElementById('charCount');
+    contentTextarea.addEventListener('input', function() {
+        const count = this.value.length;
+        charCountSpan.textContent = count;
+        if (count > 500) {
+            charCountSpan.style.color = '#dc3545';
+        } else if (count > 300) {
+            charCountSpan.style.color = '#ffc107';
+        } else {
+            charCountSpan.style.color = '#6c757d';
+        }
+    });
+    
+    // Trigger initial character count
+    contentTextarea.dispatchEvent(new Event('input'));
+</script>
+{% endblock %}

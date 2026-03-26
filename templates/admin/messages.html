@@ -1,0 +1,669 @@
+{% extends "base.html" %} {% block content %}
+<div class="container-fluid py-4">
+  <!-- Page Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div
+        class="page-header-modern bg-gradient-primary text-white p-4 rounded-4 shadow-lg"
+      >
+        <div
+          class="d-flex justify-content-between align-items-center flex-wrap gap-3"
+        >
+          <div>
+            <h1 class="display-6 fw-bold mb-2">
+              <i class="fas fa-envelope me-2"></i>Contact Messages
+            </h1>
+            <p class="mb-0 opacity-75">
+              Manage and respond to customer inquiries
+            </p>
+          </div>
+          <div>
+            <a
+              href="{{ url_for('admin_dashboard') }}"
+              class="btn btn-light btn-lg"
+            >
+              <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if messages and messages|length > 0 %}
+  <!-- Stats Cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-3">
+      <div class="stat-card-mini">
+        <div class="stat-icon bg-primary bg-opacity-10">
+          <i class="fas fa-envelope text-primary"></i>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-number">{{ messages|length }}</h3>
+          <p class="stat-label">Total Messages</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card-mini">
+        <div class="stat-icon bg-warning bg-opacity-10">
+          <i class="fas fa-clock text-warning"></i>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-number">
+            {{ messages|selectattr('read', 'equalto', false)|list|length }}
+          </h3>
+          <p class="stat-label">Unread</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card-mini">
+        <div class="stat-icon bg-success bg-opacity-10">
+          <i class="fas fa-check-circle text-success"></i>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-number">
+            {{ messages|selectattr('read', 'equalto', true)|list|length }}
+          </h3>
+          <p class="stat-label">Read</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="stat-card-mini">
+        <div class="stat-icon bg-info bg-opacity-10">
+          <i class="fas fa-chart-line text-info"></i>
+        </div>
+        <div class="stat-info">
+          <h3 class="stat-number">
+            {{ messages|map(attribute='service_type')|select('!=',
+            '')|unique|list|length }}
+          </h3>
+          <p class="stat-label">Service Types</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Filter Bar -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="filter-card p-3 rounded-4 shadow-sm bg-white">
+        <div class="row g-3">
+          <div class="col-md-5">
+            <div class="input-group">
+              <span class="input-group-text bg-light">
+                <i class="fas fa-search"></i>
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                id="searchMessages"
+                placeholder="Search by name, email, or message..."
+              />
+            </div>
+          </div>
+          <div class="col-md-3">
+            <select class="form-select" id="filterStatus">
+              <option value="all">All Messages</option>
+              <option value="unread">Unread Only</option>
+              <option value="read">Read Only</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select class="form-select" id="filterService">
+              <option value="all">All Services</option>
+              {% set services =
+              messages|map(attribute='service_type')|select('!=',
+              '')|unique|list %} {% for service in services if service %}
+              <option value="{{ service }}">{{ service }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-outline-secondary w-100" id="clearFilters">
+              <i class="fas fa-times me-2"></i>Clear Filters
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Messages List -->
+  <div class="row">
+    <div class="col-12">
+      <div class="messages-container">
+        {% for message in messages %}
+        <div
+          class="message-card {% if not message.read %}unread{% endif %}"
+          data-id="{{ message.id }}"
+          data-name="{{ message.name|lower }}"
+          data-email="{{ message.email|lower }}"
+          data-message="{{ message.message|lower }}"
+          data-status="{% if message.read %}read{% else %}unread{% endif %}"
+          data-service="{{ message.service_type or 'General' }}"
+        >
+          <div class="message-header">
+            <div class="message-sender">
+              <div class="sender-avatar">
+                <i class="fas fa-user-circle"></i>
+              </div>
+              <div class="sender-info">
+                <h6 class="mb-0">
+                  {{ message.name }} {% if not message.read %}
+                  <span class="badge bg-danger ms-2">New</span>
+                  {% endif %}
+                </h6>
+                <small class="text-muted">
+                  <i class="fas fa-envelope me-1"></i>{{ message.email }} {% if
+                  message.phone %}
+                  <span class="ms-2"
+                    ><i class="fas fa-phone me-1"></i>{{ message.phone }}</span
+                  >
+                  {% endif %}
+                </small>
+              </div>
+            </div>
+            <div class="message-meta">
+              <small class="text-muted">
+                <i class="far fa-calendar-alt me-1"></i>{{
+                message.date.strftime('%d %b %Y, %H:%M') }}
+              </small>
+              <div class="message-actions">
+                <button
+                  class="btn btn-sm btn-outline-primary view-message"
+                  data-id="{{ message.id }}"
+                  data-name="{{ message.name }}"
+                  data-email="{{ message.email }}"
+                  data-phone="{{ message.phone or 'Not provided' }}"
+                  data-service="{{ message.service_type or 'Not specified' }}"
+                  data-message="{{ message.message }}"
+                  data-date="{{ message.date.strftime('%d %B %Y at %H:%M') }}"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <a
+                  href="mailto:{{ message.email }}"
+                  class="btn btn-sm btn-outline-success"
+                >
+                  <i class="fas fa-reply"></i>
+                </a>
+                <button
+                  class="btn btn-sm btn-outline-danger delete-message"
+                  data-id="{{ message.id }}"
+                  data-name="{{ message.name }}"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="message-body">
+            {% if message.service_type %}
+            <span class="badge bg-info mb-2">
+              <i class="fas fa-tools me-1"></i>{{ message.service_type }}
+            </span>
+            {% endif %}
+            <p class="message-preview mb-0">
+              {{ message.message[:150] }}{% if message.message|length > 150
+              %}...{% endif %}
+            </p>
+            {% if message.message|length > 150 %}
+            <button
+              class="btn btn-link btn-sm p-0 mt-2 view-message"
+              data-id="{{ message.id }}"
+              data-name="{{ message.name }}"
+              data-email="{{ message.email }}"
+              data-phone="{{ message.phone or 'Not provided' }}"
+              data-service="{{ message.service_type or 'Not specified' }}"
+              data-message="{{ message.message }}"
+              data-date="{{ message.date.strftime('%d %B %Y at %H:%M') }}"
+            >
+              Read more <i class="fas fa-arrow-right ms-1"></i>
+            </button>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {% else %}
+  <!-- Empty State -->
+  <div class="row">
+    <div class="col-12">
+      <div class="empty-state-modern text-center py-5">
+        <div class="empty-state-icon">
+          <i class="fas fa-envelope-open-text"></i>
+        </div>
+        <h3 class="mt-4 mb-2">No Messages Yet</h3>
+        <p class="text-muted mb-4">
+          When customers contact you, messages will appear here.
+        </p>
+        <a href="{{ url_for('index') }}" class="btn btn-primary">
+          <i class="fas fa-globe me-2"></i>View Website
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Message Details Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-gradient-primary text-white">
+        <h5 class="modal-title">
+          <i class="fas fa-envelope me-2"></i>Message Details
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="message-details">
+          <div class="detail-row">
+            <strong>From:</strong>
+            <span id="modalName"></span>
+          </div>
+          <div class="detail-row">
+            <strong>Email:</strong>
+            <a href="#" id="modalEmail" class="text-primary"></a>
+          </div>
+          <div class="detail-row">
+            <strong>Phone:</strong>
+            <span id="modalPhone"></span>
+          </div>
+          <div class="detail-row">
+            <strong>Service:</strong>
+            <span id="modalService"></span>
+          </div>
+          <div class="detail-row">
+            <strong>Date:</strong>
+            <span id="modalDate"></span>
+          </div>
+          <div class="detail-row">
+            <strong>Message:</strong>
+            <p id="modalMessage" class="mt-2 mb-0"></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <a href="#" class="btn btn-primary" id="replyBtn">
+          <i class="fas fa-reply me-2"></i>Reply to Customer
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">
+          <i class="fas fa-exclamation-triangle me-2"></i>Delete Message
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure you want to delete this message from
+          <strong id="deleteName"></strong>?
+        </p>
+        <p class="text-muted small">This action cannot be undone.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <form method="POST" id="deleteForm" action="">
+          <button type="submit" class="btn btn-danger">Delete Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-gradient-primary {
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--primary-dark)
+    );
+  }
+
+  .stat-card-mini {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .stat-card-mini:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stat-icon i {
+    font-size: 1.5rem;
+  }
+
+  .stat-info {
+    flex: 1;
+  }
+
+  .stat-number {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0;
+    line-height: 1;
+  }
+
+  .stat-label {
+    color: #6c757d;
+    margin-bottom: 0;
+    font-size: 0.85rem;
+  }
+
+  .filter-card {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .messages-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .message-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    border-left: 4px solid transparent;
+  }
+
+  .message-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .message-card.unread {
+    background: linear-gradient(135deg, #fff, #fff9f0);
+    border-left-color: var(--primary-color);
+  }
+
+  .message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .message-sender {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .sender-avatar i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+  }
+
+  .sender-info h6 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .message-meta {
+    text-align: right;
+  }
+
+  .message-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .message-body {
+    padding-left: 3.5rem;
+  }
+
+  .message-preview {
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .empty-state-modern {
+    background: white;
+    border-radius: 1rem;
+    padding: 4rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .empty-state-icon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(
+      135deg,
+      rgba(243, 156, 18, 0.1),
+      rgba(243, 156, 18, 0.05)
+    );
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  .empty-state-icon i {
+    font-size: 3rem;
+    color: var(--primary-color);
+  }
+
+  .detail-row {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+
+  .detail-row strong {
+    display: inline-block;
+    min-width: 80px;
+    color: #2c3e50;
+  }
+
+  @media (max-width: 768px) {
+    .message-header {
+      flex-direction: column;
+    }
+    .message-meta {
+      text-align: left;
+    }
+    .message-body {
+      padding-left: 0;
+    }
+    .message-actions {
+      justify-content: flex-start;
+    }
+    .empty-state-modern {
+      padding: 2rem;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .message-card {
+    animation: fadeIn 0.3s ease-out;
+  }
+</style>
+
+<script>
+  // View message details
+  document.querySelectorAll(".view-message").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const name = this.getAttribute("data-name");
+      const email = this.getAttribute("data-email");
+      const phone = this.getAttribute("data-phone") || "Not provided";
+      const service = this.getAttribute("data-service") || "Not specified";
+      const message = this.getAttribute("data-message");
+      const date = this.getAttribute("data-date");
+      const messageId = this.getAttribute("data-id");
+
+      document.getElementById("modalName").textContent = name;
+      document.getElementById("modalEmail").textContent = email;
+      document.getElementById("modalEmail").href = `mailto:${email}`;
+      document.getElementById("modalPhone").textContent = phone;
+      document.getElementById("modalService").textContent = service;
+      document.getElementById("modalMessage").textContent = message;
+      document.getElementById("modalDate").textContent = date;
+
+      document.getElementById("replyBtn").href =
+        `mailto:${email}?subject=Re: Your inquiry about ${service}&body=Hello ${name},%0D%0A%0D%0AThank you for contacting KJC. We've received your message and will get back to you shortly.%0D%0A%0D%0ABest regards,%0D%0AKJC Team`;
+
+      // Mark as read if unread
+      const messageCard = this.closest(".message-card");
+      if (messageCard && messageCard.classList.contains("unread")) {
+        messageCard.classList.remove("unread");
+        fetch(`/admin/messages/mark-read/${messageId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        }).catch((err) => console.log("Error marking as read:", err));
+      }
+
+      new bootstrap.Modal(document.getElementById("messageModal")).show();
+    });
+  });
+
+  // Delete message functionality
+  const deleteButtons = document.querySelectorAll(".delete-message");
+  const deleteModal = new bootstrap.Modal(
+    document.getElementById("deleteModal"),
+  );
+  const deleteForm = document.getElementById("deleteForm");
+
+  deleteButtons.forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      const messageId = this.getAttribute("data-id");
+      const messageName = this.getAttribute("data-name");
+      document.getElementById("deleteName").textContent = messageName;
+      deleteForm.action = `/admin/messages/delete/${messageId}`;
+      deleteModal.show();
+    });
+  });
+
+  // Search and filter functionality
+  const searchInput = document.getElementById("searchMessages");
+  const statusFilter = document.getElementById("filterStatus");
+  const serviceFilter = document.getElementById("filterService");
+  const clearBtn = document.getElementById("clearFilters");
+  const messages = document.querySelectorAll(".message-card");
+
+  function filterMessages() {
+    const searchTerm = searchInput ? searchInput.value.toLowerCase() : "";
+    const status = statusFilter ? statusFilter.value : "all";
+    const service = serviceFilter ? serviceFilter.value : "all";
+
+    messages.forEach((message) => {
+      const name = message.getAttribute("data-name") || "";
+      const email = message.getAttribute("data-email") || "";
+      const messageText = message.getAttribute("data-message") || "";
+      const messageStatus = message.getAttribute("data-status");
+      const messageService = message.getAttribute("data-service") || "";
+
+      let show = true;
+
+      if (
+        searchTerm &&
+        !name.includes(searchTerm) &&
+        !email.includes(searchTerm) &&
+        !messageText.includes(searchTerm)
+      ) {
+        show = false;
+      }
+      if (status !== "all" && messageStatus !== status) {
+        show = false;
+      }
+      if (service !== "all" && messageService !== service) {
+        show = false;
+      }
+
+      message.style.display = show ? "block" : "none";
+    });
+  }
+
+  if (searchInput) searchInput.addEventListener("input", filterMessages);
+  if (statusFilter) statusFilter.addEventListener("change", filterMessages);
+  if (serviceFilter) serviceFilter.addEventListener("change", filterMessages);
+
+  if (clearBtn) {
+    clearBtn.addEventListener("click", function () {
+      if (searchInput) searchInput.value = "";
+      if (statusFilter) statusFilter.value = "all";
+      if (serviceFilter) serviceFilter.value = "all";
+      filterMessages();
+    });
+  }
+
+  // Keyboard shortcuts
+  document.addEventListener("keydown", function (e) {
+    if (e.ctrlKey && e.key === "f") {
+      e.preventDefault();
+      if (searchInput) searchInput.focus();
+    }
+  });
+
+  if (searchInput) {
+    searchInput.placeholder = "Search by name, email, or message... (Ctrl+F)";
+  }
+</script>
+{% endblock %}

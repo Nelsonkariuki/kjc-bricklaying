@@ -1,0 +1,935 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header bg-primary text-light py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center" data-aos="fade-up">
+        <h1 class="display-4 fw-bold mb-3">Our Portfolio</h1>
+        <p class="lead mb-0">Browse through our recent projects</p>
+        {% if current_user.is_authenticated %}
+        <div class="mt-3">
+          <a href="{{ url_for('add_project') }}" class="btn btn-light btn-lg">
+            <i class="fas fa-plus-circle me-2"></i>Add New Project
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Portfolio Section -->
+<section class="py-5">
+  <div class="container">
+    <!-- Filter Buttons -->
+    <div class="row mb-5" data-aos="fade-up">
+      <div class="col-12">
+        <div class="portfolio-filter text-center">
+          <button class="filter-btn active" data-filter="all">
+            All Projects
+          </button>
+          {% set categories = [] %} {% for project in projects %} {% if
+          project.category and project.category not in categories %} {% set _ =
+          categories.append(project.category) %}
+          <button
+            class="filter-btn"
+            data-filter="{{ project.category|lower|replace(' ', '-') }}"
+          >
+            {{ project.category }}
+          </button>
+          {% endif %} {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="row g-4 portfolio-grid">
+      {% if projects %} {% for project in projects %}
+      <div
+        class="col-md-6 col-lg-4 portfolio-item"
+        data-id="{{ project.id }}"
+        data-category="{{ project.category|lower|replace(' ', '-') if project.category else 'general' }}"
+        data-aos="fade-up"
+        data-aos-delay="{{ loop.index % 3 * 100 }}"
+      >
+        <div class="portfolio-card">
+          <div class="portfolio-image">
+            <img
+              src="{{ project.image_url or 'https://via.placeholder.com/600x400?text=Project+Image' }}"
+              alt="{{ project.title }}"
+              loading="lazy"
+            />
+            <div class="portfolio-overlay">
+              <div class="overlay-content">
+                <h4 class="text-white mb-2">{{ project.title }}</h4>
+                {% if project.category %}
+                <span class="badge bg-primary mb-3"
+                  >{{ project.category }}</span
+                >
+                {% endif %}
+                <div class="overlay-actions">
+                  <button
+                    class="btn btn-light btn-sm view-project"
+                    data-title="{{ project.title }}"
+                    data-description="{{ project.description }}"
+                    data-image="{{ project.image_url or 'https://via.placeholder.com/600x400?text=Project+Image' }}"
+                    data-category="{{ project.category }}"
+                    data-location="{{ project.location }}"
+                    data-client="{{ project.client_name }}"
+                    data-date="{{ project.date_completed.strftime('%B %Y') if project.date_completed else 'Recent' }}"
+                    data-full-date="{{ project.date_completed.strftime('%d %B %Y') if project.date_completed else 'Recently Completed' }}"
+                    data-views="{{ project.views }}"
+                  >
+                    <i class="fas fa-search-plus me-1"></i> View Details
+                  </button>
+                  {% if current_user.is_authenticated %}
+                  <div class="admin-actions mt-2">
+                    <button
+                      class="btn btn-warning btn-sm edit-project"
+                      data-id="{{ project.id }}"
+                      data-title="{{ project.title }}"
+                      data-description="{{ project.description }}"
+                      data-image="{{ project.image_url }}"
+                      data-category="{{ project.category }}"
+                      data-location="{{ project.location }}"
+                      data-client="{{ project.client_name }}"
+                      data-type="{{ project.project_type }}"
+                      data-date="{{ project.date_completed.strftime('%Y-%m-%d') if project.date_completed else '' }}"
+                      data-featured="{{ project.featured }}"
+                    >
+                      <i class="fas fa-edit me-1"></i> Edit
+                    </button>
+                    <form
+                      method="POST"
+                      action="{{ url_for('delete_project', project_id=project.id) }}"
+                      class="d-inline"
+                      onsubmit="return confirmDelete('{{ project.title }}');"
+                    >
+                      <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash me-1"></i> Delete
+                      </button>
+                    </form>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="portfolio-info">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="mb-1">{{ project.title }}</h5>
+              {% if project.featured %}
+              <span class="badge bg-warning">Featured</span>
+              {% endif %}
+            </div>
+            {% if project.category %}
+            <small class="text-muted">{{ project.category }}</small>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <div class="col-12 text-center py-5">
+        <div class="empty-state" data-aos="fade-up">
+          <i class="fas fa-hard-hat fa-5x text-muted mb-4"></i>
+          <h3 class="mb-3">Portfolio Coming Soon</h3>
+          <p class="text-muted mb-4">
+            We're adding our latest projects. Check back soon to see our work!
+          </p>
+          <a href="{{ url_for('contact') }}" class="btn btn-primary">
+            <i class="fas fa-envelope me-2"></i>Contact Us
+          </a>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Load More Button -->
+    {% if projects|length > 6 %}
+    <div class="row mt-5" data-aos="fade-up">
+      <div class="col-12 text-center">
+        <button class="btn btn-outline-primary btn-lg load-more-btn">
+          <i class="fas fa-sync-alt me-2"></i>Load More Projects
+        </button>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Project Stats Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row text-center g-4">
+      <div class="col-md-3" data-aos="fade-up">
+        <div class="stats-card">
+          <i class="fas fa-home fa-3x text-primary mb-3"></i>
+          <div class="stats-number" data-count="{{ projects|length }}">
+            {{ projects|length }}
+          </div>
+          <div class="stats-label">Projects Completed</div>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+        <div class="stats-card">
+          <i class="fas fa-smile fa-3x text-primary mb-3"></i>
+          <div class="stats-number" data-count="100">100+</div>
+          <div class="stats-label">Happy Clients</div>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+        <div class="stats-card">
+          <i class="fas fa-trophy fa-3x text-primary mb-3"></i>
+          <div class="stats-number" data-count="10">10+</div>
+          <div class="stats-label">Years Experience</div>
+        </div>
+      </div>
+      <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+        <div class="stats-card">
+          <i class="fas fa-star fa-3x text-primary mb-3"></i>
+          <div class="stats-number" data-count="100">100%</div>
+          <div class="stats-label">Satisfaction</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-light">
+  <div class="container text-center" data-aos="zoom-in">
+    <h2 class="display-5 fw-bold mb-4">Ready to Start Your Project?</h2>
+    <p class="lead mb-4">
+      Let us bring your vision to life with quality craftsmanship
+    </p>
+    <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg">
+      <i class="fas fa-calculator me-2"></i>Get a Free Quote
+    </a>
+  </div>
+</section>
+
+<!-- Enhanced Project Details Modal -->
+<div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0 bg-primary text-white">
+        <h5 class="modal-title">Project Details</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row">
+          <div class="col-md-6">
+            <img
+              id="modalImage"
+              src=""
+              alt="Project Image"
+              class="img-fluid rounded-3 mb-3 shadow-sm"
+              style="width: 100%; object-fit: cover;"
+            />
+          </div>
+          <div class="col-md-6">
+            <h3 id="modalProjectTitle" class="mb-2 fw-bold"></h3>
+            <div class="d-flex gap-2 mb-3 flex-wrap">
+              <span id="modalCategoryBadge" class="badge bg-primary"></span>
+              <span id="modalLocationBadge" class="badge bg-secondary"></span>
+            </div>
+            <div class="mb-3">
+              <i class="fas fa-calendar-alt text-primary me-2"></i>
+              <strong>Completed:</strong> <span id="modalDate"></span>
+            </div>
+            <div class="mb-3">
+              <i class="fas fa-user text-primary me-2"></i>
+              <strong>Client:</strong> <span id="modalClient"></span>
+            </div>
+            <div class="mb-3">
+              <i class="fas fa-eye text-primary me-2"></i>
+              <strong>Views:</strong> <span id="modalViews"></span>
+            </div>
+            <hr />
+            <div class="mb-3">
+              <strong>Project Description:</strong>
+              <p id="modalDescription" class="mt-2 text-muted"></p>
+            </div>
+            <div class="mt-4 d-flex gap-3 flex-wrap">
+              <a href="{{ url_for('contact') }}" class="btn btn-primary">
+                <i class="fas fa-envelope me-2"></i>Inquire About This Project
+              </a>
+              <a
+                href="#"
+                class="btn btn-outline-secondary"
+                id="shareProjectBtn"
+              >
+                <i class="fas fa-share-alt me-2"></i>Share
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Project Modal -->
+{% if current_user.is_authenticated %}
+<div class="modal fade" id="editProjectModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">
+          <i class="fas fa-edit me-2"></i>Edit Project
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <form id="editProjectForm" method="POST" enctype="multipart/form-data">
+        <div class="modal-body">
+          <input type="hidden" id="edit_project_id" name="project_id" />
+
+          <div class="row">
+            <div class="col-md-8 mb-3">
+              <label for="edit_title" class="form-label">Project Title *</label>
+              <input
+                type="text"
+                class="form-control"
+                id="edit_title"
+                name="title"
+                required
+              />
+            </div>
+            <div class="col-md-4 mb-3">
+              <label for="edit_category" class="form-label">Category</label>
+              <select class="form-select" id="edit_category" name="category">
+                <option value="">Select a category</option>
+                <option value="Extension">Extension</option>
+                <option value="New Build">New Build</option>
+                <option value="Garden Wall">Garden Wall</option>
+                <option value="Repointing">Repointing</option>
+                <option value="Chimney">Chimney Repair</option>
+                <option value="Landscaping">Landscaping</option>
+                <option value="Fencing">Fencing</option>
+                <option value="Groundworks">Groundworks</option>
+                <option value="Land Drainage">Land Drainage</option>
+                <option value="Plant Hire">Plant with Operator</option>
+                <option value="Aggregate">Aggregate Delivery</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="edit_description" class="form-label">Description</label>
+            <textarea
+              class="form-control"
+              id="edit_description"
+              name="description"
+              rows="4"
+            ></textarea>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="edit_location" class="form-label">Location</label>
+              <input
+                type="text"
+                class="form-control"
+                id="edit_location"
+                name="location"
+              />
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="edit_client_name" class="form-label"
+                >Client Name</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="edit_client_name"
+                name="client_name"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="edit_project_type" class="form-label"
+                >Project Type</label
+              >
+              <select
+                class="form-select"
+                id="edit_project_type"
+                name="project_type"
+              >
+                <option value="">Select type</option>
+                <option value="Residential">Residential</option>
+                <option value="Commercial">Commercial</option>
+                <option value="Industrial">Industrial</option>
+                <option value="Landscaping">Landscaping</option>
+                <option value="Restoration">Restoration</option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="edit_date_completed" class="form-label"
+                >Date Completed</label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="edit_date_completed"
+                name="date_completed"
+              />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="edit_image" class="form-label">Project Image</label>
+            <div class="current-image mb-2" id="currentImageContainer">
+              <small class="text-muted">Current image:</small>
+              <div id="currentImagePreview" class="mt-1"></div>
+            </div>
+            <input
+              type="file"
+              class="form-control"
+              id="edit_image"
+              name="image_file"
+              accept="image/*"
+            />
+            <small class="text-muted"
+              >Leave empty to keep current image. Max size 5MB.</small
+            >
+            <input type="hidden" id="edit_image_url" name="image_url" />
+          </div>
+
+          <div class="mb-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="edit_featured"
+                name="featured"
+              />
+              <label class="form-check-label" for="edit_featured">
+                Feature this project on homepage
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<style>
+  /* Page Header */
+  .page-header {
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--primary-dark)
+    );
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(5deg);
+    }
+  }
+
+  /* Filter Buttons */
+  .portfolio-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 1.5rem;
+    border: 2px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    border-radius: 50px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+  }
+
+  /* Portfolio Cards */
+  .portfolio-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .portfolio-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .portfolio-image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+  }
+
+  .portfolio-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .portfolio-card:hover .portfolio-image img {
+    transform: scale(1.1);
+  }
+
+  .portfolio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(243, 156, 18, 0.9),
+      rgba(230, 126, 34, 0.9)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  .portfolio-card:hover .portfolio-overlay {
+    opacity: 1;
+  }
+
+  .overlay-content {
+    text-align: center;
+    padding: 1.5rem;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+  }
+
+  .portfolio-card:hover .overlay-content {
+    transform: translateY(0);
+  }
+
+  .overlay-content h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .overlay-actions {
+    margin-top: 1rem;
+  }
+
+  .admin-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+  }
+
+  .portfolio-info {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  /* Stats Cards */
+  .stats-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+
+  .stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  .stats-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+  }
+
+  .stats-label {
+    color: var(--gray-color);
+    font-weight: 500;
+  }
+
+  /* Empty State */
+  .empty-state {
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Modal Styles */
+  #projectModal .modal-content,
+  #editProjectModal .modal-content {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  #projectModal .modal-header {
+    border-bottom: none;
+  }
+
+  /* Load More Button */
+  .load-more-btn {
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+  }
+
+  .load-more-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Current Image Preview */
+  .current-image img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .filter-btn {
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+    }
+    .portfolio-filter {
+      gap: 0.5rem;
+    }
+    .stats-number {
+      font-size: 2rem;
+    }
+    .overlay-content h4 {
+      font-size: 1rem;
+    }
+    .admin-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+    .admin-actions .btn {
+      width: 100%;
+    }
+    #projectModal .modal-body .row {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script>
+  // Confirm delete function
+  function confirmDelete(projectTitle) {
+    return confirm(`Are you sure you want to delete the project "${projectTitle}"? This action cannot be undone.`);
+  }
+
+  // Wait for DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    // Filter functionality
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const portfolioItems = document.querySelectorAll(".portfolio-item");
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        filterButtons.forEach((btn) => btn.classList.remove("active"));
+        button.classList.add("active");
+
+        const filterValue = button.getAttribute("data-filter");
+
+        portfolioItems.forEach((item) => {
+          if (filterValue === "all" || item.getAttribute("data-category") === filterValue) {
+            item.style.display = "block";
+            setTimeout(() => {
+              item.style.opacity = "1";
+              item.style.transform = "scale(1)";
+            }, 10);
+          } else {
+            item.style.opacity = "0";
+            item.style.transform = "scale(0.8)";
+            setTimeout(() => {
+              item.style.display = "none";
+            }, 300);
+          }
+        });
+      });
+    });
+
+    // Enhanced View project modal functionality
+    const viewButtons = document.querySelectorAll(".view-project");
+    const modal = new bootstrap.Modal(document.getElementById("projectModal"));
+
+    console.log("View buttons found:", viewButtons.length);
+    
+    viewButtons.forEach((button) => {
+      button.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log("View button clicked");
+
+        // Get all project details from data attributes
+        const title = this.getAttribute("data-title") || "Project";
+        const description = this.getAttribute("data-description") || "No description available.";
+        const image = this.getAttribute("data-image") || "https://via.placeholder.com/600x400?text=Project+Image";
+        const category = this.getAttribute("data-category") || "General";
+        const location = this.getAttribute("data-location") || "Location not specified";
+        const client = this.getAttribute("data-client") || "Client not specified";
+        const date = this.getAttribute("data-full-date") || this.getAttribute("data-date") || "Recent";
+        const views = this.getAttribute("data-views") || "0";
+
+        console.log("Project data:", {title, description, category, location, client, date, views});
+
+        // Populate modal with all details
+        const modalTitle = document.getElementById("modalProjectTitle");
+        const modalDescription = document.getElementById("modalDescription");
+        const modalImage = document.getElementById("modalImage");
+        const modalDate = document.getElementById("modalDate");
+        const modalClient = document.getElementById("modalClient");
+        const modalViews = document.getElementById("modalViews");
+        const modalCategoryBadge = document.getElementById("modalCategoryBadge");
+        const modalLocationBadge = document.getElementById("modalLocationBadge");
+
+        if (modalTitle) modalTitle.textContent = title;
+        if (modalDescription) modalDescription.textContent = description;
+        if (modalImage) modalImage.src = image;
+        if (modalDate) modalDate.textContent = date;
+        if (modalClient) modalClient.textContent = client;
+        if (modalViews) modalViews.textContent = views;
+        if (modalCategoryBadge) modalCategoryBadge.textContent = category;
+        if (modalLocationBadge) modalLocationBadge.textContent = location;
+
+        modal.show();
+      });
+    });
+
+    // Share functionality
+    const shareBtn = document.getElementById("shareProjectBtn");
+    if (shareBtn) {
+      shareBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const title = document.getElementById("modalProjectTitle").textContent;
+        if (navigator.share) {
+          navigator.share({
+            title: title,
+            text: `Check out this project: ${title}`,
+            url: window.location.href,
+          });
+        } else {
+          // Fallback - copy to clipboard
+          navigator.clipboard.writeText(window.location.href);
+          alert("Link copied to clipboard!");
+        }
+      });
+    }
+
+    // Edit project functionality
+    {% if current_user.is_authenticated %}
+    const editModal = new bootstrap.Modal(document.getElementById("editProjectModal"));
+    const editForm = document.getElementById("editProjectForm");
+
+    document.querySelectorAll(".edit-project").forEach((btn) => {
+      btn.addEventListener("click", function() {
+        document.getElementById("edit_project_id").value = this.getAttribute("data-id") || "";
+        document.getElementById("edit_title").value = this.getAttribute("data-title") || "";
+        document.getElementById("edit_description").value = this.getAttribute("data-description") || "";
+        document.getElementById("edit_category").value = this.getAttribute("data-category") || "";
+        document.getElementById("edit_location").value = this.getAttribute("data-location") || "";
+        document.getElementById("edit_client_name").value = this.getAttribute("data-client") || "";
+        document.getElementById("edit_project_type").value = this.getAttribute("data-type") || "";
+        document.getElementById("edit_date_completed").value = this.getAttribute("data-date") || "";
+        document.getElementById("edit_featured").checked = this.getAttribute("data-featured") === "True";
+        document.getElementById("edit_image_url").value = this.getAttribute("data-image") || "";
+
+        // Show current image preview
+        const currentImage = this.getAttribute("data-image");
+        const previewContainer = document.getElementById("currentImagePreview");
+        if (previewContainer) {
+          if (currentImage && currentImage !== "") {
+            previewContainer.innerHTML = `<img src="${currentImage}" alt="Current image" class="rounded" style="max-width: 100px; max-height: 100px;">`;
+          } else {
+            previewContainer.innerHTML = '<span class="text-muted">No image</span>';
+          }
+        }
+
+        editModal.show();
+      });
+    });
+
+    // Handle edit form submission
+    if (editForm) {
+      editForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving...';
+        submitBtn.disabled = true;
+
+        const formData = new FormData(this);
+        const projectId = document.getElementById("edit_project_id").value;
+
+        fetch(`/admin/projects/edit/${projectId}`, {
+          method: "POST",
+          body: formData
+        }).then(response => {
+          if (response.ok) {
+            location.reload();
+          } else {
+            alert("Error updating project");
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+          }
+        }).catch(error => {
+          console.error("Error:", error);
+          alert("Error updating project");
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+        });
+      });
+    }
+    {% endif %}
+
+    // Counter animation for stats
+    function animateCounters() {
+      const counters = document.querySelectorAll(".stats-number[data-count]");
+      counters.forEach((counter) => {
+        const target = parseInt(counter.getAttribute("data-count")) || 0;
+        let current = 0;
+        const increment = target / 50;
+        const updateCounter = () => {
+          if (current < target) {
+            current += increment;
+            counter.textContent = Math.ceil(current);
+            setTimeout(updateCounter, 20);
+          } else {
+            counter.textContent = target;
+          }
+        };
+        updateCounter();
+      });
+    }
+
+    // Trigger counter animation when stats section is visible
+    const observerOptions = { threshold: 0.5, rootMargin: "0px" };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateCounters();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const statsSection = document.querySelector(".bg-light.py-5");
+    if (statsSection) {
+      observer.observe(statsSection);
+    }
+
+    // Load more functionality
+    const loadMoreBtn = document.querySelector(".load-more-btn");
+    if (loadMoreBtn) {
+      let itemsToShow = 6;
+      const allItems = document.querySelectorAll(".portfolio-item");
+
+      allItems.forEach((item, index) => {
+        if (index >= itemsToShow) {
+          item.style.display = "none";
+        }
+      });
+
+      loadMoreBtn.addEventListener("click", () => {
+        itemsToShow += 3;
+        allItems.forEach((item, index) => {
+          if (index < itemsToShow) {
+            item.style.display = "block";
+            setTimeout(() => {
+              item.style.opacity = "1";
+              item.style.transform = "scale(1)";
+            }, 10);
+          }
+        });
+
+        if (itemsToShow >= allItems.length) {
+          loadMoreBtn.style.display = "none";
+        }
+      });
+    }
+
+    // Lazy loading images
+    const images = document.querySelectorAll(".portfolio-image img");
+    const imageObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.loading = "lazy";
+          imageObserver.unobserve(img);
+        }
+      });
+    });
+
+    images.forEach((img) => imageObserver.observe(img));
+  });
+</script>
+{% endblock %}
