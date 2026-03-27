@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>{{ url_for('index', _external=True) }}</loc>
+        <lastmod>{{ now.strftime('%Y-%m-%d') }}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>{{ url_for('services_page', _external=True) }}</loc>
+        <lastmod>{{ now.strftime('%Y-%m-%d') }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>{{ url_for('portfolio', _external=True) }}</loc>
+        <lastmod>{{ now.strftime('%Y-%m-%d') }}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    {% for project in projects %}
+    <url>
+        <loc>{{ url_for('project_detail', slug=project.slug, _external=True) }}</loc>
+        <lastmod>{{ project.updated_at.strftime('%Y-%m-%d') if project.updated_at else now.strftime('%Y-%m-%d') }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    {% endfor %}
+    <url>
+        <loc>{{ url_for('testimonials_page', _external=True) }}</loc>
+        <lastmod>{{ now.strftime('%Y-%m-%d') }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>{{ url_for('contact', _external=True) }}</loc>
+        <lastmod>{{ now.strftime('%Y-%m-%d') }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    {% for service in services %}
+    <url>
+        <loc>{{ url_for('services_page', _external=True) }}</loc>
+        <lastmod>{{ service.updated_at.strftime('%Y-%m-%d') if service.updated_at else now.strftime('%Y-%m-%d') }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    {% endfor %}
+</urlset>

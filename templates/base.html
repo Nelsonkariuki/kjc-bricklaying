@@ -3,16 +3,86 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
+    <meta
+      name="title"
+      content="{% block meta_title %}KJC | Professional Landscaping & Construction Services in Coventry{% endblock %}"
+    />
     <meta
       name="description"
-      content="KJC Bricklaying - Professional landscaping, fencing, groundworks, and bricklaying services in Coventry. Over 10 years of experience, quality workmanship guaranteed."
+      content="{% block meta_description %}Professional landscaping, fencing, groundworks, and construction services in Coventry. Free quotes, 10+ years experience, fully insured. Call today!{% endblock %}"
     />
     <meta
       name="keywords"
-      content="landscaping coventry, fencing contractors, groundworks, land drainage, plant hire, aggregate delivery, bricklayer coventry"
+      content="{% block meta_keywords %}landscaping coventry, fencing contractors, groundworks, land drainage, plant hire, aggregate delivery, bricklayer coventry, garden design, patio installation, driveways{% endblock %}"
     />
-    <meta name="author" content="KJC Bricklaying" />
+    <meta name="author" content="KJC" />
     <meta name="robots" content="index, follow" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <!-- Google Search Console Verification -->
+    <meta name="google-site-verification" content="google49501be9d3dd2475" />
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta
+      property="og:title"
+      content="{% block og_title %}KJC | Professional Landscaping & Construction Services in Coventry{% endblock %}"
+    />
+    <meta
+      property="og:description"
+      content="{% block og_description %}Expert landscaping, fencing, groundworks, and construction services in Coventry. Free quotes, 10+ years experience. Quality workmanship guaranteed.{% endblock %}"
+    />
+    <meta
+      property="og:image"
+      content="{{ url_for('static', filename='images/og-image.jpg') }}"
+    />
+    <meta property="og:site_name" content="KJC Landscaping & Construction" />
+    <meta property="og:locale" content="en_GB" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="{{ request.url }}" />
+    <meta
+      property="twitter:title"
+      content="{% block twitter_title %}KJC | Professional Landscaping & Construction Services{% endblock %}"
+    />
+    <meta
+      property="twitter:description"
+      content="{% block twitter_description %}Professional landscaping, fencing, groundworks, and construction services in Coventry. Free quotes available.{% endblock %}"
+    />
+    <meta
+      property="twitter:image"
+      content="{{ url_for('static', filename='images/og-image.jpg') }}"
+    />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.url }}" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="{{ url_for('static', filename='apple-touch-icon.png') }}"
+    />
+
+    <!-- Preload critical resources -->
+    <link
+      rel="preload"
+      href="{{ url_for('static', filename='css/style.css') }}"
+      as="style"
+    />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      as="style"
+    />
+
     <title>
       {% block title %}KJC | Professional Landscaping & Construction Services in
       Coventry{% endblock %}
@@ -531,14 +601,46 @@
     {% block extra_css %}{% endblock %}
   </head>
   <body>
+    <!-- Schema Markup for Local Business -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "KJC",
+        "image": "{{ url_for('static', filename='images/logo.png', _external=True) }}",
+        "telephone": "07700 000000",
+        "email": "info@kjcbricklaying.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Coventry",
+          "addressRegion": "West Midlands",
+          "addressCountry": "GB"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 52.406822,
+          "longitude": -1.519693
+        },
+        "openingHours": "Mo-Fr 07:00-17:00, Sa 08:00-13:00",
+        "priceRange": "££",
+        "areaServed": {
+          "@type": "City",
+          "name": "Coventry"
+        },
+        "sameAs": [
+          "https://www.facebook.com/yourpage",
+          "https://www.instagram.com/yourpage"
+        ]
+      }
+    </script>
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container">
         <a class="navbar-brand" href="{{ url_for('index') }}">
-          <!-- Logo Image - Place your logo file in static/images/logo.png -->
           <img
             src="{{ url_for('static', filename='images/logo.png') }}"
-            alt="KJC Logo"
+            alt="KJC - Professional Landscaping & Construction Services Coventry"
             onerror="
               this.style.display = 'none';
               this.nextElementSibling.style.display = 'flex';
@@ -627,7 +729,7 @@
               <h5 class="footer-title">
                 <img
                   src="{{ url_for('static', filename='images/logo-white.png') }}"
-                  alt="KJC Logo"
+                  alt="KJC - Landscaping & Construction Services"
                   onerror="
                     this.style.display = 'none';
                     this.nextElementSibling.style.display = 'inline-block';
@@ -787,6 +889,20 @@
     <button class="back-to-top" aria-label="Back to top">
       <i class="fas fa-arrow-up"></i>
     </button>
+
+    <!-- Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "GA_MEASUREMENT_ID");
+    </script>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

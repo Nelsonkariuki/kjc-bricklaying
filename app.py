@@ -5,6 +5,7 @@ from werkzeug.utils import secure_filename
 from database import db, User, Service, Project, Testimonial, ContactMessage, FAQ, BlogPost, Newsletter, SiteSettings
 import os
 import json
+import re
 from datetime import datetime
 import uuid
 import io
@@ -56,6 +57,12 @@ def save_file(file, subfolder=''):
         file.save(filepath)
         return f'/static/uploads/{subfolder}/{unique_filename}' if subfolder else f'/static/uploads/{unique_filename}'
     return None
+
+def generate_slug(title):
+    """Generate URL-friendly slug from title"""
+    slug = re.sub(r'[^\w\s-]', '', title)
+    slug = re.sub(r'[-\s]+', '-', slug).strip('-').lower()
+    return slug
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -128,7 +135,8 @@ def init_db():
                         location='Coventry',
                         project_type='Residential',
                         date_completed=datetime(2024, 1, 15),
-                        views=150
+                        views=150,
+                        slug=generate_slug('Modern House Extension')
                     ),
                     Project(
                         title='Garden Wall Renovation',
@@ -139,7 +147,8 @@ def init_db():
                         location='Nuneaton',
                         project_type='Landscaping',
                         date_completed=datetime(2024, 2, 20),
-                        views=98
+                        views=98,
+                        slug=generate_slug('Garden Wall Renovation')
                     ),
                     Project(
                         title='Chimney Restoration',
@@ -150,7 +159,8 @@ def init_db():
                         location='Rugby',
                         project_type='Restoration',
                         date_completed=datetime(2024, 3, 10),
-                        views=112
+                        views=112,
+                        slug=generate_slug('Chimney Restoration')
                     )
                 ]
                 db.session.add_all(sample_projects)
@@ -166,6 +176,42 @@ def init_db():
             
             db.session.commit()
 
+# ==================== SEO ROUTES ====================
+@app.route('/sitemap.xml')
+def sitemap():
+    """Generate sitemap.xml for search engines"""
+    projects = Project.query.filter_by(is_active=True).all()
+    services = Service.query.filter_by(is_active=True).all()
+    return render_template('sitemap.xml', projects=projects, services=services, now=datetime.now()), 200, {'Content-Type': 'application/xml'}
+
+@app.route('/robots.txt')
+def robots():
+    """Generate robots.txt for search engine crawlers"""
+    return f"""User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin/*
+Disallow: /static/uploads/
+Disallow: /api/
+
+Sitemap: {request.url_root}sitemap.xml
+""", 200, {'Content-Type': 'text/plain'}
+
+
+
+@app.route('/google49501be9d3dd2475.html')
+def google_verification():
+    """Google Search Console verification file"""
+    return """google-site-verification: google49501be9d3dd2475.html
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
+    </head>
+    <body>
+    </body>
+    </html>""", 200, {'Content-Type': 'text/html'}
+    
 # ==================== PUBLIC ROUTES ====================
 @app.route('/')
 def index():
@@ -191,10 +237,19 @@ def portfolio():
     categories = db.session.query(Project.category).distinct().filter(Project.category != '', Project.is_active == True).all()
     return render_template('portfolio.html', projects=projects, categories=categories, now=datetime.now(), whatsapp_number=WHATSAPP_NUMBER)
 
-@app.route('/portfolio/<int:project_id>')
-def project_detail(project_id):
-    project = Project.query.get_or_404(project_id)
+# SEO-friendly slug-based URL for project details
+@app.route('/portfolio/<string:slug>')
+def project_detail(slug):
+    project = Project.query.filter_by(slug=slug, is_active=True).first_or_404()
     project.increment_views()
+    return render_template('project_detail.html', project=project, now=datetime.now(), whatsapp_number=WHATSAPP_NUMBER)
+
+# Keep old ID-based route for backward compatibility (redirect to slug)
+@app.route('/portfolio/id/<int:project_id>')
+def project_detail_old(project_id):
+    project = Project.query.get_or_404(project_id)
+    if project.slug:
+        return redirect(url_for('project_detail', slug=project.slug), 301)
     return render_template('project_detail.html', project=project, now=datetime.now(), whatsapp_number=WHATSAPP_NUMBER)
 
 @app.route('/testimonials')
@@ -403,8 +458,9 @@ def add_project():
             if saved_path:
                 image_url = saved_path
         
+        title = request.form['title']
         project = Project(
-            title=request.form['title'],
+            title=title,
             description=request.form.get('description', ''),
             image_url=image_url,
             category=request.form.get('category', 'General'),
@@ -412,8 +468,17 @@ def add_project():
             location=request.form.get('location', ''),
             client_name=request.form.get('client_name', ''),
             project_type=request.form.get('project_type', ''),
-            date_completed=datetime.strptime(request.form.get('date_completed', datetime.now().strftime('%Y-%m-%d')), '%Y-%m-%d') if request.form.get('date_completed') else datetime.now()
+            date_completed=datetime.strptime(request.form.get('date_completed', datetime.now().strftime('%Y-%m-%d')), '%Y-%m-%d') if request.form.get('date_completed') else datetime.now(),
+            slug=generate_slug(title)
         )
+        
+        # Ensure slug is unique
+        original_slug = project.slug
+        counter = 1
+        while Project.query.filter_by(slug=project.slug).first():
+            project.slug = f"{original_slug}-{counter}"
+            counter += 1
+        
         db.session.add(project)
         db.session.commit()
         flash('Project added successfully!', 'success')
@@ -432,6 +497,16 @@ def edit_project(project_id):
         project.location = request.form.get('location', '')
         project.client_name = request.form.get('client_name', '')
         project.project_type = request.form.get('project_type', '')
+        
+        # Update slug if title changed
+        if project.title != request.form['title']:
+            project.slug = generate_slug(request.form['title'])
+            # Ensure slug is unique
+            original_slug = project.slug
+            counter = 1
+            while Project.query.filter(Project.slug == project.slug, Project.id != project_id).first():
+                project.slug = f"{original_slug}-{counter}"
+                counter += 1
         
         # Handle date completed
         if request.form.get('date_completed'):

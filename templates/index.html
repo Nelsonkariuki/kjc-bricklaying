@@ -1,4 +1,51 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block meta_title %}KJC | Professional Landscaping &
+Construction Services in Coventry{% endblock %} {% block meta_description
+%}Expert landscaping, fencing, groundworks, and construction services in
+Coventry. Free quotes, 10+ years experience, fully insured. Call 07700 000000
+today!{% endblock %} {% block meta_keywords %}landscaping coventry, fencing
+contractors, groundworks, land drainage, plant hire, aggregate delivery,
+bricklayer coventry, garden design, patio installation, driveways, construction
+services Coventry{% endblock %} {% block og_title %}KJC | Professional
+Landscaping & Construction Services in Coventry{% endblock %} {% block
+og_description %}Expert landscaping, fencing, groundworks, and construction
+services in Coventry. Free quotes, 10+ years experience. Quality workmanship
+guaranteed.{% endblock %} {% block twitter_title %}KJC | Professional
+Landscaping & Construction Services{% endblock %} {% block twitter_description
+%}Professional landscaping, fencing, groundworks, and construction services in
+Coventry. Free quotes available.{% endblock %} {% block content %}
+<!-- Schema Markup for Local Business -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "KJC",
+    "image": "{{ url_for('static', filename='images/logo.png', _external=True) }}",
+    "telephone": "07700 000000",
+    "email": "info@kjcbricklaying.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Coventry",
+      "addressRegion": "West Midlands",
+      "addressCountry": "GB"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 52.406822,
+      "longitude": -1.519693
+    },
+    "openingHours": "Mo-Fr 07:00-17:00, Sa 08:00-13:00",
+    "priceRange": "££",
+    "areaServed": {
+      "@type": "City",
+      "name": "Coventry"
+    },
+    "sameAs": [
+      "https://www.facebook.com/yourpage",
+      "https://www.instagram.com/yourpage"
+    ]
+  }
+</script>
+
 <!-- Hero Section with 3D Parallax Effect and Background Slider -->
 <section class="hero-section position-relative text-light">
   <!-- Background Slider with Local Images -->
@@ -79,7 +126,9 @@
               <div class="stat-label text-light-75">Years Experience</div>
             </div>
             <div class="stat-block" data-count="500">
-              <div class="stat-number display-4 fw-bold mb-0 counter">1000+</div>
+              <div class="stat-number display-4 fw-bold mb-0 counter">
+                1000+
+              </div>
               <div class="stat-label text-light-75">Happy Clients</div>
             </div>
             <div class="stat-block" data-count="100">
@@ -158,7 +207,7 @@
             <div class="project-image">
               <img
                 src="{{ project.image_url or 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&w=600&h=400&fit=crop' }}"
-                alt="{{ project.title }}"
+                alt="{{ project.title }} - Professional {{ project.category }} in {{ project.location }}"
                 loading="lazy"
               />
               <div class="project-overlay-premium">
@@ -273,7 +322,7 @@
           <div class="main-image">
             <img
               src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&w=600&h=500&fit=crop"
-              alt="Construction work"
+              alt="Professional construction and landscaping work in Coventry"
               class="img-fluid rounded-4 shadow-lg"
             />
           </div>
@@ -940,9 +989,6 @@ Hello! I'm interested in your landscaping and construction services. Could you p
     ?.addEventListener("click", openWhatsAppModal);
   document
     .getElementById("whatsappCtaBtn")
-    ?.addEventListener("click", openWhatsAppModal);
-  document
-    .getElementById("whatsappHeroBtn")
     ?.addEventListener("click", openWhatsAppModal);
   document
     .getElementById("sendWhatsappBtn")
