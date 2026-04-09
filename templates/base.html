@@ -17,7 +17,6 @@
       name="keywords"
       content="{% block meta_keywords %}bricklayer coventry, construction services, landscaping, fencing, groundworks, small builder coventry, local builder{% endblock %}"
     />
-
     <meta name="author" content="KJC" />
     <meta name="robots" content="index, follow" />
     <meta name="language" content="English" />
@@ -119,16 +118,24 @@
     />
 
     <style>
-      /* Root Variables - Orange/Black Theme */
+      /* Logo Size Variables - CHANGE THESE VALUES TO ADJUST LOGO SIZE */
       :root {
-        --primary-color: #f39c12;
-        --primary-dark: #e67e22;
-        --primary-light: #f1c40f;
+        --primary-color: #2563eb;
+        --primary-dark: #1d4ed8;
+        --primary-light: #3b82f6;
         --secondary-color: #2c3e50;
-        --accent-color: #f39c12;
+        --accent-color: #2563eb;
         --dark-color: #1a1a2e;
         --light-color: #f8f9fa;
         --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+        /* ===== LOGO SIZE CONTROLS - Adjust these values ===== */
+        --logo-size-desktop: 80px; /* Logo height on desktop (default: 80px) */
+        --logo-size-scrolled: 65px; /* Logo height when scrolled (default: 65px) */
+        --logo-size-tablet: 65px; /* Logo height on tablet (default: 65px) */
+        --logo-size-mobile: 55px; /* Logo height on mobile (default: 55px) */
+        --logo-size-footer: 50px; /* Logo height in footer (default: 50px) */
+        /* =================================================== */
       }
 
       /* Navigation Styles */
@@ -156,13 +163,13 @@
       }
 
       .navbar-brand img {
-        height: 80px;
+        height: var(--logo-size-desktop);
         width: auto;
         transition: var(--transition);
       }
 
       .navbar.scrolled .navbar-brand img {
-        height: 65px;
+        height: var(--logo-size-scrolled);
       }
 
       .navbar-brand i {
@@ -297,7 +304,7 @@
       }
 
       .footer-title img {
-        height: 50px;
+        height: var(--logo-size-footer);
         width: auto;
       }
 
@@ -456,7 +463,7 @@
           font-size: 1.6rem;
         }
         .navbar-brand img {
-          height: 65px;
+          height: var(--logo-size-tablet);
         }
         .navbar-brand span {
           font-size: 1.4rem;
@@ -470,39 +477,31 @@
           left: 10px;
           max-width: none;
         }
-
         .back-to-top {
           bottom: 20px;
           right: 20px;
           width: 40px;
           height: 40px;
         }
-
         .footer-widget {
           text-align: center;
         }
-
         .footer-title::after {
           left: 50%;
           transform: translateX(-50%);
         }
-
         .social-links {
           justify-content: center;
         }
-
         .contact-item {
           justify-content: center;
         }
-
         .navbar-brand img {
-          height: 55px;
+          height: var(--logo-size-mobile);
         }
-
         .navbar-brand span {
           font-size: 1.2rem;
         }
-
         .navbar-brand {
           font-size: 1.3rem;
         }
@@ -545,10 +544,7 @@
         },
         "openingHours": "Mo-Fr 07:00-17:00, Sa 08:00-13:00",
         "priceRange": "££",
-        "areaServed": {
-          "@type": "City",
-          "name": "Coventry"
-        }
+        "areaServed": { "@type": "City", "name": "Coventry" }
       }
     </script>
 
@@ -581,29 +577,29 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('index') }}">
-                <i class="fas fa-home me-1"></i>Home
-              </a>
+              <a class="nav-link" href="{{ url_for('index') }}"
+                ><i class="fas fa-home me-1"></i>Home</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('services_page') }}">
-                <i class="fas fa-tools me-1"></i>Services
-              </a>
+              <a class="nav-link" href="{{ url_for('services_page') }}"
+                ><i class="fas fa-tools me-1"></i>Services</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('portfolio') }}">
-                <i class="fas fa-images me-1"></i>Portfolio
-              </a>
+              <a class="nav-link" href="{{ url_for('portfolio') }}"
+                ><i class="fas fa-images me-1"></i>Portfolio</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('testimonials_page') }}">
-                <i class="fas fa-star me-1"></i>Testimonials
-              </a>
+              <a class="nav-link" href="{{ url_for('testimonials_page') }}"
+                ><i class="fas fa-star me-1"></i>Testimonials</a
+              >
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('contact') }}">
-                <i class="fas fa-envelope me-1"></i>Contact
-              </a>
+              <a class="nav-link" href="{{ url_for('contact') }}"
+                ><i class="fas fa-envelope me-1"></i>Contact</a
+              >
             </li>
           </ul>
         </div>
@@ -662,18 +658,18 @@
                 available.
               </p>
               <div class="social-links mt-3">
-                <a href="#" class="social-link" aria-label="Facebook">
-                  <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="#" class="social-link" aria-label="Twitter">
-                  <i class="fab fa-twitter"></i>
-                </a>
-                <a href="#" class="social-link" aria-label="Instagram">
-                  <i class="fab fa-instagram"></i>
-                </a>
-                <a href="#" class="social-link" aria-label="LinkedIn">
-                  <i class="fab fa-linkedin-in"></i>
-                </a>
+                <a href="#" class="social-link" aria-label="Facebook"
+                  ><i class="fab fa-facebook-f"></i
+                ></a>
+                <a href="#" class="social-link" aria-label="Twitter"
+                  ><i class="fab fa-twitter"></i
+                ></a>
+                <a href="#" class="social-link" aria-label="Instagram"
+                  ><i class="fab fa-instagram"></i
+                ></a>
+                <a href="#" class="social-link" aria-label="LinkedIn"
+                  ><i class="fab fa-linkedin-in"></i
+                ></a>
               </div>
             </div>
           </div>
@@ -746,15 +742,16 @@
                 <div class="contact-item">
                   <i class="fas fa-phone-alt"></i>
                   <div>
-                    <strong>Phone</strong><br />
-                    <a href="tel:+447700000000">07700 000000</a>
+                    <strong>Phone</strong><br /><a href="tel:+447700000000"
+                      >07700 000000</a
+                    >
                   </div>
                 </div>
                 <div class="contact-item">
                   <i class="fas fa-envelope"></i>
                   <div>
-                    <strong>Email</strong><br />
-                    <a href="mailto:kjcbricklaying@gmail.com"
+                    <strong>Email</strong><br /><a
+                      href="mailto:kjcbricklaying@gmail.com"
                       >kjcbricklaying@gmail.com</a
                     >
                   </div>
@@ -762,16 +759,14 @@
                 <div class="contact-item">
                   <i class="fas fa-map-marker-alt"></i>
                   <div>
-                    <strong>Location</strong><br />
-                    Coventry, West Midlands
+                    <strong>Location</strong><br />Coventry, West Midlands
                   </div>
                 </div>
                 <div class="contact-item">
                   <i class="fas fa-clock"></i>
                   <div>
-                    <strong>Business Hours</strong><br />
-                    Mon-Fri: 7:00 AM - 5:00 PM<br />
-                    Sat: 8:00 AM - 1:00 PM
+                    <strong>Business Hours</strong><br />Mon-Fri: 7:00 AM - 5:00
+                    PM<br />Sat: 8:00 AM - 1:00 PM
                   </div>
                 </div>
               </div>
@@ -807,7 +802,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script>
-      // Initialize AOS
       AOS.init({
         duration: 800,
         once: true,
@@ -815,68 +809,49 @@
         easing: "ease-out-quad",
       });
 
-      // Navbar scroll effect
       window.addEventListener("scroll", () => {
         const navbar = document.querySelector(".navbar");
-        if (window.pageYOffset > 50) {
-          navbar.classList.add("scrolled");
-        } else {
-          navbar.classList.remove("scrolled");
-        }
+        if (window.pageYOffset > 50) navbar.classList.add("scrolled");
+        else navbar.classList.remove("scrolled");
       });
 
-      // Back to top button functionality
       const backToTopBtn = document.querySelector(".back-to-top");
       if (backToTopBtn) {
         window.addEventListener("scroll", () => {
-          if (window.pageYOffset > 300) {
-            backToTopBtn.classList.add("show");
-          } else {
-            backToTopBtn.classList.remove("show");
-          }
+          if (window.pageYOffset > 300) backToTopBtn.classList.add("show");
+          else backToTopBtn.classList.remove("show");
         });
-
-        backToTopBtn.addEventListener("click", () => {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
+        backToTopBtn.addEventListener("click", () =>
+          window.scrollTo({ top: 0, behavior: "smooth" }),
+        );
       }
 
-      // Active nav link highlighting
       const currentPath = window.location.pathname;
-      const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
-      navLinks.forEach((link) => {
+      document.querySelectorAll(".navbar-nav .nav-link").forEach((link) => {
         const href = link.getAttribute("href");
-        if (href === currentPath || (currentPath === "/" && href === "/")) {
+        if (href === currentPath || (currentPath === "/" && href === "/"))
           link.classList.add("active");
-        }
       });
 
-      // Fix for logo fallback
-      const logoImages = document.querySelectorAll(
-        ".navbar-brand img, .footer-title img",
-      );
-      logoImages.forEach((img) => {
-        img.addEventListener("error", function () {
-          this.style.display = "none";
-          const fallbackIcon = this.nextElementSibling;
-          if (fallbackIcon && fallbackIcon.classList.contains("fa-brick")) {
-            fallbackIcon.style.display = "inline-block";
-          }
+      document
+        .querySelectorAll(".navbar-brand img, .footer-title img")
+        .forEach((img) => {
+          img.addEventListener("error", function () {
+            this.style.display = "none";
+            const fallbackIcon = this.nextElementSibling;
+            if (fallbackIcon && fallbackIcon.classList.contains("fa-brick"))
+              fallbackIcon.style.display = "inline-block";
+          });
         });
-      });
 
-      // Fix modal scroll issue on mobile
       document.addEventListener("DOMContentLoaded", function () {
-        const modals = document.querySelectorAll(".modal");
-
-        modals.forEach((modal) => {
+        document.querySelectorAll(".modal").forEach((modal) => {
           modal.addEventListener("hidden.bs.modal", function () {
             document.body.style.overflow = "";
             document.body.style.position = "";
             document.body.style.width = "";
             document.body.style.paddingRight = "";
           });
-
           modal.addEventListener("show.bs.modal", function () {
             document.body.style.overflow = "hidden";
             document.body.style.position = "fixed";

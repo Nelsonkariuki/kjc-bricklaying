@@ -1,7 +1,7 @@
 :root {
-    --primary-color: #c0392b;
-    --primary-dark: #a82313;
-    --primary-light: #e74c3c;
+    --primary-color: #f39c12;
+    --primary-dark: #e67e22;
+    --primary-light: #f1c40f;
     --secondary-color: #2c3e50;
     --accent-color: #f39c12;
     --dark-color: #1a1a2e;
@@ -27,7 +27,7 @@
 
 body {
     font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding-top: 76px;
+    padding-top: 80px;
     background: var(--light-color);
     color: var(--dark-color);
     overflow-x: hidden;
@@ -57,13 +57,13 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 1.2;
 }
 
-/* Navigation */
+/* Navigation - Enhanced Logo */
 .navbar {
     background: rgba(26, 26, 46, 0.95) !important;
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow-md);
     transition: var(--transition);
-    padding: 1rem 0;
+    padding: 0.75rem 0;
 }
 
 .navbar.scrolled {
@@ -72,15 +72,29 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar-brand {
-    font-size: 1.5rem;
-    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.8rem;
+    font-weight: 800;
     letter-spacing: 1px;
     transition: var(--transition);
+    text-decoration: none;
+}
+
+.navbar-brand img {
+    height: 65px;
+    width: auto;
+    transition: var(--transition);
+}
+
+.navbar.scrolled .navbar-brand img {
+    height: 55px;
 }
 
 .navbar-brand i {
     color: var(--primary-color);
-    margin-right: 8px;
+    font-size: 2.2rem;
 }
 
 .navbar-brand span {
@@ -88,6 +102,8 @@ h1, h2, h3, h4, h5, h6 {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    font-size: 1.6rem;
+    font-weight: 700;
 }
 
 .nav-link {
@@ -96,6 +112,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 5px;
     padding: 0.5rem 1rem;
     transition: var(--transition);
+    font-size: 1rem;
 }
 
 .nav-link i {
@@ -205,13 +222,15 @@ h1, h2, h3, h4, h5, h6 {
 .btn-primary {
     background: var(--primary-color);
     border: none;
-    box-shadow: 0 4px 15px rgba(192, 57, 43, 0.3);
+    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+    color: #1a1a2e;
 }
 
 .btn-primary:hover {
     background: var(--primary-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(192, 57, 43, 0.4);
+    box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+    color: white;
 }
 
 .btn-outline-primary {
@@ -335,7 +354,7 @@ h1, h2, h3, h4, h5, h6 {
 .service-icon-circle {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, rgba(192, 57, 43, 0.1), rgba(192, 57, 43, 0.05));
+    background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(243, 156, 18, 0.05));
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -493,7 +512,7 @@ h1, h2, h3, h4, h5, h6 {
     top: 20px;
     right: 20px;
     font-size: 3rem;
-    color: rgba(192, 57, 43, 0.1);
+    color: rgba(243, 156, 18, 0.1);
 }
 
 .testimonial-author {
@@ -538,7 +557,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .contact-form .form-control:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(192, 57, 43, 0.1);
+    box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.1);
 }
 
 /* Admin Dashboard */
@@ -678,7 +697,7 @@ footer a:hover {
 .spinner {
     width: 40px;
     height: 40px;
-    border: 4px solid rgba(192, 57, 43, 0.2);
+    border: 4px solid rgba(243, 156, 18, 0.2);
     border-top: 4px solid var(--primary-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
@@ -827,7 +846,7 @@ footer a:hover {
 .feature-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, rgba(192, 57, 43, 0.1), rgba(192, 57, 43, 0.05));
+    background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(243, 156, 18, 0.05));
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -1050,6 +1069,14 @@ footer a:hover {
         padding-top: 70px;
     }
     
+    .navbar-brand img {
+        height: 55px;
+    }
+    
+    .navbar-brand span {
+        font-size: 1.4rem;
+    }
+    
     .hero-section h1 {
         font-size: 2.5rem;
     }
@@ -1098,6 +1125,14 @@ footer a:hover {
 @media (max-width: 768px) {
     body {
         padding-top: 56px;
+    }
+    
+    .navbar-brand img {
+        height: 45px;
+    }
+    
+    .navbar-brand span {
+        font-size: 1.2rem;
     }
     
     .hero-section {
@@ -1232,6 +1267,10 @@ footer a:hover {
 @media (max-width: 576px) {
     .hero-section h1 {
         font-size: 1.75rem;
+    }
+    
+    .navbar-brand img {
+        height: 40px;
     }
     
     .hero-buttons {
