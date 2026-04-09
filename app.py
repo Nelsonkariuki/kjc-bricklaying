@@ -659,7 +659,7 @@ def admin_settings():
     if request.method == 'POST':
         SiteSettings.set('site_title', request.form.get('site_title', 'KJC'))
         SiteSettings.set('site_description', request.form.get('site_description', ''))
-        SiteSettings.set('phone', request.form.get('phone', '07700 000000'))
+        SiteSettings.set('phone', request.form.get('phone', '+44 7879 103397'))
         SiteSettings.set('email', request.form.get('email', 'kjcbricklaying@gmail.com'))
         SiteSettings.set('address', request.form.get('address', 'Coventry, West Midlands'))
         SiteSettings.set('facebook', request.form.get('facebook', ''))
