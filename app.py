@@ -33,7 +33,7 @@ os.makedirs(os.path.join(UPLOAD_FOLDER, 'after'), exist_ok=True)
 os.makedirs(os.path.join(UPLOAD_FOLDER, 'hero'), exist_ok=True)
 
 # WhatsApp configuration
-WHATSAPP_NUMBER = '447700000000'  # UK number without the leading 0
+WHATSAPP_NUMBER = '+44 7879 103397'  # UK number without the leading 0
 app.config['WHATSAPP_NUMBER'] = WHATSAPP_NUMBER
 
 db.init_app(app)
@@ -754,10 +754,10 @@ def inject_now():
     return {
         'now': datetime.now(),
         'site_title': SiteSettings.get('site_title', 'KJC'),
-        'site_phone': SiteSettings.get('phone', '07700 000000'),
+        'site_phone': SiteSettings.get('phone', '+44 7879 103397'),
         'site_email': SiteSettings.get('email', 'kjcbricklaying@gmail.com'),
         'site_address': SiteSettings.get('address', 'Coventry, West Midlands'),
-        'whatsapp_number': SiteSettings.get('whatsapp', '447700000000'),
+        'whatsapp_number': SiteSettings.get('whatsapp', '+44 7879 103397'),
         'facebook_url': SiteSettings.get('facebook', '#'),
         'twitter_url': SiteSettings.get('twitter', '#'),
         'instagram_url': SiteSettings.get('instagram', '#'),

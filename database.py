@@ -385,7 +385,7 @@ class SiteSettings(db.Model):
 # Default site settings to be created
 DEFAULT_SETTINGS = {
     'site_title': 'KJC Construction & Bricklaying',
-    'site_description': 'Family-run construction and bricklaying business in Coventry. Quality workmanship, free quotes, 10+ years experience. Call today!',
+    'site_description': 'F+44 7879 103397 business in Coventry. Quality workmanship, free quotes, 10+ years experience. Call today!',
     'phone': '07700 000000',
     'email': 'kjcbricklaying@gmail.com',
     'address': 'Coventry, West Midlands',
