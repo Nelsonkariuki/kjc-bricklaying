@@ -19,7 +19,7 @@
     />
     <meta name="author" content="KJC" />
     <meta name="robots" content="index, follow" />
-    <meta name="language" content="English" />
+    meta name="language" content="English" />
     <meta name="revisit-after" content="7 days" />
 
     <!-- Google Search Console Verification -->
@@ -34,7 +34,7 @@
     />
     <meta
       property="og:description"
-      content="{% block og_description %}F+44 7879 103397 business in Coventry. Quality workmanship, personal service. Free quotes available.{% endblock %}"
+      content="{% block og_description %}Family-run construction and bricklaying business in Coventry. Quality workmanship, personal service. Free quotes available.{% endblock %}"
     />
     <meta
       property="og:image"
@@ -42,11 +42,7 @@
     />
     <meta property="og:site_name" content="KJC Construction & Bricklaying" />
     <meta property="og:locale" content="en_GB" />
-    <script
-      src="https://analytics.ahrefs.com/analytics.js"
-      data-key="gtsfum2e8uAr9LUXTXOjhg"
-      async
-    ></script>
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="{{ request.url }}" />
@@ -56,7 +52,7 @@
     />
     <meta
       property="twitter:description"
-      content="{% block twitter_description %}Local f+44 7879 103397 business in Coventry. Small jobs welcome.{% endblock %}"
+      content="{% block twitter_description %}Local family-run construction and bricklaying business in Coventry. Small jobs welcome.{% endblock %}"
     />
     <meta
       property="twitter:image"
@@ -90,8 +86,8 @@
     />
 
     <title>
-      {% block title %}KJC | Professional Construction & Bricklaying Services in
-      Coventry{% endblock %}
+      {% block title %}KJC Construction | Professional Bricklaying & Building
+      Services in Coventry{% endblock %}
     </title>
 
     <!-- Bootstrap CSS -->
@@ -122,31 +118,30 @@
     />
 
     <style>
-      /* Logo Size Variables - CHANGE THESE VALUES TO ADJUST LOGO SIZE */
+      /* Logo Size Variables */
       :root {
-        --primary-color: #2563eb;
-        --primary-dark: #1d4ed8;
-        --primary-light: #3b82f6;
+        --primary-color: #f39c12;
+        --primary-dark: #e67e22;
+        --primary-light: #f1c40f;
         --secondary-color: #2c3e50;
-        --accent-color: #2563eb;
+        --accent-color: #f39c12;
         --dark-color: #1a1a2e;
         --light-color: #f8f9fa;
         --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-        /* ===== LOGO SIZE CONTROLS - Adjust these values ===== */
-        --logo-size-desktop: 80px; /* Logo height on desktop (default: 80px) */
-        --logo-size-scrolled: 65px; /* Logo height when scrolled (default: 65px) */
-        --logo-size-tablet: 65px; /* Logo height on tablet (default: 65px) */
-        --logo-size-mobile: 55px; /* Logo height on mobile (default: 55px) */
-        --logo-size-footer: 50px; /* Logo height in footer (default: 50px) */
-        /* =================================================== */
+        /* Logo Size Controls */
+        --logo-size-desktop: 60px;
+        --logo-size-scrolled: 50px;
+        --logo-size-tablet: 55px;
+        --logo-size-mobile: 100px;
+        --logo-size-footer: 45px;
       }
 
       /* Navigation Styles */
       .navbar {
         background: rgba(26, 26, 46, 0.95);
         backdrop-filter: blur(10px);
-        padding: 1rem 0;
+        padding: 0.8rem 0;
         transition: var(--transition);
         box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
       }
@@ -159,11 +154,8 @@
       .navbar-brand {
         display: flex;
         align-items: center;
-        gap: 12px;
-        font-size: 2rem;
-        font-weight: 800;
-        letter-spacing: 1px;
-        transition: var(--transition);
+        gap: 15px;
+        text-decoration: none;
       }
 
       .navbar-brand img {
@@ -176,18 +168,26 @@
         height: var(--logo-size-scrolled);
       }
 
-      .navbar-brand i {
-        color: var(--primary-color);
-        margin-right: 8px;
-        font-size: 2.2rem;
+      .brand-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
       }
 
-      .navbar-brand span {
+      .brand-name {
+        font-size: 1.3rem;
+        font-weight: 800;
+        letter-spacing: 1px;
         background: linear-gradient(135deg, #fff, var(--primary-light));
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
-        font-size: 1.8rem;
+      }
+
+      .brand-title {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.7);
+        letter-spacing: 0.5px;
       }
 
       .nav-link {
@@ -196,7 +196,7 @@
         margin: 0 5px;
         padding: 0.5rem 1rem;
         transition: var(--transition);
-        font-size: 1rem;
+        font-size: 0.95rem;
       }
 
       .nav-link i {
@@ -463,14 +463,14 @@
 
       /* Responsive */
       @media (max-width: 992px) {
-        .navbar-brand {
-          font-size: 1.6rem;
+        .brand-name {
+          font-size: 1.1rem;
+        }
+        .brand-title {
+          font-size: 0.6rem;
         }
         .navbar-brand img {
           height: var(--logo-size-tablet);
-        }
-        .navbar-brand span {
-          font-size: 1.4rem;
         }
       }
 
@@ -503,11 +503,11 @@
         .navbar-brand img {
           height: var(--logo-size-mobile);
         }
-        .navbar-brand span {
-          font-size: 1.2rem;
+        .brand-name {
+          font-size: 0.9rem;
         }
-        .navbar-brand {
-          font-size: 1.3rem;
+        .brand-title {
+          font-size: 0.5rem;
         }
       }
 
@@ -536,7 +536,7 @@
       {
         "@context": "https://schema.org",
         "@type": "LocalBusiness",
-        "name": "KJC",
+        "name": "KJC Construction",
         "image": "{{ url_for('static', filename='images/logo.png', _external=True) }}",
         "telephone": "+44 7879 103397",
         "email": "kjcbricklaying@gmail.com",
@@ -558,14 +558,16 @@
         <a class="navbar-brand" href="{{ url_for('index') }}">
           <img
             src="{{ url_for('static', filename='images/logo.png') }}"
-            alt="KJC - Professional Construction & Bricklaying Services Coventry"
+            alt="KJC Construction - Professional Building Services Coventry"
             onerror="
               this.style.display = 'none';
               this.nextElementSibling.style.display = 'flex';
             "
           />
-          <i class="fas fa-brick" style="display: none"></i>
-          <span>KJC</span>
+          <div class="brand-text">
+            <span class="brand-name">Karol Construction</span>
+            <span class="brand-title">Professional Building Services</span>
+          </div>
         </a>
         <button
           class="navbar-toggler"
@@ -647,18 +649,19 @@
               <h5 class="footer-title">
                 <img
                   src="{{ url_for('static', filename='images/logo-white.png') }}"
-                  alt="KJC - Construction & Bricklaying Services"
+                  alt="KJC Construction Logo"
                   onerror="
                     this.style.display = 'none';
                     this.nextElementSibling.style.display = 'inline-block';
                   "
                 />
                 <i class="fas fa-brick" style="display: none"></i>
-                <span>KJC</span>
+                <span>KJC Construction</span>
               </h5>
               <p class="footer-text">
-                F+44 7879 103397 business in Coventry. Quality workmanship with
-                a personal touch. Free quotes available.
+                Family-run construction and bricklaying business in Coventry.
+                Quality workmanship with a personal touch. Free quotes
+                available.
               </p>
               <div class="social-links mt-3">
                 <a href="#" class="social-link" aria-label="Facebook"
@@ -745,7 +748,7 @@
                 <div class="contact-item">
                   <i class="fas fa-phone-alt"></i>
                   <div>
-                    <strong>Phone</strong><br /><a href="tel:++44 7879 103397"
+                    <strong>Phone</strong><br /><a href="tel:+447879103397"
                       >+44 7879 103397</a
                     >
                   </div>
@@ -782,7 +785,8 @@
           <div class="row align-items-center">
             <div class="col-md-6 text-center text-md-start">
               <p class="mb-0">
-                &copy; {{ now.year if now else 2024 }} KJC. All rights reserved.
+                &copy; {{ now.year if now else 2024 }} KJC Construction. All
+                rights reserved.
               </p>
             </div>
             <div class="col-md-6 text-center text-md-end">
