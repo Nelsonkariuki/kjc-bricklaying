@@ -35,11 +35,11 @@ class User(UserMixin, db.Model):
 
 
 class Service(db.Model):
-    """Service model for landscaping and construction services"""
+    """Service model for construction and bricklaying services"""
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    icon = db.Column(db.String(50), default='fa-tree')
+    icon = db.Column(db.String(50), default='fa-brick')
     order = db.Column(db.Integer, default=0)
     is_active = db.Column(db.Boolean, default=True)
     image_url = db.Column(db.String(200))
@@ -97,6 +97,7 @@ class Project(db.Model):
     gallery_images = db.Column(db.Text)  # JSON string of image URLs
     views = db.Column(db.Integer, default=0)
     is_active = db.Column(db.Boolean, default=True)
+    slug = db.Column(db.String(200), unique=True)  # SEO-friendly URL
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
@@ -137,7 +138,8 @@ class Project(db.Model):
             'after_image_url': self.after_image_url,
             'gallery_images': self.get_gallery_images(),
             'views': self.views,
-            'is_active': self.is_active
+            'is_active': self.is_active,
+            'slug': self.slug
         }
 
 
@@ -382,10 +384,10 @@ class SiteSettings(db.Model):
 
 # Default site settings to be created
 DEFAULT_SETTINGS = {
-    'site_title': 'KJC',
-    'site_description': 'Professional landscaping, fencing, groundworks, and construction services in Coventry. Quality workmanship guaranteed with over 10 years of experience.',
+    'site_title': 'KJC Construction & Bricklaying',
+    'site_description': 'Family-run construction and bricklaying business in Coventry. Quality workmanship, free quotes, 10+ years experience. Call today!',
     'phone': '07700 000000',
-    'email': 'info@kjcbricklaying.com',
+    'email': 'kjcbricklaying@gmail.com',
     'address': 'Coventry, West Midlands',
     'whatsapp': '447700000000',
     'facebook': '',
@@ -394,6 +396,6 @@ DEFAULT_SETTINGS = {
     'linkedin': '',
     'hours_weekday': '7:00 AM - 5:00 PM',
     'hours_saturday': '8:00 AM - 1:00 PM',
-    'meta_keywords': 'landscaping coventry, fencing contractors, groundworks, land drainage, plant hire, aggregate delivery, bricklayer coventry',
+    'meta_keywords': 'bricklayer coventry, construction services, landscaping, fencing, groundworks, local builder coventry, garden walls, extensions',
     'google_analytics': ''
 }

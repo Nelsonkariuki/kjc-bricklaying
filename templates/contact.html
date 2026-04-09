@@ -1,11 +1,17 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% block meta_title %}KJC | Contact Us for
+Construction & Bricklaying Services in Coventry{% endblock %} {% block
+meta_description %}Get a free quote for construction, bricklaying, landscaping,
+and more in Coventry. Call 07700 000000 or WhatsApp us today!{% endblock %} {%
+block content %}
 <!-- Page Header -->
 <section class="page-header bg-primary text-light py-5">
   <div class="container">
     <div class="row">
       <div class="col-12 text-center" data-aos="fade-up">
         <h1 class="display-4 fw-bold mb-3">Contact Us</h1>
-        <p class="lead mb-0">Get in touch for a free consultation and quote</p>
+        <p class="lead mb-0">
+          Get a free quote for your construction or bricklaying project
+        </p>
       </div>
     </div>
   </div>
@@ -22,8 +28,7 @@
             <span class="badge bg-primary mb-3">Get In Touch</span>
             <h2 class="display-6 fw-bold">Let's Discuss Your Project</h2>
             <p class="text-muted">
-              We're here to help with all your landscaping and construction
-              needs
+              Family-run business serving Coventry and surrounding areas
             </p>
           </div>
 
@@ -36,7 +41,7 @@
               <div class="method-content">
                 <h5>Phone</h5>
                 <a href="tel:+447700000000">07700 000000</a>
-                <p class="small text-muted">Mon-Fri: 7am - 5pm</p>
+                <p class="small text-muted">Call for immediate assistance</p>
               </div>
             </div>
 
@@ -57,7 +62,7 @@
               </div>
               <div class="method-content">
                 <h5>Email</h5>
-                <a href="mailto:info@kjcbricklaying.com"
+                <a href="mailto:kjcbricklaying@gmail.com"
                   >kjcbricklaying@gmail.com</a
                 >
                 <p class="small text-muted">We respond within 24 hours</p>
@@ -343,7 +348,7 @@
               data-bs-parent="#faqAccordion"
             >
               <div class="accordion-body">
-                Yes, KJC is fully insured with public liability insurance up to
+                Yes, we are fully insured with public liability insurance up to
                 £5 million. You can have complete peace of mind when working
                 with us.
               </div>
@@ -395,6 +400,29 @@
               </div>
             </div>
           </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#faq5"
+              >
+                Do you take on small jobs?
+              </button>
+            </h2>
+            <div
+              id="faq5"
+              class="accordion-collapse collapse"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">
+                Yes! We're a family-run local business and welcome projects of
+                all sizes. No job is too small - from garden walls to small
+                repairs, we're happy to help.
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -430,7 +458,13 @@
 </section>
 
 <!-- WhatsApp Chat Popup Modal -->
-<div class="modal fade" id="whatsappModal" tabindex="-1" aria-hidden="true">
+<div
+  class="modal fade"
+  id="whatsappModal"
+  tabindex="-1"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+>
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-success text-white">
@@ -450,7 +484,7 @@
           <h4>Hello! 👋</h4>
           <p class="text-muted">
             We'd love to hear from you. Click the button below to start a
-            WhatsApp chat with our team.
+            WhatsApp chat.
           </p>
         </div>
 
@@ -460,8 +494,8 @@
             <i class="fab fa-whatsapp text-success me-1"></i>
             <strong>Hello KJC Team,</strong>
             <p class="mb-0 mt-1" id="whatsappMessagePreview">
-              I'm interested in your landscaping services. Could you please
-              provide more information and a quote?
+              I'm interested in your construction and bricklaying services.
+              Could you please provide more information and a quote?
             </p>
           </div>
         </div>
@@ -474,7 +508,7 @@
             rows="3"
             placeholder="Type your message here..."
           >
-Hello! I'm reaching out regarding your landscaping and construction services. I'd like to get more information and a free quote for my project. Thank you!</textarea
+Hello! I'm interested in your construction and bricklaying services. I'd like to get a free quote for my project. Thank you!</textarea
           >
         </div>
 
@@ -531,6 +565,198 @@ Hello! I'm reaching out regarding your landscaping and construction services. I'
 </div>
 
 <style>
+  /* Page Header */
+  .page-header {
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--primary-dark)
+    );
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(5deg);
+    }
+  }
+
+  /* Contact Info Card */
+  .contact-info-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+  }
+
+  .contact-info-card:hover {
+    transform: translateY(-5px);
+  }
+
+  /* Contact Methods */
+  .contact-method {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--light-color);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+  }
+
+  .contact-method:hover {
+    background: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateX(5px);
+  }
+
+  .method-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--primary-dark)
+    );
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+  }
+
+  .method-content h5 {
+    margin-bottom: 0.25rem;
+    font-size: 1rem;
+  }
+
+  .method-content a {
+    text-decoration: none;
+    color: var(--dark-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .method-content a:hover {
+    color: var(--primary-color);
+  }
+
+  /* Business Hours */
+  .hours-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .hour-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed #e0e0e0;
+  }
+
+  .hour-item .hours {
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+
+  /* Contact Form Card */
+  .contact-form-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Form Inputs */
+  .input-group-text {
+    border-radius: 10px 0 0 10px;
+  }
+
+  .form-control,
+  .form-select {
+    border-radius: 0 10px 10px 0;
+    padding: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-control:focus,
+  .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.1);
+  }
+
+  textarea.form-control {
+    border-radius: 10px;
+  }
+
+  /* Map Container */
+  .map-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .map-container iframe {
+    transition: transform 0.3s ease;
+  }
+
+  .map-container:hover iframe {
+    transform: scale(1.02);
+  }
+
+  /* FAQ Accordion */
+  .accordion-item {
+    border: none;
+    margin-bottom: 1rem;
+    border-radius: 10px !important;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+
+  .accordion-button {
+    background: white;
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+  }
+
+  .accordion-button:not(.collapsed) {
+    background: linear-gradient(
+      135deg,
+      var(--primary-color),
+      var(--primary-dark)
+    );
+    color: white;
+  }
+
+  .accordion-button:not(.collapsed)::after {
+    filter: brightness(0) invert(1);
+  }
+
+  .accordion-body {
+    padding: 1.5rem;
+    background: #f8f9fa;
+  }
+
   /* WhatsApp Floating Button */
   .whatsapp-float {
     position: fixed;
@@ -547,7 +773,7 @@ Hello! I'm reaching out regarding your landscaping and construction services. I'
     box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
     transition: all 0.3s ease;
     z-index: 1000;
-    animation: pulse 2s infinite;
+    animation: whatsappPulse 2s infinite;
   }
 
   .whatsapp-float:hover {
@@ -566,7 +792,7 @@ Hello! I'm reaching out regarding your landscaping and construction services. I'
     font-size: 0.9rem;
   }
 
-  @keyframes pulse {
+  @keyframes whatsappPulse {
     0% {
       box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
     }
@@ -578,56 +804,54 @@ Hello! I'm reaching out regarding your landscaping and construction services. I'
     }
   }
 
-  /* WhatsApp Modal Styles */
-  .whatsapp-message-preview {
-    background: #f8f9fa;
-  }
-
   /* Responsive */
   @media (max-width: 768px) {
+    .contact-form-card {
+      padding: 1.5rem;
+    }
+    .contact-method {
+      padding: 0.75rem;
+    }
+    .method-icon {
+      width: 40px;
+      height: 40px;
+      font-size: 1rem;
+    }
+    .map-container iframe {
+      height: 300px;
+    }
     .whatsapp-float {
       bottom: 20px;
       left: 20px;
       padding: 10px 16px;
     }
-
     .whatsapp-float-text {
       font-size: 0.8rem;
     }
-
     .whatsapp-float-icon {
       font-size: 1.2rem;
     }
-  }
-
-  /* Contact Method Icon Color */
-  .method-icon .fab.fa-whatsapp {
-    font-size: 1.2rem;
   }
 </style>
 
 <script>
   // WhatsApp phone number
-  const whatsappNumber = "447700000000"; // UK number without +
+  const whatsappNumber = "447700000000";
 
   // Predefined message templates
   const messageTemplates = {
     general:
-      "Hello! I'm reaching out regarding your landscaping and construction services. I'd like to get more information and a free quote for my project. Thank you!",
-    landscaping:
-      "Hi, I'm interested in your landscaping services. I'd like to discuss garden design and patio installation. Could you please provide a quote?",
-    fencing:
-      "Hello, I need fencing installation for my property. Can you provide information about your fencing services and pricing?",
-    groundworks:
-      "Hi, I'm looking for groundworks and excavation services. Could you please provide a quote for my project?",
-    drainage:
-      "Hello, I need land drainage solutions for my property. Could you provide more information and a quote?",
-    plant:
-      "Hi, I'm interested in hiring a plant with operator for my project. Could you please provide availability and pricing?",
-    aggregate:
-      "Hello, I need aggregate delivery. Could you provide information about available materials and delivery costs?",
+      "Hello! I'm interested in your construction and bricklaying services. I'd like to get a free quote for my project. Thank you!",
     bricklaying:
-      "Hi, I'm interested in bricklaying services for an extension. Could you please provide a quote?",
+      "Hi, I'm interested in bricklaying services. Could you please provide a quote for my project?",
+    extension:
+      "Hello, I'm looking to get an extension built. Could you provide more information and a quote?",
+    landscaping:
+      "Hi, I'm interested in your landscaping services. I'd like to discuss garden design and patio installation.",
+    fencing:
+      "Hello, I need fencing installation for my property. Can you provide information about your fencing services?",
+    groundworks:
+      "Hi, I'm looking for groundworks and excavation services. Could you please provide a quote?",
   };
 
   // Update WhatsApp message based on selected service
@@ -639,23 +863,16 @@ Hello! I'm reaching out regarding your landscaping and construction services. I'
 
   if (serviceSelect) {
     serviceSelect.addEventListener("change", function () {
-      const selectedService = this.value;
+      const selectedService = this.value.toLowerCase();
       let templateKey = "general";
 
-      if (selectedService.toLowerCase().includes("landscaping"))
+      if (selectedService.includes("bricklaying")) templateKey = "bricklaying";
+      else if (selectedService.includes("extension")) templateKey = "extension";
+      else if (selectedService.includes("landscaping"))
         templateKey = "landscaping";
-      else if (selectedService.toLowerCase().includes("fencing"))
-        templateKey = "fencing";
-      else if (selectedService.toLowerCase().includes("groundwork"))
+      else if (selectedService.includes("fencing")) templateKey = "fencing";
+      else if (selectedService.includes("groundwork"))
         templateKey = "groundworks";
-      else if (selectedService.toLowerCase().includes("drainage"))
-        templateKey = "drainage";
-      else if (selectedService.toLowerCase().includes("plant"))
-        templateKey = "plant";
-      else if (selectedService.toLowerCase().includes("aggregate"))
-        templateKey = "aggregate";
-      else if (selectedService.toLowerCase().includes("brick"))
-        templateKey = "bricklaying";
 
       if (whatsappMessage) {
         whatsappMessage.value = messageTemplates[templateKey];
@@ -697,21 +914,18 @@ Hello! I'm reaching out regarding your landscaping and construction services. I'
     });
   }
 
-  // Auto-populate message from form if available
+  // Auto-populate message from form
   function populateMessageFromForm() {
     const name = document.getElementById("name")?.value;
     const service = document.getElementById("service_type")?.value;
-    const userMessage = document.getElementById("message")?.value;
 
-    let message = "Hello! I'm reaching out regarding your services.";
+    let message =
+      "Hello! I'm interested in your construction and bricklaying services.";
 
     if (name) message = `Hello, I'm ${name}. `;
     if (service && service !== "")
       message += `I'm interested in your ${service} services. `;
-    if (userMessage && userMessage !== "") message += userMessage;
-    else
-      message +=
-        "I'd like to get more information and a free quote for my project. Thank you!";
+    message += "I'd like to get a free quote for my project. Thank you!";
 
     if (whatsappMessage) whatsappMessage.value = message;
     if (whatsappMessagePreview) whatsappMessagePreview.textContent = message;
@@ -719,18 +933,14 @@ Hello! I'm reaching out regarding your landscaping and construction services. I'
 
   // Listen to form input changes
   const nameInput = document.getElementById("name");
-  const messageInput = document.getElementById("message");
-
   if (nameInput) nameInput.addEventListener("input", populateMessageFromForm);
-  if (messageInput)
-    messageInput.addEventListener("input", populateMessageFromForm);
   if (serviceSelect)
     serviceSelect.addEventListener("change", populateMessageFromForm);
 
   // Initial population
   populateMessageFromForm();
 
-  // Form validation and submission handling
+  // Form validation and submission
   document
     .getElementById("contactForm")
     .addEventListener("submit", function (e) {

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-from database import db, User, Service, Project, Testimonial, ContactMessage, FAQ, BlogPost, Newsletter, SiteSettings
+from database import db, User, Service, Project, Testimonial, ContactMessage, FAQ, BlogPost, Newsletter, SiteSettings, DEFAULT_SETTINGS
 import os
 import json
 import re
@@ -16,6 +16,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///kjc.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # 1 hour
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536000  # Cache static files for 1 year
 
 # File upload configuration
 UPLOAD_FOLDER = 'static/uploads'
@@ -27,6 +28,9 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(os.path.join(UPLOAD_FOLDER, 'projects'), exist_ok=True)
 os.makedirs(os.path.join(UPLOAD_FOLDER, 'testimonials'), exist_ok=True)
 os.makedirs(os.path.join(UPLOAD_FOLDER, 'blog'), exist_ok=True)
+os.makedirs(os.path.join(UPLOAD_FOLDER, 'before'), exist_ok=True)
+os.makedirs(os.path.join(UPLOAD_FOLDER, 'after'), exist_ok=True)
+os.makedirs(os.path.join(UPLOAD_FOLDER, 'hero'), exist_ok=True)
 
 # WhatsApp configuration
 WHATSAPP_NUMBER = '447700000000'  # UK number without the leading 0
@@ -84,16 +88,18 @@ def init_db():
             )
             db.session.add(admin)
             
-            # Add default services if none exist
+            # Add default services - Bricklaying first
             if Service.query.count() == 0:
                 services = [
-                    Service(title='Landscaping', description='Complete garden design and landscaping services. From patios to planting, we transform outdoor spaces into beautiful, functional areas.', icon='fa-tree', order=1, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
-                    Service(title='Fencing', description='Professional fencing installation and repair. Timber, concrete, or decorative fencing to suit your property and budget.', icon='fa-fence', order=2, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
-                    Service(title='Groundworks', description='Comprehensive groundworks services including excavations, foundations, and site preparation for any project size.', icon='fa-hard-hat', order=3, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
-                    Service(title='Land Drainage', description='Expert land drainage solutions to prevent flooding and waterlogging. Improve your property\'s drainage system effectively.', icon='fa-water', order=4, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
-                    Service(title='Plant with Operator', description='Hire plant machinery with experienced operator. Excavators, diggers, and other equipment for your project needs.', icon='fa-tractor', order=5, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
-                    Service(title='Aggregate Delivery', description='Fast and reliable aggregate delivery up to 2 tons. Topsoil, gravel, sand, and more for your landscaping and construction needs.', icon='fa-truck', order=6, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
-                    Service(title='Bricklaying', description='Traditional bricklaying services for extensions, garden walls, and new builds. Quality craftsmanship with attention to detail.', icon='fa-brick', order=7, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
+                    Service(title='Bricklaying', description='Traditional bricklaying services for extensions, garden walls, and new builds. Quality craftsmanship with attention to detail.', icon='fa-brick', order=1, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
+                    Service(title='Extensions', description='House extensions and additional room constructions. Seamlessly integrate new spaces with your existing property.', icon='fa-expand', order=2, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
+                    Service(title='Garden Walls', description='Beautiful garden walls and landscaping features. Create stunning boundaries and features for your outdoor space.', icon='fa-tree', order=3, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
+                    Service(title='Landscaping', description='Complete garden design and landscaping services. From patios to planting, we transform outdoor spaces into beautiful, functional areas.', icon='fa-leaf', order=4, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
+                    Service(title='Fencing', description='Professional fencing installation and repair. Timber, concrete, or decorative fencing to suit your property and budget.', icon='fa-fence', order=5, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
+                    Service(title='Groundworks', description='Comprehensive groundworks services including excavations, foundations, and site preparation for any project size.', icon='fa-hard-hat', order=6, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
+                    Service(title='Land Drainage', description='Expert land drainage solutions to prevent flooding and waterlogging. Improve your property\'s drainage system effectively.', icon='fa-water', order=7, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
+                    Service(title='Plant with Operator', description='Hire plant machinery with experienced operator. Excavators, diggers, and other equipment for your project needs.', icon='fa-tractor', order=8, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
+                    Service(title='Aggregate Delivery', description='Fast and reliable aggregate delivery up to 2 tons. Topsoil, gravel, sand, and more for your landscaping and construction needs.', icon='fa-truck', order=9, features=json.dumps(['Free Consultation', 'Quality Materials', 'Workmanship Guarantee'])),
                 ]
                 db.session.add_all(services)
             
@@ -129,7 +135,7 @@ def init_db():
                     Project(
                         title='Modern House Extension',
                         description='Complete rear extension with full-height glass doors and brick facade matching existing property.',
-                        image_url='https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&w=800&h=600&fit=crop',
+                        image_url='https://placehold.co/800x600/f0f0f0/999?text=Extension+Project',
                         category='Extension',
                         featured=True,
                         location='Coventry',
@@ -141,7 +147,7 @@ def init_db():
                     Project(
                         title='Garden Wall Renovation',
                         description='Rebuilt garden boundary wall with decorative brick patterns and coping stones.',
-                        image_url='https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?ixlib=rb-4.0.3&w=800&h=600&fit=crop',
+                        image_url='https://placehold.co/800x600/f0f0f0/999?text=Garden+Wall',
                         category='Garden Wall',
                         featured=True,
                         location='Nuneaton',
@@ -151,16 +157,16 @@ def init_db():
                         slug=generate_slug('Garden Wall Renovation')
                     ),
                     Project(
-                        title='Chimney Restoration',
-                        description='Complete chimney rebuild with new flue liner and weatherproofing.',
-                        image_url='https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&w=800&h=600&fit=crop',
-                        category='Chimney',
+                        title='Patio & Landscaping',
+                        description='Complete garden transformation with new patio area and planting.',
+                        image_url='https://placehold.co/800x600/f0f0f0/999?text=Patio+Project',
+                        category='Landscaping',
                         featured=True,
-                        location='Rugby',
-                        project_type='Restoration',
+                        location='Kenilworth',
+                        project_type='Landscaping',
                         date_completed=datetime(2024, 3, 10),
                         views=112,
-                        slug=generate_slug('Chimney Restoration')
+                        slug=generate_slug('Patio Landscaping')
                     )
                 ]
                 db.session.add_all(sample_projects)
@@ -171,8 +177,14 @@ def init_db():
                     FAQ(question='How quickly can you provide a quote?', answer='We typically respond to all inquiries within 24 hours. For urgent projects, we can provide a quote on the same day.', category='General', order=1),
                     FAQ(question='Are you fully insured?', answer='Yes, we are fully insured with public liability insurance up to £5 million.', category='Insurance', order=2),
                     FAQ(question='Do you offer free estimates?', answer='Absolutely! We provide free, no-obligation quotes for all projects.', category='Pricing', order=3),
+                    FAQ(question='What areas do you cover?', answer='We primarily serve Coventry and surrounding areas including Nuneaton, Rugby, Leamington Spa, and Kenilworth.', category='Areas', order=4),
                 ]
                 db.session.add_all(faqs)
+            
+            # Add default site settings
+            for key, value in DEFAULT_SETTINGS.items():
+                if not SiteSettings.get(key):
+                    SiteSettings.set(key, value)
             
             db.session.commit()
 
@@ -197,21 +209,18 @@ Disallow: /api/
 Sitemap: {request.url_root}sitemap.xml
 """, 200, {'Content-Type': 'text/plain'}
 
-
-
 @app.route('/google49501be9d3dd2475.html')
 def google_verification():
     """Google Search Console verification file"""
-    return """google-site-verification: google49501be9d3dd2475.html
-    <!DOCTYPE html>
-    <html>
-    <head>
-    <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" />
-    </head>
-    <body>
-    </body>
-    </html>""", 200, {'Content-Type': 'text/html'}
-    
+    return """<!DOCTYPE html>
+<html>
+<head>
+<meta name="google-site-verification" content="google49501be9d3dd2475" />
+</head>
+<body>
+</body>
+</html>""", 200, {'Content-Type': 'text/html'}
+
 # ==================== PUBLIC ROUTES ====================
 @app.route('/')
 def index():
@@ -224,40 +233,37 @@ def index():
                          featured_projects=featured_projects, 
                          testimonials=recent_testimonials,
                          now=datetime.now(),
-                         whatsapp_number=WHATSAPP_NUMBER)
+                         whatsapp_number=SiteSettings.get('whatsapp', WHATSAPP_NUMBER))
 
 @app.route('/services')
 def services_page():
     services = Service.query.filter_by(is_active=True).order_by(Service.order).all()
-    return render_template('services.html', services=services, now=datetime.now(), whatsapp_number=WHATSAPP_NUMBER)
+    return render_template('services.html', services=services, now=datetime.now(), whatsapp_number=SiteSettings.get('whatsapp', WHATSAPP_NUMBER))
 
 @app.route('/portfolio')
 def portfolio():
     projects = Project.query.filter_by(is_active=True).order_by(Project.date_completed.desc()).all()
     categories = db.session.query(Project.category).distinct().filter(Project.category != '', Project.is_active == True).all()
-    return render_template('portfolio.html', projects=projects, categories=categories, now=datetime.now(), whatsapp_number=WHATSAPP_NUMBER)
+    return render_template('portfolio.html', projects=projects, categories=categories, now=datetime.now(), whatsapp_number=SiteSettings.get('whatsapp', WHATSAPP_NUMBER))
 
-# SEO-friendly slug-based URL for project details
 @app.route('/portfolio/<string:slug>')
 def project_detail(slug):
     project = Project.query.filter_by(slug=slug, is_active=True).first_or_404()
     project.increment_views()
-    return render_template('project_detail.html', project=project, now=datetime.now(), whatsapp_number=WHATSAPP_NUMBER)
+    return render_template('project_detail.html', project=project, now=datetime.now(), whatsapp_number=SiteSettings.get('whatsapp', WHATSAPP_NUMBER))
 
-# Keep old ID-based route for backward compatibility (redirect to slug)
 @app.route('/portfolio/id/<int:project_id>')
 def project_detail_old(project_id):
     project = Project.query.get_or_404(project_id)
     if project.slug:
         return redirect(url_for('project_detail', slug=project.slug), 301)
-    return render_template('project_detail.html', project=project, now=datetime.now(), whatsapp_number=WHATSAPP_NUMBER)
+    return render_template('project_detail.html', project=project, now=datetime.now(), whatsapp_number=SiteSettings.get('whatsapp', WHATSAPP_NUMBER))
 
 @app.route('/testimonials')
 def testimonials_page():
     testimonials = Testimonial.query.filter_by(approved=True).order_by(Testimonial.date.desc()).all()
     featured_testimonials = Testimonial.query.filter_by(approved=True, featured=True).order_by(Testimonial.date.desc()).limit(2).all()
     
-    # Calculate average rating
     if testimonials:
         total_rating = sum(t.rating for t in testimonials)
         average_rating = total_rating / len(testimonials)
@@ -269,7 +275,7 @@ def testimonials_page():
                          featured=featured_testimonials,
                          average_rating=average_rating,
                          now=datetime.now(),
-                         whatsapp_number=WHATSAPP_NUMBER)
+                         whatsapp_number=SiteSettings.get('whatsapp', WHATSAPP_NUMBER))
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -297,24 +303,24 @@ def contact():
         return redirect(url_for('contact'))
     
     services = Service.query.filter_by(is_active=True).all()
-    return render_template('contact.html', services=services, now=datetime.now(), whatsapp_number=WHATSAPP_NUMBER)
+    return render_template('contact.html', services=services, now=datetime.now(), whatsapp_number=SiteSettings.get('whatsapp', WHATSAPP_NUMBER))
 
 @app.route('/faq')
 def faq():
     faqs = FAQ.query.filter_by(is_active=True).order_by(FAQ.order).all()
     categories = db.session.query(FAQ.category).distinct().filter(FAQ.is_active == True).all()
-    return render_template('faq.html', faqs=faqs, categories=categories, now=datetime.now(), whatsapp_number=WHATSAPP_NUMBER)
+    return render_template('faq.html', faqs=faqs, categories=categories, now=datetime.now(), whatsapp_number=SiteSettings.get('whatsapp', WHATSAPP_NUMBER))
 
 @app.route('/blog')
 def blog():
     posts = BlogPost.query.filter_by(published=True).order_by(BlogPost.published_at.desc()).all()
-    return render_template('blog.html', posts=posts, now=datetime.now(), whatsapp_number=WHATSAPP_NUMBER)
+    return render_template('blog.html', posts=posts, now=datetime.now(), whatsapp_number=SiteSettings.get('whatsapp', WHATSAPP_NUMBER))
 
 @app.route('/blog/<slug>')
 def blog_post(slug):
     post = BlogPost.query.filter_by(slug=slug, published=True).first_or_404()
     post.increment_views()
-    return render_template('blog_post.html', post=post, now=datetime.now(), whatsapp_number=WHATSAPP_NUMBER)
+    return render_template('blog_post.html', post=post, now=datetime.now(), whatsapp_number=SiteSettings.get('whatsapp', WHATSAPP_NUMBER))
 
 @app.route('/newsletter/subscribe', methods=['POST'])
 def newsletter_subscribe():
@@ -339,12 +345,10 @@ def submit_review():
     rating = request.form.get('rating', 5)
     content = request.form.get('content', '').strip()
     
-    # Validate
     if not name or not email or not content:
         flash('Please fill in all required fields', 'danger')
         return redirect(url_for('testimonials_page') + '#reviewForm')
     
-    # Handle image upload
     client_image = ''
     file = request.files.get('client_image')
     if file and file.filename:
@@ -352,7 +356,6 @@ def submit_review():
         if saved_path:
             client_image = saved_path
     
-    # Create testimonial (pending approval)
     testimonial = Testimonial(
         client_name=name,
         client_email=email,
@@ -360,7 +363,7 @@ def submit_review():
         client_image=client_image,
         content=content,
         rating=int(rating),
-        approved=False,  # Needs admin approval
+        approved=False,
         featured=False,
         ip_address=request.remote_addr,
         user_agent=request.headers.get('User-Agent')
@@ -472,7 +475,6 @@ def add_project():
             slug=generate_slug(title)
         )
         
-        # Ensure slug is unique
         original_slug = project.slug
         counter = 1
         while Project.query.filter_by(slug=project.slug).first():
@@ -498,24 +500,20 @@ def edit_project(project_id):
         project.client_name = request.form.get('client_name', '')
         project.project_type = request.form.get('project_type', '')
         
-        # Update slug if title changed
         if project.title != request.form['title']:
             project.slug = generate_slug(request.form['title'])
-            # Ensure slug is unique
             original_slug = project.slug
             counter = 1
             while Project.query.filter(Project.slug == project.slug, Project.id != project_id).first():
                 project.slug = f"{original_slug}-{counter}"
                 counter += 1
         
-        # Handle date completed
         if request.form.get('date_completed'):
             try:
                 project.date_completed = datetime.strptime(request.form.get('date_completed'), '%Y-%m-%d')
             except ValueError:
                 pass
         
-        # Handle image upload
         file = request.files.get('image_file')
         if file and file.filename:
             saved_path = save_file(file, 'projects')
@@ -599,7 +597,6 @@ def edit_testimonial(testimonial_id):
     """Edit testimonial"""
     testimonial = Testimonial.query.get_or_404(testimonial_id)
     
-    # Update basic info
     testimonial.client_name = request.form.get('client_name')
     testimonial.client_email = request.form.get('client_email', '')
     testimonial.client_location = request.form.get('client_location', '')
@@ -608,7 +605,6 @@ def edit_testimonial(testimonial_id):
     testimonial.approved = 'approved' in request.form
     testimonial.featured = 'featured' in request.form
     
-    # Handle image upload
     file = request.files.get('client_image')
     if file and file.filename:
         saved_path = save_file(file, 'testimonials')
@@ -661,11 +657,10 @@ def mark_message_read(message_id):
 @login_required
 def admin_settings():
     if request.method == 'POST':
-        # Save site settings
         SiteSettings.set('site_title', request.form.get('site_title', 'KJC'))
         SiteSettings.set('site_description', request.form.get('site_description', ''))
         SiteSettings.set('phone', request.form.get('phone', '07700 000000'))
-        SiteSettings.set('email', request.form.get('email', 'info@kjcbricklaying.com'))
+        SiteSettings.set('email', request.form.get('email', 'kjcbricklaying@gmail.com'))
         SiteSettings.set('address', request.form.get('address', 'Coventry, West Midlands'))
         SiteSettings.set('facebook', request.form.get('facebook', ''))
         SiteSettings.set('twitter', request.form.get('twitter', ''))
@@ -760,7 +755,7 @@ def inject_now():
         'now': datetime.now(),
         'site_title': SiteSettings.get('site_title', 'KJC'),
         'site_phone': SiteSettings.get('phone', '07700 000000'),
-        'site_email': SiteSettings.get('email', 'info@kjcbricklaying.com'),
+        'site_email': SiteSettings.get('email', 'kjcbricklaying@gmail.com'),
         'site_address': SiteSettings.get('address', 'Coventry, West Midlands'),
         'whatsapp_number': SiteSettings.get('whatsapp', '447700000000'),
         'facebook_url': SiteSettings.get('facebook', '#'),

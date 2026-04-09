@@ -119,7 +119,6 @@ phoneInputs.forEach(phoneInput => {
 // Gallery lightbox
 const galleryItems = document.querySelectorAll('.gallery-item');
 if (galleryItems.length > 0) {
-    // Create modal dynamically
     const modal = document.createElement('div');
     modal.className = 'modal fade';
     modal.id = 'galleryModal';
@@ -224,7 +223,7 @@ counters.forEach(counter => {
 });
 
 // Add hover effect to cards
-const cards = document.querySelectorAll('.card, .service-card, .testimonial-card, .portfolio-card');
+const cards = document.querySelectorAll('.card, .service-card, .testimonial-card, .portfolio-card, .work-card, .before-after-card');
 cards.forEach(card => {
     card.classList.add('hover-lift');
 });
@@ -234,7 +233,7 @@ const heroSection = document.querySelector('.hero-section');
 if (heroSection) {
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
-        const heroBg = heroSection.querySelector('.hero-background');
+        const heroBg = heroSection.querySelector('.hero-background-single, .hero-background');
         if (heroBg) {
             heroBg.style.transform = `translateY(${scrolled * 0.3}px)`;
         }
@@ -287,7 +286,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                // Get all project details from data attributes
                 const title = button.getAttribute('data-title') || 'Project';
                 const description = button.getAttribute('data-description') || 'No description available.';
                 const image = button.getAttribute('data-image') || 'https://via.placeholder.com/600x400?text=Project+Image';
@@ -297,7 +295,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const date = button.getAttribute('data-full-date') || button.getAttribute('data-date') || 'Recent';
                 const views = button.getAttribute('data-views') || '0';
                 
-                // Populate modal with all details
                 const modalTitle = document.getElementById('modalProjectTitle');
                 const modalDescription = document.getElementById('modalDescription');
                 const modalImage = document.getElementById('modalImage');
@@ -361,7 +358,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('edit_featured').checked = this.getAttribute('data-featured') === 'True';
                 document.getElementById('edit_image_url').value = this.getAttribute('data-image') || '';
                 
-                // Show current image preview
                 const currentImage = this.getAttribute('data-image');
                 const previewContainer = document.getElementById('currentImagePreview');
                 if (previewContainer) {
@@ -376,7 +372,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Handle edit form submission
         if (editForm) {
             editForm.addEventListener('submit', function(e) {
                 e.preventDefault();
@@ -449,7 +444,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('edit_testimonial_approved').checked = this.getAttribute('data-approved') === 'True';
                 document.getElementById('edit_testimonial_featured').checked = this.getAttribute('data-featured') === 'True';
                 
-                // Show current image preview
                 const currentImage = this.getAttribute('data-image');
                 const previewContainer = document.getElementById('currentTestimonialImagePreview');
                 if (previewContainer) {
@@ -486,7 +480,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 document.getElementById('replyBtn').href = `mailto:${this.getAttribute('data-email')}?subject=Re: Your inquiry about ${this.getAttribute('data-service')}&body=Hello ${this.getAttribute('data-name')},%0D%0A%0D%0AThank you for contacting KJC. We've received your message and will get back to you shortly.%0D%0A%0D%0ABest regards,%0D%0AKJC Team`;
                 
-                // Mark as read if unread
                 const messageCard = this.closest('.message-card');
                 if (messageCard && messageCard.classList.contains('unread')) {
                     messageCard.classList.remove('unread');
@@ -506,7 +499,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const whatsappNumber = "447700000000";
     const whatsappFloatBtn = document.getElementById('whatsappFloatBtn');
     const whatsappCtaBtn = document.getElementById('whatsappCtaBtn');
-    const whatsappHeroBtn = document.getElementById('whatsappHeroBtn');
     const sendWhatsappBtn = document.getElementById('sendWhatsappBtn');
     const whatsappModalElement = document.getElementById('whatsappModal');
     
@@ -519,7 +511,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     function sendWhatsAppMessage() {
-        const message = document.getElementById('whatsappMessage')?.value || "Hello! I'm interested in your services.";
+        const message = document.getElementById('whatsappMessage')?.value || "Hello! I'm interested in your construction and bricklaying services.";
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
         window.open(whatsappUrl, '_blank');
@@ -527,7 +519,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (whatsappFloatBtn) whatsappFloatBtn.addEventListener('click', openWhatsAppModal);
     if (whatsappCtaBtn) whatsappCtaBtn.addEventListener('click', openWhatsAppModal);
-    if (whatsappHeroBtn) whatsappHeroBtn.addEventListener('click', openWhatsAppModal);
     if (sendWhatsappBtn) sendWhatsappBtn.addEventListener('click', sendWhatsAppMessage);
 });
 
@@ -553,10 +544,12 @@ fileInputs.forEach(input => {
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                // Look for preview container in various locations
                 let previewContainer = this.closest('.mb-3')?.querySelector('.image-preview');
                 if (!previewContainer) {
                     previewContainer = document.getElementById('currentImagePreview');
+                }
+                if (!previewContainer) {
+                    previewContainer = document.getElementById('currentTestimonialImagePreview');
                 }
                 if (previewContainer) {
                     previewContainer.innerHTML = `<img src="${e.target.result}" class="img-fluid rounded" style="max-height: 150px;">`;
@@ -593,3 +586,22 @@ if (window.location.pathname.includes('/admin')) {
     });
     resetSessionTimer();
 }
+
+// Fix modal scroll issue on mobile
+document.addEventListener('DOMContentLoaded', function() {
+    const modals = document.querySelectorAll('.modal');
+    
+    modals.forEach(modal => {
+        modal.addEventListener('shown.bs.modal', function() {
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+        });
+        
+        modal.addEventListener('hidden.bs.modal', function() {
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+        });
+    });
+});

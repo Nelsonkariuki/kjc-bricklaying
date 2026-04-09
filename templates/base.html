@@ -7,43 +7,41 @@
     <!-- Primary Meta Tags -->
     <meta
       name="title"
-      content="{% block meta_title %}KJC | Professional Landscaping & Construction Services in Coventry{% endblock %}"
+      content="{% block meta_title %}KJC | Professional Construction & Bricklaying Services in Coventry{% endblock %}"
     />
     <meta
       name="description"
-      content="KJC - Professional landscaping, fencing, groundworks, and construction services in Coventry. Free quotes, 10+ years experience, fully insured. Call 07700 000000 today!"
-    />
-    <meta
-      name="description"
-      content="{% block meta_description %}Professional landscaping, fencing, groundworks, and construction services in Coventry. Free quotes, 10+ years experience, fully insured. Call today!{% endblock %}"
+      content="{% block meta_description %}Professional construction, bricklaying, landscaping, and groundworks in Coventry. Small family-run business with 10+ years experience. Call 07700 000000 for a free quote!{% endblock %}"
     />
     <meta
       name="keywords"
-      content="{% block meta_keywords %}landscaping coventry, fencing contractors, groundworks, land drainage, plant hire, aggregate delivery, bricklayer coventry, garden design, patio installation, driveways{% endblock %}"
+      content="{% block meta_keywords %}bricklayer coventry, construction services, landscaping, fencing, groundworks, small builder coventry, local builder{% endblock %}"
     />
 
     <meta name="author" content="KJC" />
     <meta name="robots" content="index, follow" />
     <meta name="language" content="English" />
     <meta name="revisit-after" content="7 days" />
+
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="google49501be9d3dd2475" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ request.url }}" />
     <meta
       property="og:title"
-      content="{% block og_title %}KJC | Professional Landscaping & Construction Services in Coventry{% endblock %}"
+      content="{% block og_title %}KJC | Professional Construction & Bricklaying Services Coventry{% endblock %}"
     />
     <meta
       property="og:description"
-      content="{% block og_description %}Expert landscaping, fencing, groundworks, and construction services in Coventry. Free quotes, 10+ years experience. Quality workmanship guaranteed.{% endblock %}"
+      content="{% block og_description %}Family-run construction and bricklaying business in Coventry. Quality workmanship, personal service. Free quotes available.{% endblock %}"
     />
     <meta
       property="og:image"
       content="{{ url_for('static', filename='images/og-image.jpg') }}"
     />
-    <meta property="og:site_name" content="KJC Landscaping & Construction" />
+    <meta property="og:site_name" content="KJC Construction & Bricklaying" />
     <meta property="og:locale" content="en_GB" />
 
     <!-- Twitter -->
@@ -51,11 +49,11 @@
     <meta property="twitter:url" content="{{ request.url }}" />
     <meta
       property="twitter:title"
-      content="{% block twitter_title %}KJC | Professional Landscaping & Construction Services{% endblock %}"
+      content="{% block twitter_title %}KJC | Construction & Bricklaying Services{% endblock %}"
     />
     <meta
       property="twitter:description"
-      content="{% block twitter_description %}Professional landscaping, fencing, groundworks, and construction services in Coventry. Free quotes available.{% endblock %}"
+      content="{% block twitter_description %}Local family-run construction and bricklaying business in Coventry. Small jobs welcome.{% endblock %}"
     />
     <meta
       property="twitter:image"
@@ -89,7 +87,7 @@
     />
 
     <title>
-      {% block title %}KJC | Professional Landscaping & Construction Services in
+      {% block title %}KJC | Professional Construction & Bricklaying Services in
       Coventry{% endblock %}
     </title>
 
@@ -151,26 +149,26 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        font-size: 1.8rem;
+        font-size: 2rem;
         font-weight: 800;
         letter-spacing: 1px;
         transition: var(--transition);
       }
 
       .navbar-brand img {
-        height: 55px;
+        height: 80px;
         width: auto;
         transition: var(--transition);
       }
 
       .navbar.scrolled .navbar-brand img {
-        height: 45px;
+        height: 65px;
       }
 
       .navbar-brand i {
         color: var(--primary-color);
         margin-right: 8px;
-        font-size: 2rem;
+        font-size: 2.2rem;
       }
 
       .navbar-brand span {
@@ -178,7 +176,7 @@
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
-        font-size: 1.6rem;
+        font-size: 1.8rem;
       }
 
       .nav-link {
@@ -299,7 +297,7 @@
       }
 
       .footer-title img {
-        height: 35px;
+        height: 50px;
         width: auto;
       }
 
@@ -452,92 +450,16 @@
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
       }
 
-      /* Carousel Styles */
-      .carousel {
-        position: relative;
-      }
-
-      .carousel-inner {
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-      }
-
-      .carousel-item {
-        position: relative;
-        display: none;
-        float: left;
-        width: 100%;
-        margin-right: -100%;
-        backface-visibility: hidden;
-        transition: transform 0.6s ease-in-out;
-      }
-
-      .carousel-item.active,
-      .carousel-item-next,
-      .carousel-item-prev {
-        display: block;
-      }
-
-      .carousel-item-next:not(.carousel-item-start),
-      .active.carousel-item-end {
-        transform: translateX(100%);
-      }
-
-      .carousel-item-prev:not(.carousel-item-end),
-      .active.carousel-item-start {
-        transform: translateX(-100%);
-      }
-
-      .carousel-fade .carousel-item {
-        opacity: 0;
-        transition-property: opacity;
-        transform: none;
-      }
-
-      .carousel-fade .carousel-item.active,
-      .carousel-fade .carousel-item-next.carousel-item-start,
-      .carousel-fade .carousel-item-prev.carousel-item-end {
-        z-index: 1;
-        opacity: 1;
-      }
-
-      .carousel-fade .active.carousel-item-start,
-      .carousel-fade .active.carousel-item-end {
-        z-index: 0;
-        opacity: 0;
-        transition: opacity 0s 0.6s;
-      }
-
-      .carousel-control-prev,
-      .carousel-control-next {
-        transition: opacity 0.3s ease;
-      }
-
-      .carousel-indicators [data-bs-target] {
-        transition: all 0.3s ease;
-      }
-
-      .carousel-item {
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
-      }
-
-      .carousel-item img {
-        will-change: transform;
-        transform: translateZ(0);
-      }
-
       /* Responsive */
       @media (max-width: 992px) {
         .navbar-brand {
-          font-size: 1.5rem;
+          font-size: 1.6rem;
         }
         .navbar-brand img {
-          height: 45px;
+          height: 65px;
         }
         .navbar-brand span {
-          font-size: 1.3rem;
+          font-size: 1.4rem;
         }
       }
 
@@ -574,7 +496,7 @@
         }
 
         .navbar-brand img {
-          height: 40px;
+          height: 55px;
         }
 
         .navbar-brand span {
@@ -614,28 +536,19 @@
         "name": "KJC",
         "image": "{{ url_for('static', filename='images/logo.png', _external=True) }}",
         "telephone": "07700 000000",
-        "email": "info@kjcbricklaying.com",
+        "email": "kjcbricklaying@gmail.com",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Coventry",
           "addressRegion": "West Midlands",
           "addressCountry": "GB"
         },
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 52.406822,
-          "longitude": -1.519693
-        },
         "openingHours": "Mo-Fr 07:00-17:00, Sa 08:00-13:00",
         "priceRange": "££",
         "areaServed": {
           "@type": "City",
           "name": "Coventry"
-        },
-        "sameAs": [
-          "https://www.facebook.com/yourpage",
-          "https://www.instagram.com/yourpage"
-        ]
+        }
       }
     </script>
 
@@ -645,7 +558,7 @@
         <a class="navbar-brand" href="{{ url_for('index') }}">
           <img
             src="{{ url_for('static', filename='images/logo.png') }}"
-            alt="KJC - Professional Landscaping & Construction Services Coventry"
+            alt="KJC - Professional Construction & Bricklaying Services Coventry"
             onerror="
               this.style.display = 'none';
               this.nextElementSibling.style.display = 'flex';
@@ -734,7 +647,7 @@
               <h5 class="footer-title">
                 <img
                   src="{{ url_for('static', filename='images/logo-white.png') }}"
-                  alt="KJC - Landscaping & Construction Services"
+                  alt="KJC - Construction & Bricklaying Services"
                   onerror="
                     this.style.display = 'none';
                     this.nextElementSibling.style.display = 'inline-block';
@@ -744,9 +657,9 @@
                 <span>KJC</span>
               </h5>
               <p class="footer-text">
-                Professional landscaping, fencing, groundworks, and construction
-                services in Coventry and surrounding areas. Quality workmanship
-                guaranteed with over 10 years of experience.
+                Family-run construction and bricklaying business in Coventry.
+                Quality workmanship with a personal touch. Free quotes
+                available.
               </p>
               <div class="social-links mt-3">
                 <a href="#" class="social-link" aria-label="Facebook">
@@ -805,6 +718,13 @@
               <h5 class="footer-title">Our Services</h5>
               <ul class="footer-links">
                 <li>
+                  <a href="{{ url_for('services_page') }}">Bricklaying</a>
+                </li>
+                <li><a href="{{ url_for('services_page') }}">Extensions</a></li>
+                <li>
+                  <a href="{{ url_for('services_page') }}">Garden Walls</a>
+                </li>
+                <li>
                   <a href="{{ url_for('services_page') }}">Landscaping</a>
                 </li>
                 <li><a href="{{ url_for('services_page') }}">Fencing</a></li>
@@ -813,19 +733,6 @@
                 </li>
                 <li>
                   <a href="{{ url_for('services_page') }}">Land Drainage</a>
-                </li>
-                <li>
-                  <a href="{{ url_for('services_page') }}"
-                    >Plant with Operator</a
-                  >
-                </li>
-                <li>
-                  <a href="{{ url_for('services_page') }}"
-                    >Aggregate Delivery</a
-                  >
-                </li>
-                <li>
-                  <a href="{{ url_for('services_page') }}">Bricklaying</a>
                 </li>
               </ul>
             </div>
@@ -847,8 +754,8 @@
                   <i class="fas fa-envelope"></i>
                   <div>
                     <strong>Email</strong><br />
-                    <a href="mailto:info@kjcbricklaying.com"
-                      >info@kjcbricklaying.com</a
+                    <a href="mailto:kjcbricklaying@gmail.com"
+                      >kjcbricklaying@gmail.com</a
                     >
                   </div>
                 </div>
@@ -894,20 +801,6 @@
     <button class="back-to-top" aria-label="Back to top">
       <i class="fas fa-arrow-up"></i>
     </button>
-
-    <!-- Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "GA_MEASUREMENT_ID");
-    </script>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -958,24 +851,6 @@
         }
       });
 
-      // Smooth carousel initialization with no flicker
-      document.addEventListener("DOMContentLoaded", function () {
-        const carousels = document.querySelectorAll(".carousel");
-        carousels.forEach((carousel) => {
-          carousel.style.visibility = "visible";
-          const images = carousel.querySelectorAll("img");
-          images.forEach((img) => {
-            if (img.complete) {
-              img.classList.add("loaded");
-            } else {
-              img.addEventListener("load", function () {
-                this.classList.add("loaded");
-              });
-            }
-          });
-        });
-      });
-
       // Fix for logo fallback
       const logoImages = document.querySelectorAll(
         ".navbar-brand img, .footer-title img",
@@ -987,6 +862,26 @@
           if (fallbackIcon && fallbackIcon.classList.contains("fa-brick")) {
             fallbackIcon.style.display = "inline-block";
           }
+        });
+      });
+
+      // Fix modal scroll issue on mobile
+      document.addEventListener("DOMContentLoaded", function () {
+        const modals = document.querySelectorAll(".modal");
+
+        modals.forEach((modal) => {
+          modal.addEventListener("hidden.bs.modal", function () {
+            document.body.style.overflow = "";
+            document.body.style.position = "";
+            document.body.style.width = "";
+            document.body.style.paddingRight = "";
+          });
+
+          modal.addEventListener("show.bs.modal", function () {
+            document.body.style.overflow = "hidden";
+            document.body.style.position = "fixed";
+            document.body.style.width = "100%";
+          });
         });
       });
     </script>
