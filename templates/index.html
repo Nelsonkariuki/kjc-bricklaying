@@ -1,0 +1,982 @@
+{% extends "base.html" %} {% block meta_title %}KJC | Professional Construction
+& Bricklaying Services in Coventry{% endblock %} {% block meta_description
+%}Family-run construction and bricklaying business in Coventry. Quality
+workmanship, free quotes, 10+ years experience. Call 07700 000000 today!{%
+endblock %} {% block meta_keywords %}bricklayer coventry, construction services,
+landscaping, fencing, groundworks, land drainage, plant hire, aggregate
+delivery, local builder coventry{% endblock %} {% block content %}
+<!-- Schema Markup -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "KJC",
+    "telephone": "07700 000000",
+    "email": "kjcbricklaying@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Coventry",
+      "addressRegion": "West Midlands",
+      "addressCountry": "GB"
+    },
+    "openingHours": "Mo-Fr 07:00-17:00, Sa 08:00-13:00",
+    "priceRange": "££",
+    "areaServed": { "@type": "City", "name": "Coventry" }
+  }
+</script>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="container h-100">
+    <div class="row min-vh-100 align-items-center">
+      <div class="col-lg-7" data-aos="fade-up">
+        <div class="hero-content">
+          <span class="hero-badge">🏆 Family-Run Since 2014</span>
+          <h1>
+            Professional
+            <span class="text-primary">Construction & Bricklaying</span>
+          </h1>
+          <p>
+            Family-run construction and bricklaying business in Coventry.
+            Quality workmanship, personal service, and attention to detail on
+            every project.
+          </p>
+          <div class="hero-buttons">
+            <a href="{{ url_for('contact') }}" class="btn btn-primary"
+              >Free Quote →</a
+            >
+            <a href="{{ url_for('portfolio') }}" class="btn btn-outline-light"
+              >See Our Work →</a
+            >
+          </div>
+          <div class="hero-stats">
+            <div><span class="stat-number">10+</span> Years Experience</div>
+            <div><span class="stat-number">100+</span> Happy Customers</div>
+            <div><span class="stat-number">100%</span> Satisfaction</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-block" data-aos="fade-left">
+        <div class="hero-card">
+          <i class="fas fa-user-tie fa-4x text-primary"></i>
+          <h3>Meet Karol</h3>
+          <p>
+            "I take pride in delivering quality craftsmanship with a personal
+            touch. Every project gets my full attention."
+          </p>
+          <div class="hero-tags">
+            <span>✓ Quality Work</span>
+            <span>✓ Reliable</span>
+            <span>✓ Local Service</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-down">
+    <a href="#services"><i class="fas fa-chevron-down"></i></a>
+  </div>
+</section>
+
+<!-- Services Section - BLUE THEME ONLY -->
+<section id="services" class="services">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge bg-primary">What We Offer</span>
+      <h2>Our Services</h2>
+      <p>Professional construction services tailored to your needs</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <i class="fas fa-brick"></i>
+        <h4>Bricklaying</h4>
+        <p>Extensions, walls, repairs</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-tree"></i>
+        <h4>Landscaping</h4>
+        <p>Patios, pathways, design</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-fence"></i>
+        <h4>Fencing</h4>
+        <p>Timber, gates, repairs</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-hard-hat"></i>
+        <h4>Groundworks</h4>
+        <p>Foundations, drainage</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-water"></i>
+        <h4>Land Drainage</h4>
+        <p>French drains, soakaways</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-tractor"></i>
+        <h4>Plant Hire</h4>
+        <p>Excavators, diggers</p>
+      </div>
+      <div class="service-card">
+        <i class="fas fa-truck"></i>
+        <h4>Aggregate Delivery</h4>
+        <p>Sand, gravel, topsoil</p>
+      </div>
+    </div>
+    <div class="text-center mt-5">
+      <a href="{{ url_for('services_page') }}" class="btn btn-outline-primary"
+        >View All Services →</a
+      >
+    </div>
+  </div>
+</section>
+
+<!-- Featured Projects -->
+<section class="projects bg-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge bg-warning text-dark">Recent Work</span>
+      <h2>Featured Projects</h2>
+      <p>A selection of our latest work</p>
+    </div>
+    <div class="projects-grid">
+      {% if featured_projects and featured_projects|length > 0 %} {% for project
+      in featured_projects[:3] %}
+      <div class="project-card">
+        <img src="{{ project.image_url }}" alt="{{ project.title }}" />
+        <div class="project-overlay">
+          <h4>{{ project.title }}</h4>
+          <p>{{ project.location }}</p>
+          <a href="{{ url_for('portfolio') }}" class="btn btn-sm btn-light"
+            >View →</a
+          >
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <div class="empty-state">Projects coming soon</div>
+      {% endif %}
+    </div>
+    <div class="text-center mt-5">
+      <a href="{{ url_for('portfolio') }}" class="btn btn-outline-warning"
+        >View Full Portfolio →</a
+      >
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us - YELLOW/ORANGE THEME -->
+<section class="features">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div class="section-header text-start">
+          <span class="badge bg-warning text-dark">Why Choose Us</span>
+          <h2>The KJC Difference</h2>
+          <p>What sets us apart from the rest</p>
+        </div>
+        <div class="features-list">
+          <div class="feature">
+            <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+            <div>
+              <h5>10+ Years Experience</h5>
+              <p>Proven track record across Coventry</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+            <div>
+              <h5>Fully Insured</h5>
+              <p>Complete peace of mind</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon"><i class="fas fa-pound-sign"></i></div>
+            <div>
+              <h5>Free Estimates</h5>
+              <p>No-obligation quotes</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-icon"><i class="fas fa-clock"></i></div>
+            <div>
+              <h5>On-Time Delivery</h5>
+              <p>Projects completed as promised</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="features-image">
+          <img
+            src="{{ url_for('static', filename='uploads/hero/hero1.jpg') }}"
+            alt="Construction work"
+          />
+          <div class="floating-badge">
+            <div class="badge-number">100%</div>
+            <div class="badge-text">Customer<br />Satisfaction</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials - YELLOW/ORANGE THEME -->
+<section class="testimonials bg-light">
+  <div class="container">
+    <div class="section-header">
+      <span class="badge bg-warning text-dark">Client Love</span>
+      <h2>What Our Clients Say</h2>
+      <p>Real feedback from real customers</p>
+    </div>
+    <div class="testimonials-grid">
+      {% if testimonials and testimonials|length > 0 %} {% for testimonial in
+      testimonials[:3] %}
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>
+          "{{ testimonial.content[:120] }}{% if testimonial.content|length > 120
+          %}...{% endif %}"
+        </p>
+        <div class="author">
+          <i class="fas fa-user-circle"></i>
+          <strong>{{ testimonial.client_name }}</strong><br />
+          <small>{{ testimonial.client_location }}</small>
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <div class="empty-state">Testimonials coming soon</div>
+      {% endif %}
+    </div>
+    <div class="text-center mt-5">
+      <a
+        href="https://maps.app.goo.gl/Kfid54n1ZXS8Yd3A6?g_st=aw"
+        target="_blank"
+        class="btn btn-outline-warning"
+        >View Google Reviews →</a
+      >
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section - YELLOW/ORANGE THEME -->
+<section class="cta">
+  <div class="container text-center">
+    <h2>Ready to Start Your Project?</h2>
+    <p>Get a free, no-obligation quote today</p>
+    <div class="cta-buttons">
+      <a href="{{ url_for('contact') }}" class="btn btn-light btn-lg"
+        >Get a Quote →</a
+      >
+      <a href="tel:+447700000000" class="btn btn-outline-light btn-lg"
+        >Call Now →</a
+      >
+      <a href="#" class="btn btn-success btn-lg" id="whatsappCtaBtn"
+        >WhatsApp →</a
+      >
+    </div>
+  </div>
+</section>
+
+<!-- WhatsApp Modal -->
+<div
+  class="modal fade"
+  id="whatsappModal"
+  tabindex="-1"
+  data-bs-backdrop="static"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title">
+          <i class="fab fa-whatsapp me-2"></i>WhatsApp Us
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" id="whatsappMessage" rows="4">
+Hello, I'm interested in your construction and bricklaying services. Could you please provide a quote?</textarea
+        >
+        <button class="btn btn-success w-100 mt-3" id="sendWhatsappBtn">
+          Send Message
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WhatsApp Float Button -->
+<a href="#" class="whatsapp-float" id="whatsappFloatBtn">
+  <i class="fab fa-whatsapp"></i>
+  <span>Chat</span>
+</a>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<style>
+  :root {
+    --primary: #f39c12;
+    --primary-dark: #e67e22;
+    --primary-light: #f1c40f;
+    --gray: #6c757d;
+    --light: #f8f9fa;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Hero Section */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: white;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("{{ url_for('static', filename='uploads/hero/hero1.jpg') }}")
+      center/cover;
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+    z-index: 1;
+  }
+
+  .hero .container {
+    position: relative;
+    z-index: 2;
+  }
+  .hero-content {
+    max-width: 600px;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(243, 156, 18, 0.9);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: #1a1a2e;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-block;
+    border: none;
+  }
+  .btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    color: white;
+  }
+  .btn-outline-light {
+    background: transparent;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 2px solid white;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-outline-light:hover {
+    background: white;
+    color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .hero-stats div {
+    text-align: center;
+  }
+  .stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary);
+  }
+  .hero-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .hero-card h3 {
+    margin: 1rem 0;
+  }
+  .hero-tags {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .hero-tags span {
+    background: rgba(243, 156, 18, 0.8);
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+  }
+  .scroll-down {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+  }
+  .scroll-down a {
+    color: white;
+    font-size: 1.5rem;
+    animation: bounce 2s infinite;
+    display: inline-block;
+  }
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(10px);
+    }
+  }
+
+  /* Section Styles */
+  section {
+    padding: 80px 0;
+  }
+  .bg-light {
+    background: var(--light);
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .section-header .badge {
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+  }
+  .bg-primary {
+    background: var(--primary) !important;
+    color: #1a1a2e !important;
+  }
+  .bg-warning {
+    background: var(--primary) !important;
+    color: #1a1a2e !important;
+  }
+  .section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+  .section-header p {
+    color: var(--gray);
+    font-size: 1.1rem;
+  }
+
+  /* Services Grid - BLUE THEME */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+  }
+  .service-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+  .service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  .service-card i {
+    font-size: 2rem;
+    color: #2563eb;
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+  .service-card h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+  .service-card p {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin: 0;
+  }
+
+  /* Projects Grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    cursor: pointer;
+  }
+  .project-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+  }
+  .project-card:hover img {
+    transform: scale(1.05);
+  }
+  .project-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    padding: 1.5rem;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+    color: white;
+  }
+  .project-card:hover .project-overlay {
+    transform: translateY(0);
+  }
+  .project-overlay h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+  .project-overlay p {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+  }
+  .btn-outline-warning {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    background: transparent;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-outline-warning:hover {
+    background: var(--primary);
+    color: #1a1a2e;
+    transform: translateY(-2px);
+  }
+
+  /* Features - YELLOW THEME */
+  .features-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .feature {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 16px;
+    transition: all 0.3s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  .feature:hover {
+    transform: translateX(8px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  .feature-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(243, 156, 18, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .feature-icon i {
+    font-size: 1.5rem;
+    color: var(--primary);
+  }
+  .feature h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  .feature p {
+    font-size: 0.85rem;
+    color: var(--gray);
+    margin: 0;
+  }
+  .features-image {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  .features-image img {
+    width: 100%;
+    height: auto;
+  }
+  .floating-badge {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: white;
+    padding: 1rem;
+    border-radius: 16px;
+    text-align: center;
+    animation: float 3s infinite;
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  .badge-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+  }
+  .badge-text {
+    font-size: 0.75rem;
+    color: var(--gray);
+  }
+
+  /* Testimonials */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .testimonial-card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  .stars {
+    color: #fbbf24;
+    margin-bottom: 1rem;
+  }
+  .testimonial-card p {
+    font-style: italic;
+    margin-bottom: 1rem;
+    color: #555;
+  }
+  .author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+  }
+  .author i {
+    font-size: 2rem;
+    color: var(--primary);
+  }
+
+  /* CTA Section - YELLOW THEME */
+  .cta {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #1a1a2e;
+    text-align: center;
+    padding: 60px 0;
+  }
+  .cta h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+  }
+  .cta p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-light {
+    background: white;
+    color: var(--primary);
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-block;
+    border: none;
+  }
+  .btn-light:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  .btn-outline-light {
+    background: transparent;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    border: 2px solid white;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+  .btn-outline-light:hover {
+    background: white;
+    color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .btn-success {
+    background: #25d366;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    display: inline-block;
+    border: none;
+  }
+  .btn-success:hover {
+    background: #20b859;
+    transform: translateY(-2px);
+  }
+
+  /* WhatsApp Float */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background: #25d366;
+    color: white;
+    border-radius: 50px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    z-index: 1000;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  .whatsapp-float:hover {
+    transform: scale(1.05);
+    background: #20b859;
+  }
+  .whatsapp-float i {
+    font-size: 1.5rem;
+  }
+  .whatsapp-float span {
+    font-weight: 600;
+  }
+
+  /* Back to Top */
+  .back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 45px;
+    height: 45px;
+    background: var(--primary);
+    color: #1a1a2e;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  .back-to-top:hover {
+    background: var(--primary-dark);
+    transform: translateY(-3px);
+    color: white;
+  }
+  .back-to-top.show {
+    display: flex;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    section {
+      padding: 50px 0;
+    }
+    .hero h1 {
+      font-size: 2rem;
+    }
+    .hero p {
+      font-size: 1rem;
+    }
+    .hero-stats {
+      justify-content: center;
+    }
+    .section-header h2 {
+      font-size: 1.8rem;
+    }
+    .services-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+    }
+    .cta h2 {
+      font-size: 1.8rem;
+    }
+    .whatsapp-float {
+      bottom: 20px;
+      left: 20px;
+      padding: 8px 16px;
+    }
+    .whatsapp-float span {
+      display: none;
+    }
+    .back-to-top {
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 16px;
+    color: var(--gray);
+  }
+  .text-primary {
+    color: #2563eb !important;
+  }
+</style>
+
+<script>
+  const whatsappNumber = "447700000000";
+
+  const backToTop = document.getElementById("backToTop");
+  window.addEventListener("scroll", () => {
+    if (window.pageYOffset > 300) backToTop.classList.add("show");
+    else backToTop.classList.remove("show");
+  });
+  backToTop.addEventListener("click", () =>
+    window.scrollTo({ top: 0, behavior: "smooth" }),
+  );
+
+  const whatsappModal = new bootstrap.Modal(
+    document.getElementById("whatsappModal"),
+  );
+  function openWhatsApp(e) {
+    e.preventDefault();
+    whatsappModal.show();
+  }
+  function sendWhatsApp() {
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(document.getElementById("whatsappMessage").value)}`,
+      "_blank",
+    );
+  }
+
+  document
+    .getElementById("whatsappFloatBtn")
+    ?.addEventListener("click", openWhatsApp);
+  document
+    .getElementById("whatsappCtaBtn")
+    ?.addEventListener("click", openWhatsApp);
+  document
+    .getElementById("sendWhatsappBtn")
+    ?.addEventListener("click", sendWhatsApp);
+
+  document.querySelectorAll(".scroll-down a").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      document
+        .querySelector("#services")
+        ?.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+</script>
+{% endblock %}
