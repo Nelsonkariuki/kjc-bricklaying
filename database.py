@@ -389,7 +389,7 @@ DEFAULT_SETTINGS = {
     'phone': '+44 7879 103397',
     'email': 'kjcbricklaying@gmail.com',
     'address': 'Coventry, West Midlands',
-    'whatsapp': '447700000000',
+    'whatsapp': '+44 7879 103397',
     'facebook': '',
     'twitter': '',
     'instagram': '',

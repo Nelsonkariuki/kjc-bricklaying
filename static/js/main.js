@@ -496,7 +496,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // WhatsApp Modal Functionality
-    const whatsappNumber = "447700000000";
+    const whatsappNumber = "+44 7879 103397";
     const whatsappFloatBtn = document.getElementById('whatsappFloatBtn');
     const whatsappCtaBtn = document.getElementById('whatsappCtaBtn');
     const sendWhatsappBtn = document.getElementById('sendWhatsappBtn');

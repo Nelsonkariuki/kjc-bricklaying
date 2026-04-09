@@ -666,7 +666,7 @@ def admin_settings():
         SiteSettings.set('twitter', request.form.get('twitter', ''))
         SiteSettings.set('instagram', request.form.get('instagram', ''))
         SiteSettings.set('linkedin', request.form.get('linkedin', ''))
-        SiteSettings.set('whatsapp', request.form.get('whatsapp', '447700000000'))
+        SiteSettings.set('whatsapp', request.form.get('whatsapp', '+44 7879 103397'))
         SiteSettings.set('hours_weekday', request.form.get('hours_weekday', '7:00 AM - 5:00 PM'))
         SiteSettings.set('hours_saturday', request.form.get('hours_saturday', '8:00 AM - 1:00 PM'))
         SiteSettings.set('meta_keywords', request.form.get('meta_keywords', ''))
@@ -739,7 +739,7 @@ def api_stats():
 @app.route('/api/whatsapp', methods=['GET'])
 def api_whatsapp():
     """Get WhatsApp number"""
-    whatsapp = SiteSettings.get('whatsapp', '447700000000')
+    whatsapp = SiteSettings.get('whatsapp', '+44 7879 103397')
     return jsonify({'whatsapp': whatsapp})
 
 @app.route('/admin/ping', methods=['POST'])
